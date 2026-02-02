@@ -28,6 +28,7 @@
             color: #000;
         }
 
+        /* --- DESKTOP & PRINT STYLE (The A4 Layout) --- */
         .page {
             background: white;
             width: 210mm;
@@ -54,7 +55,6 @@
             white-space: nowrap;
         }
 
-        /* Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -106,7 +106,6 @@
         .logo { width: 120px; text-align: left; direction: ltr; }
         .logo img { max-width: 100%; height: auto; max-height: 55px; }
 
-        /* Sections */
         .section-tab {
             background-color: var(--tab-bg);
             color: var(--tab-text);
@@ -117,7 +116,7 @@
             justify-content: space-between;
             align-items: center;
             border-radius: 4px 4px 0 0; 
-            margin-top: 3px; /* Very tight top margin */
+            margin-top: 3px;
             border: 1px solid #999;
             border-bottom: none;
             height: 18px;
@@ -152,10 +151,8 @@
         .label-en { font-weight: bold; text-align: left; direction: ltr; width: 15%; background-color: #f9f9f9; }
         .label-dual { background-color: #f9f9f9; font-weight: bold; text-align: center; font-size: 8.5px; width: 13%; line-height: 1.1; }
         .label-number { background-color: #f9f9f9; font-weight: bold; text-align: center; width: 20px; }
-        
         .input-cell-3col { background-color: #fff; width: 20.33%; }
         .input-cell { background-color: #fff; width: 55%; }
-        
         .work-header-cell {
             background-color: #f9f9f9;
             font-weight: bold;
@@ -163,14 +160,13 @@
             font-size: 8.5px;
             line-height: 1.1;
         }
-        
         .lang-label { background-color: #f9f9f9; font-weight: bold; font-size: 9px; padding-right: 5px; }
 
         .declaration-box {
             border: 1px solid #999;
             margin-top: 3px;
             padding: 4px;
-            font-size: 6.5px; /* Reduced slightly to save space for signatures */
+            font-size: 6.5px;
             display: flex;
             gap: 5px;
             text-align: justify;
@@ -223,13 +219,139 @@
         }
         .print-btn:hover { background-color: #6d543b; }
 
+        .mgmt-section {
+            margin-top: 10px; border-top: 2px solid #000; padding-top: 10px;
+        }
+        .mgmt-row {
+            display: flex; justify-content: space-between; font-size: 11px; font-weight: bold;
+        }
+        .mgmt-col {
+            width: 45%; display: flex; align-items: flex-end;
+        }
+
+        /* --- MOBILE RESPONSIVE STYLES --- */
+        @media screen and (max-width: 768px) {
+            body { padding: 10px; background: #e0e0e0; }
+            .watermark { display: none; }
+            
+            /* Make page fluid and tall */
+            .page {
+                width: 100%;
+                height: auto; /* Let it grow */
+                min-height: auto;
+                padding: 15px;
+                border-radius: 8px;
+            }
+
+            /* Header Adjustments */
+            header { flex-direction: column-reverse; align-items: center; text-align: center; }
+            .header-center { align-items: center; text-align: center; margin-top: 10px; width: 100%; }
+            .header-inputs { flex-direction: column; gap: 10px; width: 100%; }
+            .header-input-group { width: 100%; justify-content: center; }
+            .header-input-group input { width: 60% !important; height: 35px; font-size: 14px; }
+            .logo { width: 100%; text-align: center; }
+            .logo img { max-height: 80px; }
+
+            /* Transform Tables to Cards/Blocks */
+            table, thead, tbody, th, td, tr { 
+                display: block; 
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+            
+            /* Hide border on table and cells */
+            table { border: none; margin-bottom: 15px; }
+            td { 
+                border: none; 
+                height: auto; 
+                padding: 5px 0; 
+                text-align: right;
+            }
+
+            /* Style Labels */
+            .label-ar, .label-en, .label-dual, .work-header-cell, .lang-label {
+                width: 100%;
+                text-align: right;
+                background: transparent;
+                color: #8b6c4e;
+                font-size: 14px;
+                margin-bottom: 2px;
+                border-bottom: none;
+            }
+            
+            /* Hide English labels if they are redundant or put them under */
+            .label-en { text-align: right; font-size: 12px; color: #999; margin-top: -5px; margin-bottom: 10px; }
+
+            /* Style Inputs for Touch */
+            .input-cell, .input-cell-3col { width: 100%; }
+            input[type="text"], input[type="date"], input[type="email"] {
+                height: 40px; /* Touch friendly */
+                font-size: 16px; /* Prevent zoom */
+                background: #f9f9f9;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                text-align: right;
+                padding-right: 10px;
+                margin-bottom: 8px;
+            }
+            input[type="date"] { font-size: 16px; }
+
+            /* Specific table adjustments */
+            /* Experience Table: add borders between rows */
+            .section-tab + table tr {
+                margin-bottom: 15px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 5px;
+                background: #fff;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            }
+            
+            /* Language Table: Keep radios inline */
+            .lang-label + td, .lang-label + td + td {
+                display: inline-block;
+                width: 24% !important;
+                text-align: center;
+                font-size: 10px;
+            }
+            /* Force the row to flex for languages */
+            tr:has(.lang-label) {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+            }
+            .lang-label { width: 100%; }
+
+            /* Declaration */
+            .declaration-box { flex-direction: column; font-size: 10px; }
+            .declaration-ar, .declaration-en { width: 100%; border: none; margin-bottom: 10px; }
+
+            /* Signatures */
+            .mgmt-row { flex-direction: column; gap: 20px; }
+            .mgmt-col { width: 100%; }
+            
+            /* Hide print button on mobile to see layout */
+            .print-btn { width: 90%; left: 5%; text-align: center; }
+        }
+
+        /* --- PRINT OVERRIDE (Force A4) --- */
         @media print {
             body { margin: 0; padding: 0; background-color: white; }
-            .page { width: 100%; height: 100%; margin: 0; padding: 5mm; box-shadow: none; border: none; }
+            .page { width: 100%; height: 297mm; margin: 0; padding: 5mm; box-shadow: none; border: none; display: block; }
             .print-btn { display: none; }
-            .section-tab, .header-input-group, .sub-header, .work-header-cell, .lang-label, .declaration-box { -webkit-print-color-adjust: exact; }
-            .header-input-group input { border: 1px solid #000 !important; }
-            input::placeholder { color: transparent; }
+            
+            /* Reset all mobile overrides */
+            header { flex-direction: row; align-items: flex-start; }
+            .header-inputs { flex-direction: row; }
+            .header-input-group input { width: auto !important; height: 18px; border: 1px solid #000; }
+            table, tbody, tr, td { display: table-cell; } /* Reset display */
+            table { display: table; border: 1px solid #999; }
+            tr { display: table-row; margin: 0; border: none; padding: 0; box-shadow: none; }
+            td { display: table-cell; border: 1px solid #ccc; padding: 1px 4px; height: 19px; }
+            input[type="text"], input[type="date"] { height: 100%; background: transparent; border: none; font-size: 9px; }
+            .label-ar, .label-en { width: 15%; background-color: #f9f9f9; color: #000; }
+            .mgmt-row { flex-direction: row; }
+            .mgmt-col { width: 45%; }
         }
     </style>
 </head>
@@ -487,20 +609,20 @@
             </div>
         </div>
 
-        <div style="display: flex; justify-content: space-between; margin-top: 15px; margin-bottom: 10px; font-size: 11px; font-weight: bold;">
+        <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 11px; font-weight: bold;">
             <div style="width: 30%; border-bottom: 1px dashed #000; padding-bottom: 8px;">اسم المتقدم:</div>
             <div style="width: 30%; border-bottom: 1px dashed #000; padding-bottom: 8px;">التوقيع:</div>
             <div style="width: 30%; border-bottom: 1px dashed #000; padding-bottom: 8px;">التاريخ:</div>
         </div>
 
-        <div style="margin-top: 10px; border-top: 2px solid #000; padding-top: 10px;">
+        <div class="mgmt-section">
             <div style="font-weight: bold; font-size: 11px; margin-bottom: 15px;">اعتماد الإدارة / Management Approval</div>
-            <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: bold;">
-                <div style="width: 45%; display: flex; align-items: flex-end;">
+            <div class="mgmt-row">
+                <div class="mgmt-col">
                     <span style="white-space: nowrap; margin-left: 5px;">التوقيع / Signature:</span>
                     <div style="flex-grow: 1; border-bottom: 1px dashed #000; height: 10px;"></div>
                 </div>
-                <div style="width: 45%; display: flex; align-items: flex-end;">
+                <div class="mgmt-col">
                     <span style="white-space: nowrap; margin-left: 5px;">التاريخ / Date:</span>
                     <div style="flex-grow: 1; border-bottom: 1px dashed #000; height: 10px;"></div>
                 </div>
