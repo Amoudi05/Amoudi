@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج طلب توظيف - AQWASE</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+
+        :root {
+            --border-color: #000;
+            --bg-color: #fff;
+            --primary-color: #000;
+            --tab-bg: #bfbfbf;
+            --tab-text: #8b6c4e;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+        }
+
+        body {
+            font-family: 'Tajawal', 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            color: #000;
+        }
+
+        .page {
+            background: white;
+            width: 210mm;
+            height: 297mm; /* Fixed A4 Height */
+            margin: 0 auto;
+            padding: 5mm 8mm; 
+            position: relative;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 80px;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.05);
+            z-index: 0;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2px;
+            position: relative;
+            z-index: 1;
+            border-bottom: 2px solid #000;
+            padding-bottom: 2px;
+        }
+
+        .header-center {
+            text-align: right;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .header-center h1 { margin: 0; font-size: 18px; color: #333; }
+        .header-center h2 { margin: 0; font-size: 12px; font-weight: normal; color: #666; }
+
+        .header-inputs {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            font-size: 10px;
+            color: #000;
+            margin-top: 2px;
+        }
+
+        .header-input-group { display: flex; align-items: center; gap: 3px; }
+        .header-input-group span { font-weight: bold; }
+
+        .header-input-group input {
+            border: 1px solid #000;
+            border-radius: 12px;
+            background-color: #fff;
+            padding: 1px 5px;
+            font-size: 10px;
+            font-weight: bold;
+            color: #000;
+            text-align: center;
+            outline: none;
+            font-family: 'Tajawal', sans-serif;
+            height: 18px;
+        }
+
+        .logo { width: 120px; text-align: left; direction: ltr; }
+        .logo img { max-width: 100%; height: auto; max-height: 55px; }
+
+        /* Sections */
+        .section-tab {
+            background-color: var(--tab-bg);
+            color: var(--tab-text);
+            padding: 2px 6px;
+            font-weight: bold;
+            font-size: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 4px 4px 0 0; 
+            margin-top: 3px; /* Very tight top margin */
+            border: 1px solid #999;
+            border-bottom: none;
+            height: 18px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9.5px;
+            position: relative;
+            z-index: 1;
+            table-layout: fixed;
+            border: 1px solid #999;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 1px 4px;
+            vertical-align: middle;
+            height: 19px;
+        }
+
+        .sub-header {
+            background-color: #e0e0e0;
+            text-align: center;
+            font-weight: bold;
+            padding: 2px;
+            font-size: 9px;
+        }
+
+        .label-ar { font-weight: bold; text-align: right; width: 15%; background-color: #f9f9f9; }
+        .label-en { font-weight: bold; text-align: left; direction: ltr; width: 15%; background-color: #f9f9f9; }
+        .label-dual { background-color: #f9f9f9; font-weight: bold; text-align: center; font-size: 8.5px; width: 13%; line-height: 1.1; }
+        .label-number { background-color: #f9f9f9; font-weight: bold; text-align: center; width: 20px; }
+        
+        .input-cell-3col { background-color: #fff; width: 20.33%; }
+        .input-cell { background-color: #fff; width: 55%; }
+        
+        .work-header-cell {
+            background-color: #f9f9f9;
+            font-weight: bold;
+            text-align: center;
+            font-size: 8.5px;
+            line-height: 1.1;
+        }
+        
+        .lang-label { background-color: #f9f9f9; font-weight: bold; font-size: 9px; padding-right: 5px; }
+
+        .declaration-box {
+            border: 1px solid #999;
+            margin-top: 3px;
+            padding: 4px;
+            font-size: 6.5px; /* Reduced slightly to save space for signatures */
+            display: flex;
+            gap: 5px;
+            text-align: justify;
+            line-height: 1.2;
+        }
+
+        .declaration-ar { width: 50%; border-left: 1px solid #ccc; padding-left: 3px; }
+        .declaration-en { width: 50%; direction: ltr; padding-right: 3px; }
+
+        input[type="text"], input[type="date"], input[type="email"] {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: inherit;
+            outline: none;
+            text-align: center;
+            height: 100%;
+        }
+        
+        input[type="date"] { font-size: 8.5px; padding: 0; }
+
+        input[type="radio"], input[type="checkbox"] {
+            width: 11px;
+            height: 11px;
+            cursor: pointer;
+            accent-color: #000;
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        input::placeholder { color: #b0b0b0; font-size: 8.5px; font-style: italic; }
+        input:focus { background-color: #f0f8ff; }
+
+        .print-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background-color: #8b6c4e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: bold;
+            font-size: 12px;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .print-btn:hover { background-color: #6d543b; }
+
+        @media print {
+            body { margin: 0; padding: 0; background-color: white; }
+            .page { width: 100%; height: 100%; margin: 0; padding: 5mm; box-shadow: none; border: none; }
+            .print-btn { display: none; }
+            .section-tab, .header-input-group, .sub-header, .work-header-cell, .lang-label, .declaration-box { -webkit-print-color-adjust: exact; }
+            .header-input-group input { border: 1px solid #000 !important; }
+            input::placeholder { color: transparent; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()">Print Form / طباعة النموذج</button>
+
+    <div class="page">
+        <div class="watermark">AQWASE</div>
+
+        <header>
+            <div class="header-center">
+                <h1>نموذج طلب توظيف</h1>
+                <h2>Application Form</h2>
+                
+                <div class="header-inputs">
+                    <div class="header-input-group">
+                        <span>Date:</span>
+                        <input type="date" style="width: 90px;">
+                    </div>
+                    <div class="header-input-group">
+                        <span>Position:</span>
+                        <input type="text" style="width: 100px;" placeholder="Manager">
+                    </div>
+                    <div class="header-input-group">
+                        <span>RN:</span>
+                        <input type="text" style="width: 40px;" placeholder="001">
+                    </div>
+                </div>
+            </div>
+
+            <div class="logo">
+                <img src="AQWASE LOGO.png" alt="Company Logo">
+            </div>
+        </header>
+
+        <div class="section-tab">
+            <div>المعلومات الشخصية <span style="font-weight: normal; font-size: 9px;">(Personal Details)</span></div>
+        </div>
+
+        <table>
+            <tr>
+                <td class="label-ar">الاسم الكامل</td>
+                <td class="input-cell" colspan="4"><input type="text" placeholder="الاسم الرباعي / Full Name"></td>
+                <td class="label-en">Full Name</td>
+            </tr>
+            <tr>
+                <td class="label-ar">الجنسية</td>
+                <td class="input-cell" colspan="4"><input type="text" placeholder="سعودي / Saudi"></td>
+                <td class="label-en">Nationality</td>
+            </tr>
+            <tr>
+                <td class="label-ar">رقم الهوية</td>
+                <td class="input-cell" colspan="4" style="padding: 0 4px;">
+                    <div style="display: flex; gap: 5px; align-items: center; justify-content: center;">
+                        <input type="text" placeholder="رقم الهوية / ID Number" style="text-align: right; width: 60%;">
+                        <span style="color: #999; font-size: 10px;">|</span>
+                        <input type="text" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="text-align: center; width: 35%;">
+                    </div>
+                </td>
+                <td class="label-en">ID/Iqama No</td>
+            </tr>
+            <tr>
+                <td class="label-ar">جواز السفر</td>
+                <td class="input-cell" colspan="4" style="padding: 0 4px;">
+                    <div style="display: flex; gap: 5px; align-items: center; justify-content: center;">
+                        <input type="text" placeholder="رقم الجواز / Passport No." style="text-align: right; width: 60%;">
+                        <span style="color: #999; font-size: 10px;">|</span>
+                        <input type="text" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="text-align: center; width: 35%;">
+                    </div>
+                </td>
+                <td class="label-en">Passport No.</td>
+            </tr>
+            <tr>
+                <td class="label-ar">الحالة الاجتماعية</td>
+                <td class="input-cell" colspan="4"><input type="text" placeholder="أعزب / Single"></td>
+                <td class="label-en">Marital status</td>
+            </tr>
+            <tr>
+                <td class="label-ar">تاريخ الميلاد</td>
+                <td class="input-cell" colspan="4"><input type="text" placeholder="DD/MM/YYYY" onfocus="(this.type='date')" onblur="(this.type='text')"></td>
+                <td class="label-en">Date of Birth</td>
+            </tr>
+            <tr>
+                <td class="label-ar">الجنس</td>
+                <td class="input-cell" colspan="4"><input type="text" placeholder="ذكر / Male"></td>
+                <td class="label-en">Gender</td>
+            </tr>
+            <tr>
+                <td class="label-ar">رقم الجوال</td>
+                <td class="input-cell" colspan="4"><input type="text" placeholder="05xxxxxxxx"></td>
+                <td class="label-en">Mobile No.</td>
+            </tr>
+            <tr>
+                <td class="label-ar">البريد الالكتروني</td>
+                <td class="input-cell" colspan="4"><input type="email" placeholder="email@example.com"></td>
+                <td class="label-en">Email</td>
+            </tr>
+        </table>
+
+        <div class="section-tab">
+            <div>معلومات السكن <span style="font-weight: normal; font-size: 9px;">(Address Details)</span></div>
+        </div>
+
+        <table>
+            <tr>
+                <td class="label-dual">المدينة<br>City</td>
+                <td class="input-cell-3col"><input type="text" placeholder="Ex: Riyadh"></td>
+                <td class="label-dual">الحي<br>District</td>
+                <td class="input-cell-3col"><input type="text" placeholder="Ex: Al Olaya"></td>
+                <td class="label-dual">العنوان المختصر<br>Short Address</td>
+                <td class="input-cell-3col"><input type="text" placeholder="Ex: JBL1234"></td>
+            </tr>
+        </table>
+
+        <div class="section-tab">
+            <div>المؤهل العلمي <span style="font-weight: normal; font-size: 9px;">(Education Level)</span></div>
+        </div>
+
+        <table class="table-top">
+            <tr>
+                <td class="label-dual">المؤهل الأعلى<br>Highest Qual.</td>
+                <td class="input-cell-3col" colspan="2"><input type="text" placeholder="Bachelor / Master"></td>
+                <td class="label-dual">تاريخ التخرج<br>Grad. Date</td>
+                <td class="input-cell-3col" colspan="2"><input type="text" placeholder="YYYY / MM"></td>
+            </tr>
+            <tr>
+                <td colspan="6" class="sub-header">الدورات والشهادات / Courses and Certifications</td>
+            </tr>
+        </table>
+        <table class="table-bottom">
+            <tr>
+                <td class="label-number">1</td>
+                <td class="input-course"><input type="text" placeholder="Course Name"></td>
+                <td class="label-number">2</td>
+                <td class="input-course"><input type="text" placeholder="Course Name"></td>
+            </tr>
+            <tr>
+                <td class="label-number">3</td>
+                <td class="input-course"><input type="text" placeholder="Course Name"></td>
+                <td class="label-number">4</td>
+                <td class="input-course"><input type="text" placeholder="Course Name"></td>
+            </tr>
+        </table>
+
+        <div class="section-tab">
+            <div>المهارات التقنية <span style="font-weight: normal; font-size: 9px;">(Technical Skills)</span></div>
+        </div>
+        <table>
+            <tr>
+                <td class="input-cell" style="padding: 2px;">
+                    <input type="text" placeholder="أذكر المهارات التقنية والبرامج التي تجيدها / List Technical Skills & Software">
+                </td>
+            </tr>
+        </table>
+
+        <div class="section-tab">
+            <div>الخبرات العملية <span style="font-weight: normal; font-size: 9px;">(Work Experience)</span></div>
+        </div>
+
+        <table>
+            <tr>
+                <td class="work-header-cell" style="width: 25%;">اسم الشركة<br>Company Name</td>
+                <td class="work-header-cell" style="width: 17%;">المسمى الوظيفي<br>Job Title</td>
+                <td class="work-header-cell" style="width: 13.5%;">من<br>From</td>
+                <td class="work-header-cell" style="width: 13.5%;">إلى<br>To</td>
+                <td class="work-header-cell" style="width: 31%;">سبب ترك العمل<br>Reason for Leaving</td>
+            </tr>
+            <tr>
+                <td><input type="text" placeholder="Company"></td>
+                <td><input type="text" placeholder="Title"></td>
+                <td><input type="date"></td>
+                <td><input type="date"></td>
+                <td><input type="text" placeholder="Reason"></td>
+            </tr>
+            <tr>
+                <td><input type="text" placeholder="Company"></td>
+                <td><input type="text" placeholder="Title"></td>
+                <td><input type="date"></td>
+                <td><input type="date"></td>
+                <td><input type="text" placeholder="Reason"></td>
+            </tr>
+            <tr>
+                <td><input type="text" placeholder="Company"></td>
+                <td><input type="text" placeholder="Title"></td>
+                <td><input type="date"></td>
+                <td><input type="date"></td>
+                <td><input type="text" placeholder="Reason"></td>
+            </tr>
+        </table>
+
+        <div class="section-tab">
+            <div>المهارات اللغوية <span style="font-weight: normal; font-size: 9px;">(Language Skills)</span></div>
+        </div>
+
+        <table>
+            <tr>
+                <td class="work-header-cell" style="width: 20%;">اللغة<br>Language</td>
+                <td class="work-header-cell" style="width: 20%;">ممتاز<br>Exc.</td>
+                <td class="work-header-cell" style="width: 20%;">جيد جداً<br>V. Good</td>
+                <td class="work-header-cell" style="width: 20%;">جيد<br>Good</td>
+                <td class="work-header-cell" style="width: 20%;">ضعيف<br>Weak</td>
+            </tr>
+            <tr>
+                <td class="lang-label">العربية / Arabic</td>
+                <td style="text-align: center;"><input type="radio" name="lang_ar" value="excellent"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_ar" value="vgood"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_ar" value="good"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_ar" value="weak"></td>
+            </tr>
+            <tr>
+                <td class="lang-label">الإنجليزية / English</td>
+                <td style="text-align: center;"><input type="radio" name="lang_en" value="excellent"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_en" value="vgood"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_en" value="good"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_en" value="weak"></td>
+            </tr>
+            <tr>
+                <td class="input-cell" style="width: 20%; background: #fff;"><input type="text" placeholder="أخرى / Other"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_other" value="excellent"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_other" value="vgood"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_other" value="good"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_other" value="weak"></td>
+            </tr>
+        </table>
+
+        <div class="section-tab">
+            <div>المعرفون <span style="font-weight: normal; font-size: 9px;">(References)</span></div>
+        </div>
+
+        <table>
+            <tr>
+                <td class="work-header-cell" style="width: 40%;">الاسم<br>Name</td>
+                <td class="work-header-cell" style="width: 30%;">رقم الجوال<br>Mobile No.</td>
+                <td class="work-header-cell" style="width: 30%;">صلة القرابة<br>Relationship</td>
+            </tr>
+            <tr>
+                <td><input type="text" placeholder="Full Name"></td>
+                <td><input type="text" placeholder="05xxxxxxxx"></td>
+                <td><input type="text" placeholder="Relation"></td>
+            </tr>
+            <tr>
+                <td><input type="text" placeholder="Full Name"></td>
+                <td><input type="text" placeholder="05xxxxxxxx"></td>
+                <td><input type="text" placeholder="Relation"></td>
+            </tr>
+        </table>
+
+        <div class="declaration-box">
+            <div class="declaration-ar">
+                اقر انا الموقع ادناه على ان كل البيانات المذكورة في النموذج طلب التوظيف صحيحة ومدعومة بإثباتات متى طلبت مني , وفي حال أي معلومة غير صحيحة سيتم رفض طلبي دون ابداء الاسباب, بالإضافة الى انني على استعداد لمزيد من الفحص الطبي والمقابلات التي تؤدي للقبول او الرفض حتى دون اشعار بذلك وعدم المطالبة بالمستندات المرفقة مع هذا النموذج , وانني على دراية بأن تقديم طلبي هذا لا يعني وجود شاغر وظيفي ولا أطالب الشركة بشيء من خلال ذلك, وان لا اعطي أي تفاصيل وبيانات للتواصل الخاصة بي للعميل او مسؤول المقابلة لتجنب أي ظرف او سوء فهم وان يكون التواصل فقط عن طريق شركة اقواس. يلتزم المتقدم بالتعامل حصريًا من خلال شركة أقواس المحدودة .وفي حال عدم الالتزام بما ورد أعلاه في الاتفاقية، يتم فرض غرامة مالية قدرها 1,000 ريال سعودي، وذلك وفقًا لما هو منصوص عليه في اتفاقية العميل.
+            </div>
+            <div class="declaration-en">
+                I, the Undersigned, hereby acknowledge that all the data mentioned in the Employment Application Form are complete, true and evidence-supported, and I further undertake to provide any other relevant documents upon demand. However, in the event of any incorrect information, my application will be rejected without any reasons given. In addition, I am fully prepared for further medical examination, interviews or any other procedure required, which lead to admission or rejection even without notification of the result thereof, and not to claim the attached documents that have been requested for this purpose. I am also aware that submitting this application does not mean that there is a job vacancy, and I do not ask the company for anything through it, And I will not give my full details & contact no. to the Client or the Interviewer to avoid any circumstances that might terminate the Agreement with the Client and AQWASE LTD. The applicant will only commit through AQWASE LTD. If you do not comply with the above mentioned in the agreement you will pay a penalty of 1,000 SAR. According the agreement from the client.
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-top: 15px; margin-bottom: 10px; font-size: 11px; font-weight: bold;">
+            <div style="width: 30%; border-bottom: 1px dashed #000; padding-bottom: 8px;">اسم المتقدم:</div>
+            <div style="width: 30%; border-bottom: 1px dashed #000; padding-bottom: 8px;">التوقيع:</div>
+            <div style="width: 30%; border-bottom: 1px dashed #000; padding-bottom: 8px;">التاريخ:</div>
+        </div>
+
+        <div style="margin-top: 10px; border-top: 2px solid #000; padding-top: 10px;">
+            <div style="font-weight: bold; font-size: 11px; margin-bottom: 15px;">اعتماد الإدارة / Management Approval</div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: bold;">
+                <div style="width: 45%; display: flex; align-items: flex-end;">
+                    <span style="white-space: nowrap; margin-left: 5px;">التوقيع / Signature:</span>
+                    <div style="flex-grow: 1; border-bottom: 1px dashed #000; height: 10px;"></div>
+                </div>
+                <div style="width: 45%; display: flex; align-items: flex-end;">
+                    <span style="white-space: nowrap; margin-left: 5px;">التاريخ / Date:</span>
+                    <div style="flex-grow: 1; border-bottom: 1px dashed #000; height: 10px;"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
