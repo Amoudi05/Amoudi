@@ -10,7 +10,7 @@
         :root {
             --tab-bg: #bfbfbf;
             --tab-text: #8b6c4e;
-            --input-bg-screen: #f0f8ff; /* Light blue for screen only */
+            --input-bg-screen: #f0f8ff; 
             --input-border-screen: 1px solid #ccc;
         }
 
@@ -21,18 +21,18 @@
 
         body {
             font-family: 'Tajawal', 'Arial', sans-serif;
-            background-color: #525659; /* Darker background for app-like feel on PC */
+            background-color: #525659;
             margin: 0;
             padding: 20px;
             color: #000;
         }
 
-        /* --- THE A4 PAGE CONTAINER --- */
+        /* --- DESKTOP / A4 DEFAULT --- */
         .page {
             background: white;
             width: 210mm;
-            min-width: 210mm; /* PREVENTS layout breaking on zoom */
-            height: 297mm;    /* Fixed A4 Height */
+            min-width: 210mm; /* Keeps it A4 on PC even when zooming */
+            height: 297mm;
             margin: 0 auto;
             padding: 5mm 8mm; 
             position: relative;
@@ -42,8 +42,6 @@
             flex-direction: column;
         }
 
-        /* --- INPUT STYLING (THE KEY FIX) --- */
-        /* Screen View: Looks like a form field */
         input[type="text"], input[type="date"], input[type="email"] {
             width: 100%;
             height: 100%;
@@ -56,219 +54,147 @@
             outline: none;
             text-align: center;
             padding: 0 5px;
-            border-radius: 2px; /* Slight roundness for screen */
+            border-radius: 2px;
         }
         
-        input[type="date"] {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        input:focus { background-color: #e0efff; border-color: #8b6c4e; }
 
-        input:focus {
-            background-color: #e0efff;
-            border-color: #8b6c4e;
-        }
-
-        /* --- GENERAL LAYOUT --- */
         .watermark {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 80px;
-            font-weight: bold;
-            color: rgba(0, 0, 0, 0.03);
-            z-index: 0;
-            pointer-events: none;
-            white-space: nowrap;
+            top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 80px; font-weight: bold; color: rgba(0, 0, 0, 0.03);
+            z-index: 0; pointer-events: none; white-space: nowrap;
         }
 
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 2px;
-            position: relative;
-            z-index: 1;
-            border-bottom: 2px solid #000;
-            padding-bottom: 2px;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 2px; position: relative; z-index: 1;
+            border-bottom: 2px solid #000; padding-bottom: 2px;
         }
 
-        .header-center {
-            text-align: right;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
+        .header-center { text-align: right; flex-grow: 1; display: flex; flex-direction: column; align-items: flex-start; }
         .header-center h1 { margin: 0; font-size: 18px; color: #333; }
         .header-center h2 { margin: 0; font-size: 12px; font-weight: normal; color: #666; }
 
-        .header-inputs {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            font-size: 10px;
-            color: #000;
-            margin-top: 5px;
-        }
-
+        .header-inputs { display: flex; gap: 15px; align-items: center; font-size: 10px; margin-top: 5px; }
         .header-input-group { display: flex; align-items: center; gap: 5px; }
         .header-input-group span { font-weight: bold; }
-
-        /* Specific override for header inputs to be smaller */
-        .header-input-group input {
-            height: 20px;
-            border-radius: 4px;
-        }
+        .header-input-group input { height: 20px; border-radius: 4px; }
 
         .logo { width: 120px; text-align: left; direction: ltr; }
         .logo img { max-width: 100%; height: auto; max-height: 55px; }
 
         .section-tab {
-            background-color: var(--tab-bg);
-            color: var(--tab-text);
-            padding: 2px 6px;
-            font-weight: bold;
-            font-size: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 4px 4px 0 0; 
-            margin-top: 5px;
-            border: 1px solid #999;
-            border-bottom: none;
-            height: 20px;
+            background-color: var(--tab-bg); color: var(--tab-text);
+            padding: 2px 6px; font-weight: bold; font-size: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-radius: 4px 4px 0 0; margin-top: 5px;
+            border: 1px solid #999; border-bottom: none; height: 20px;
         }
 
         table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 9.5px;
-            position: relative;
-            z-index: 1;
-            table-layout: fixed;
-            border: 1px solid #999;
+            width: 100%; border-collapse: collapse; font-size: 9.5px;
+            position: relative; z-index: 1; table-layout: fixed; border: 1px solid #999;
         }
 
-        th, td {
-            border: 1px solid #ccc;
-            padding: 1px 4px;
-            vertical-align: middle;
-            height: 22px; /* Fixed height for rows */
-        }
+        th, td { border: 1px solid #ccc; padding: 1px 4px; vertical-align: middle; height: 22px; }
 
-        /* Label Styles */
-        .label-ar { font-weight: bold; text-align: right; width: 15%; background-color: #f9f9f9; }
-        .label-en { font-weight: bold; text-align: left; direction: ltr; width: 15%; background-color: #f9f9f9; }
+        .label-ar, .label-en { width: 15%; background-color: #f9f9f9; font-weight: bold; }
+        .label-en { text-align: left; direction: ltr; }
+        .label-ar { text-align: right; }
         .label-dual { background-color: #f9f9f9; font-weight: bold; text-align: center; font-size: 8.5px; width: 13%; line-height: 1.1; }
         .label-number { background-color: #f9f9f9; font-weight: bold; text-align: center; width: 20px; }
-        .work-header-cell {
-            background-color: #f9f9f9;
-            font-weight: bold;
-            text-align: center;
-            font-size: 8.5px;
-            line-height: 1.1;
-        }
+        .work-header-cell { background-color: #f9f9f9; font-weight: bold; text-align: center; font-size: 8.5px; line-height: 1.1; }
         .lang-label { background-color: #f9f9f9; font-weight: bold; font-size: 9px; padding-right: 5px; }
+        .sub-header { background-color: #e0e0e0; text-align: center; font-weight: bold; padding: 2px; font-size: 9px; }
 
-        /* Cell Widths */
         .input-cell-3col { width: 20.33%; background: #fff; padding: 0 !important; }
         .input-cell { width: 55%; background: #fff; padding: 0 !important; }
-        .sub-header {
-            background-color: #e0e0e0;
-            text-align: center;
-            font-weight: bold;
-            padding: 2px;
-            font-size: 9px;
-        }
 
-        /* Declaration Text */
         .declaration-box {
-            border: 1px solid #999;
-            margin-top: 5px;
-            padding: 4px;
-            font-size: 6.5px;
-            display: flex;
-            gap: 5px;
-            text-align: justify;
-            line-height: 1.2;
+            border: 1px solid #999; margin-top: 5px; padding: 4px; font-size: 6.5px;
+            display: flex; gap: 5px; text-align: justify; line-height: 1.2;
         }
         .declaration-ar { width: 50%; border-left: 1px solid #ccc; padding-left: 3px; }
         .declaration-en { width: 50%; direction: ltr; padding-right: 3px; }
 
-        /* Signatures */
-        .mgmt-section {
-            margin-top: 10px; border-top: 2px solid #000; padding-top: 10px;
-        }
-        .mgmt-row {
-            display: flex; justify-content: space-between; font-size: 11px; font-weight: bold;
-        }
-        .mgmt-col {
-            width: 45%; display: flex; align-items: flex-end;
-        }
+        .mgmt-section { margin-top: 10px; border-top: 2px solid #000; padding-top: 10px; }
+        .mgmt-row { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; }
+        .mgmt-col { width: 45%; display: flex; align-items: flex-end; }
 
-        /* Print Button */
         .print-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background-color: #8b6c4e;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: bold;
-            font-size: 14px;
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            position: fixed; top: 20px; left: 20px; background-color: #8b6c4e; color: white;
+            border: none; padding: 12px 25px; cursor: pointer; border-radius: 5px;
+            font-family: 'Tajawal', sans-serif; font-weight: bold; font-size: 14px;
+            z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
-        .print-btn:hover { background-color: #6d543c; }
 
-        /* --- PRINT MEDIA QUERY (THE MAGIC PART) --- */
-        @media print {
-            body { 
-                background-color: white; 
-                margin: 0; 
-                padding: 0; 
-            }
-
-            .print-btn { display: none !important; }
+        /* --- PHONE ONLY (Touch Devices + Small Screen) --- */
+        /* This checks: Max width 768px AND No Hover (Touchscreen) */
+        @media screen and (max-width: 768px) and (hover: none) and (pointer: coarse) {
+            body { padding: 10px; background: #e0e0e0; height: auto; }
+            .watermark { display: none; }
+            .print-btn { display: none; } /* Hide print button on mobile */
 
             .page {
-                width: 100%;
-                height: 100%;
-                margin: 0;
-                padding: 5mm;
-                box-shadow: none;
-                border: none;
-                min-width: auto; /* Reset min-width for paper */
+                width: 100%; min-width: 0; /* Allow shrinking on phone */
+                height: auto; padding: 15px; border-radius: 8px;
             }
 
-            /* REMOVE INPUT STYLES FOR PRINT */
+            /* Stack Header */
+            header { flex-direction: column-reverse; align-items: center; text-align: center; }
+            .header-center { align-items: center; width: 100%; margin-top: 10px; }
+            .header-inputs { flex-direction: column; width: 100%; }
+            .logo { width: 100%; text-align: center; }
+
+            /* Card Style Tables */
+            table, tbody, th, td, tr { display: block; width: 100%; }
+            tr { margin-bottom: 10px; border: 1px solid #ccc; background: #fff; padding: 5px; border-radius: 5px; }
+            td { text-align: right; border: none; padding: 5px 0; height: auto; position: relative; }
+            
+            /* Hide Desktop Headers */
+            .header-row, .label-number { display: none; }
+            
+            /* Show Labels for Mobile */
+            td[data-label]::before {
+                content: attr(data-label); display: block; width: 100%;
+                font-weight: bold; font-size: 11px; color: #8b6c4e; margin-bottom: 3px;
+            }
+
+            /* Inputs on Mobile */
             input[type="text"], input[type="date"], input[type="email"] {
-                border: none !important;
-                background-color: transparent !important;
-                padding: 0 !important;
-                border-radius: 0;
-                /* Ensure text color is black */
-                color: #000 !important;
+                height: 35px; border: 1px solid #ccc; background: #fff;
             }
+            
+            /* Fix specific layout issues */
+            .declaration-box { flex-direction: column; }
+            .declaration-ar, .declaration-en { width: 100%; border: none; margin-bottom: 10px; }
+            .mgmt-row { flex-direction: column; gap: 20px; }
+            .mgmt-col { width: 100%; }
+            
+            /* Hide unwanted labels in mobile flow */
+            .label-ar, .label-en, .label-dual { display: none; }
+        }
 
-            /* Adjust placeholders to disappear or stay faint */
-            input::placeholder {
-                color: transparent;
+        /* --- PRINT STYLES --- */
+        @media print {
+            body { background-color: white; margin: 0; padding: 0; }
+            .print-btn { display: none !important; }
+            .page { width: 100%; height: 100%; margin: 0; padding: 5mm; box-shadow: none; border: none; min-width: auto; }
+            
+            /* Clean Inputs */
+            input[type="text"], input[type="date"], input[type="email"] {
+                border: none !important; background-color: transparent !important;
+                padding: 0 !important; color: #000 !important;
             }
-
-            /* Ensure background colors print if user settings allow, otherwise fallback is fine */
-            .section-tab, .label-ar, .label-en, .label-dual, .work-header-cell, .sub-header {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
+            input::placeholder { color: transparent; }
+            
+            /* Force table layout back if printing from mobile */
+            table { display: table; }
+            tr { display: table-row; margin: 0; border: none; background: transparent; }
+            td { display: table-cell; border: 1px solid #ccc; padding: 1px 4px; height: 19px; }
+            td[data-label]::before { display: none; } /* Hide mobile labels */
+            .header-row, .label-number, .label-ar, .label-en, .label-dual { display: table-cell !important; }
         }
     </style>
 </head>
@@ -312,17 +238,17 @@
         <table>
             <tr>
                 <td class="label-ar">الاسم الكامل</td>
-                <td class="input-cell" colspan="4"><input type="text" placeholder="الاسم الرباعي / Full Name"></td>
+                <td class="input-cell" colspan="4" data-label="الاسم الكامل / Full Name"><input type="text" placeholder="الاسم الرباعي / Full Name"></td>
                 <td class="label-en">Full Name</td>
             </tr>
             <tr>
                 <td class="label-ar">الجنسية</td>
-                <td class="input-cell" colspan="4"><input type="text" placeholder="سعودي / Saudi"></td>
+                <td class="input-cell" colspan="4" data-label="الجنسية / Nationality"><input type="text" placeholder="سعودي / Saudi"></td>
                 <td class="label-en">Nationality</td>
             </tr>
             <tr>
                 <td class="label-ar">رقم الهوية</td>
-                <td class="input-cell" colspan="4" style="padding: 0 !important;">
+                <td class="input-cell" colspan="4" style="padding: 0 !important;" data-label="رقم الهوية / ID Info">
                     <div style="display: flex; height: 100%;">
                         <input type="text" placeholder="رقم الهوية / ID Number" style="width: 60%; border-right: 1px dashed #ccc;">
                         <input type="text" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 40%;">
@@ -332,7 +258,7 @@
             </tr>
             <tr>
                 <td class="label-ar">جواز السفر</td>
-                <td class="input-cell" colspan="4" style="padding: 0 !important;">
+                <td class="input-cell" colspan="4" style="padding: 0 !important;" data-label="جواز السفر / Passport Info">
                     <div style="display: flex; height: 100%;">
                         <input type="text" placeholder="رقم الجواز / Passport No." style="width: 60%; border-right: 1px dashed #ccc;">
                         <input type="text" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 40%;">
@@ -342,27 +268,27 @@
             </tr>
             <tr>
                 <td class="label-ar">الحالة الاجتماعية</td>
-                <td class="input-cell" colspan="4"><input type="text" placeholder="أعزب / Single"></td>
+                <td class="input-cell" colspan="4" data-label="الحالة الاجتماعية / Marital Status"><input type="text" placeholder="أعزب / Single"></td>
                 <td class="label-en">Marital status</td>
             </tr>
             <tr>
                 <td class="label-ar">تاريخ الميلاد</td>
-                <td class="input-cell" colspan="4"><input type="date"></td>
+                <td class="input-cell" colspan="4" data-label="تاريخ الميلاد / DOB"><input type="date"></td>
                 <td class="label-en">Date of Birth</td>
             </tr>
             <tr>
                 <td class="label-ar">الجنس</td>
-                <td class="input-cell" colspan="4"><input type="text" placeholder="ذكر / Male"></td>
+                <td class="input-cell" colspan="4" data-label="الجنس / Gender"><input type="text" placeholder="ذكر / Male"></td>
                 <td class="label-en">Gender</td>
             </tr>
             <tr>
                 <td class="label-ar">رقم الجوال</td>
-                <td class="input-cell" colspan="4"><input type="text" placeholder="05xxxxxxxx"></td>
+                <td class="input-cell" colspan="4" data-label="رقم الجوال / Mobile"><input type="text" placeholder="05xxxxxxxx"></td>
                 <td class="label-en">Mobile No.</td>
             </tr>
             <tr>
                 <td class="label-ar">البريد الالكتروني</td>
-                <td class="input-cell" colspan="4"><input type="email" placeholder="email@example.com"></td>
+                <td class="input-cell" colspan="4" data-label="البريد / Email"><input type="email" placeholder="email@example.com"></td>
                 <td class="label-en">Email</td>
             </tr>
         </table>
@@ -374,11 +300,11 @@
         <table>
             <tr>
                 <td class="label-dual">المدينة<br>City</td>
-                <td class="input-cell-3col"><input type="text" placeholder="Ex: Riyadh"></td>
+                <td class="input-cell-3col" data-label="المدينة / City"><input type="text" placeholder="Ex: Riyadh"></td>
                 <td class="label-dual">الحي<br>District</td>
-                <td class="input-cell-3col"><input type="text" placeholder="Ex: Al Olaya"></td>
+                <td class="input-cell-3col" data-label="الحي / District"><input type="text" placeholder="Ex: Al Olaya"></td>
                 <td class="label-dual">العنوان المختصر<br>Short Address</td>
-                <td class="input-cell-3col"><input type="text" placeholder="Ex: JBL1234"></td>
+                <td class="input-cell-3col" data-label="العنوان المختصر / Address"><input type="text" placeholder="Ex: JBL1234"></td>
             </tr>
         </table>
 
@@ -389,24 +315,24 @@
         <table>
             <tr>
                 <td class="label-dual">المؤهل الأعلى<br>Highest Qual.</td>
-                <td class="input-cell-3col" colspan="2"><input type="text" placeholder="Bachelor / Master"></td>
+                <td class="input-cell-3col" colspan="2" data-label="المؤهل / Qualification"><input type="text" placeholder="Bachelor / Master"></td>
                 <td class="label-dual">تاريخ التخرج<br>Grad. Date</td>
-                <td class="input-cell-3col" colspan="2"><input type="text" placeholder="YYYY / MM"></td>
+                <td class="input-cell-3col" colspan="2" data-label="تاريخ التخرج / Grad. Date"><input type="text" placeholder="YYYY / MM"></td>
             </tr>
             <tr>
                 <td colspan="6" class="sub-header">الدورات والشهادات / Courses and Certifications</td>
             </tr>
             <tr>
                 <td class="label-number">1</td>
-                <td style="background: #fff; padding: 0;" colspan="2"><input type="text" placeholder="Course Name"></td>
+                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 1 / Course 1"><input type="text" placeholder="Course Name"></td>
                 <td class="label-number">2</td>
-                <td style="background: #fff; padding: 0;" colspan="2"><input type="text" placeholder="Course Name"></td>
+                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 2 / Course 2"><input type="text" placeholder="Course Name"></td>
             </tr>
             <tr>
                 <td class="label-number">3</td>
-                <td style="background: #fff; padding: 0;" colspan="2"><input type="text" placeholder="Course Name"></td>
+                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 3 / Course 3"><input type="text" placeholder="Course Name"></td>
                 <td class="label-number">4</td>
-                <td style="background: #fff; padding: 0;" colspan="2"><input type="text" placeholder="Course Name"></td>
+                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 4 / Course 4"><input type="text" placeholder="Course Name"></td>
             </tr>
         </table>
 
@@ -415,7 +341,7 @@
         </div>
         <table>
             <tr>
-                <td class="input-cell" style="padding: 0; width: 100%;">
+                <td class="input-cell" style="padding: 0; width: 100%;" data-label="المهارات التقنية / Tech Skills">
                     <input type="text" placeholder="أذكر المهارات التقنية والبرامج التي تجيدها / List Technical Skills & Software">
                 </td>
             </tr>
@@ -434,25 +360,25 @@
                 <td class="work-header-cell" style="width: 31%;">سبب ترك العمل<br>Reason for Leaving</td>
             </tr>
             <tr>
-                <td style="padding:0;"><input type="text" placeholder="Company"></td>
-                <td style="padding:0;"><input type="text" placeholder="Title"></td>
-                <td style="padding:0;"><input type="date"></td>
-                <td style="padding:0;"><input type="date"></td>
-                <td style="padding:0;"><input type="text" placeholder="Reason"></td>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" placeholder="Company"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" placeholder="Title"></td>
+                <td style="padding:0;" data-label="من / From"><input type="date"></td>
+                <td style="padding:0;" data-label="إلى / To"><input type="date"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" placeholder="Reason"></td>
             </tr>
             <tr>
-                <td style="padding:0;"><input type="text" placeholder="Company"></td>
-                <td style="padding:0;"><input type="text" placeholder="Title"></td>
-                <td style="padding:0;"><input type="date"></td>
-                <td style="padding:0;"><input type="date"></td>
-                <td style="padding:0;"><input type="text" placeholder="Reason"></td>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" placeholder="Company"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" placeholder="Title"></td>
+                <td style="padding:0;" data-label="من / From"><input type="date"></td>
+                <td style="padding:0;" data-label="إلى / To"><input type="date"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" placeholder="Reason"></td>
             </tr>
             <tr>
-                <td style="padding:0;"><input type="text" placeholder="Company"></td>
-                <td style="padding:0;"><input type="text" placeholder="Title"></td>
-                <td style="padding:0;"><input type="date"></td>
-                <td style="padding:0;"><input type="date"></td>
-                <td style="padding:0;"><input type="text" placeholder="Reason"></td>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" placeholder="Company"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" placeholder="Title"></td>
+                <td style="padding:0;" data-label="من / From"><input type="date"></td>
+                <td style="padding:0;" data-label="إلى / To"><input type="date"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" placeholder="Reason"></td>
             </tr>
         </table>
 
@@ -470,24 +396,24 @@
             </tr>
             <tr>
                 <td class="lang-label">العربية / Arabic</td>
-                <td style="text-align: center;"><input type="radio" name="lang_ar" value="excellent"></td>
-                <td style="text-align: center;"><input type="radio" name="lang_ar" value="vgood"></td>
-                <td style="text-align: center;"><input type="radio" name="lang_ar" value="good"></td>
-                <td style="text-align: center;"><input type="radio" name="lang_ar" value="weak"></td>
+                <td style="text-align: center;" data-label="ممتاز / Exc"><input type="radio" name="lang_ar" value="excellent"></td>
+                <td style="text-align: center;" data-label="جيد جدا / V.Good"><input type="radio" name="lang_ar" value="vgood"></td>
+                <td style="text-align: center;" data-label="جيد / Good"><input type="radio" name="lang_ar" value="good"></td>
+                <td style="text-align: center;" data-label="ضعيف / Weak"><input type="radio" name="lang_ar" value="weak"></td>
             </tr>
             <tr>
                 <td class="lang-label">الإنجليزية / English</td>
-                <td style="text-align: center;"><input type="radio" name="lang_en" value="excellent"></td>
-                <td style="text-align: center;"><input type="radio" name="lang_en" value="vgood"></td>
-                <td style="text-align: center;"><input type="radio" name="lang_en" value="good"></td>
-                <td style="text-align: center;"><input type="radio" name="lang_en" value="weak"></td>
+                <td style="text-align: center;" data-label="ممتاز / Exc"><input type="radio" name="lang_en" value="excellent"></td>
+                <td style="text-align: center;" data-label="جيد جدا / V.Good"><input type="radio" name="lang_en" value="vgood"></td>
+                <td style="text-align: center;" data-label="جيد / Good"><input type="radio" name="lang_en" value="good"></td>
+                <td style="text-align: center;" data-label="ضعيف / Weak"><input type="radio" name="lang_en" value="weak"></td>
             </tr>
             <tr>
-                <td style="padding: 0;"><input type="text" placeholder="أخرى / Other"></td>
-                <td style="text-align: center;"><input type="radio" name="lang_other" value="excellent"></td>
-                <td style="text-align: center;"><input type="radio" name="lang_other" value="vgood"></td>
-                <td style="text-align: center;"><input type="radio" name="lang_other" value="good"></td>
-                <td style="text-align: center;"><input type="radio" name="lang_other" value="weak"></td>
+                <td style="padding: 0;" data-label="أخرى / Other"><input type="text" placeholder="أخرى / Other"></td>
+                <td style="text-align: center;" data-label="ممتاز / Exc"><input type="radio" name="lang_other" value="excellent"></td>
+                <td style="text-align: center;" data-label="جيد جدا / V.Good"><input type="radio" name="lang_other" value="vgood"></td>
+                <td style="text-align: center;" data-label="جيد / Good"><input type="radio" name="lang_other" value="good"></td>
+                <td style="text-align: center;" data-label="ضعيف / Weak"><input type="radio" name="lang_other" value="weak"></td>
             </tr>
         </table>
 
@@ -502,14 +428,14 @@
                 <td class="work-header-cell" style="width: 30%;">صلة القرابة<br>Relationship</td>
             </tr>
             <tr>
-                <td style="padding:0;"><input type="text" placeholder="Full Name"></td>
-                <td style="padding:0;"><input type="text" placeholder="05xxxxxxxx"></td>
-                <td style="padding:0;"><input type="text" placeholder="Relation"></td>
+                <td style="padding:0;" data-label="الاسم / Name"><input type="text" placeholder="Full Name"></td>
+                <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" placeholder="05xxxxxxxx"></td>
+                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" placeholder="Relation"></td>
             </tr>
             <tr>
-                <td style="padding:0;"><input type="text" placeholder="Full Name"></td>
-                <td style="padding:0;"><input type="text" placeholder="05xxxxxxxx"></td>
-                <td style="padding:0;"><input type="text" placeholder="Relation"></td>
+                <td style="padding:0;" data-label="الاسم / Name"><input type="text" placeholder="Full Name"></td>
+                <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" placeholder="05xxxxxxxx"></td>
+                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" placeholder="Relation"></td>
             </tr>
         </table>
 
