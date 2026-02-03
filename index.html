@@ -28,14 +28,20 @@
             color: #000;
         }
 
+        /* --- PRINT SETTINGS FOR A4 --- */
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
         /* --- DESKTOP / A4 DEFAULT --- */
         .page {
             background: white;
             width: 210mm;
             min-width: 210mm;
-            height: 297mm;
+            min-height: 297mm;
             margin: 0 auto;
-            padding: 5mm 8mm; 
+            padding: 10mm; 
             position: relative;
             box-shadow: 0 0 15px rgba(0,0,0,0.3);
             overflow: hidden; 
@@ -44,7 +50,7 @@
         }
 
         /* DEFAULT INPUT STYLE */
-        input[type="text"], input[type="date"], input[type="email"] {
+        input[type="text"], input[type="email"] {
             width: 100%;
             height: 100%;
             border: var(--input-border-screen);
@@ -55,10 +61,27 @@
             color: #000;
             outline: none;
             text-align: center;
-            padding: 0 5px;
+            padding: 0 2px;
             border-radius: 2px;
         }
         
+        /* --- DATE INPUT FIX: TEXT CENTERED --- */
+        input[type="date"] {
+            width: 100%;
+            height: 100%;
+            border: var(--input-border-screen);
+            background-color: var(--input-bg-screen);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 10px;
+            font-weight: bold;
+            color: #000;
+            outline: none;
+            text-align: center; /* Text in Center as requested */
+            padding: 0 5px;
+            border-radius: 2px;
+            display: inline-block;
+        }
+
         input:focus { background-color: #e0efff; border-color: #8b6c4e; }
 
         .watermark {
@@ -75,71 +98,73 @@
         }
 
         .header-center { text-align: right; flex-grow: 1; display: flex; flex-direction: column; align-items: flex-start; }
-        .header-center h1 { margin: 0; font-size: 18px; color: #333; }
-        .header-center h2 { margin: 0; font-size: 12px; font-weight: normal; color: #666; }
+        .header-center h1 { margin: 0; font-size: 16px; color: #333; }
+        .header-center h2 { margin: 0; font-size: 11px; font-weight: normal; color: #666; }
 
-        .header-inputs { display: flex; gap: 15px; align-items: center; font-size: 10px; margin-top: 5px; }
+        .header-inputs { display: flex; gap: 10px; align-items: center; font-size: 10px; margin-top: 3px; }
         .header-input-group { display: flex; align-items: center; gap: 5px; }
         .header-input-group span { font-weight: bold; }
-        .header-input-group input { height: 20px; border-radius: 4px; }
+        .header-input-group input { height: 18px; border-radius: 4px; font-size: 10px; text-align: center; }
 
-        .logo { width: 120px; text-align: left; direction: ltr; }
-        .logo img { max-width: 100%; height: auto; max-height: 55px; }
+        .logo { width: 100px; text-align: left; direction: ltr; }
+        .logo img { max-width: 100%; height: auto; max-height: 50px; }
 
-        /* --- SECTION TABS (Big Text) --- */
         .section-tab {
             background-color: var(--tab-bg); color: var(--tab-text);
-            padding: 6px 10px;
+            padding: 3px 6px;
             font-weight: bold; 
-            font-size: 12px;
+            font-size: 11px;
             display: flex; justify-content: space-between; align-items: center;
-            border-radius: 4px 4px 0 0; margin-top: 8px;
+            border-radius: 3px 3px 0 0; margin-top: 4px;
             border: 1px solid #999; border-bottom: none; 
             height: auto;
         }
 
         table {
-            width: 100%; border-collapse: collapse; font-size: 9.5px;
+            width: 100%; border-collapse: collapse; font-size: 9px;
             position: relative; z-index: 1; table-layout: fixed; border: 1px solid #999;
         }
 
-        th, td { border: 1px solid #ccc; padding: 1px 4px; vertical-align: middle; height: 24px; }
+        th, td { 
+            border: 1px solid #ccc; 
+            padding: 0px 4px; 
+            vertical-align: middle; 
+            height: 21px; 
+        }
 
-        /* Desktop specific widths */
         .label-ar, .label-en { width: 15%; background-color: #f9f9f9; font-weight: bold; vertical-align: middle; }
         .label-en { text-align: left; direction: ltr; }
         .label-ar { text-align: right; }
-        .label-dual { background-color: #f9f9f9; font-weight: bold; text-align: center; font-size: 8.5px; width: 13%; line-height: 1.1; vertical-align: middle; }
+        .label-dual { background-color: #f9f9f9; font-weight: bold; text-align: center; font-size: 8px; width: 13%; line-height: 1.1; vertical-align: middle; }
         .label-number { background-color: #f9f9f9; font-weight: bold; text-align: center; width: 20px; vertical-align: middle; }
         
         .work-header-cell { 
             background-color: #f9f9f9; 
             font-weight: bold; 
             text-align: center; 
-            font-size: 9px; 
-            line-height: 1.2;
+            font-size: 8.5px; 
+            line-height: 1.1;
             vertical-align: middle !important;
-            height: 32px; 
-            padding-top: 2px;
-            padding-bottom: 2px;
+            height: 26px; 
+            padding-top: 1px;
+            padding-bottom: 1px;
         }
         
         .lang-label { background-color: #f9f9f9; font-weight: bold; font-size: 9px; padding-right: 5px; vertical-align: middle; }
-        .sub-header { background-color: #e0e0e0; text-align: center; font-weight: bold; padding: 2px; font-size: 9px; vertical-align: middle; }
+        .sub-header { background-color: #e0e0e0; text-align: center; font-weight: bold; padding: 1px; font-size: 8.5px; vertical-align: middle; }
 
-        /* These cause the issue on mobile if not overridden */
         .input-cell-3col { width: 20.33%; background: #fff; padding: 0 !important; }
         .input-cell { width: 55%; background: #fff; padding: 0 !important; }
 
         .declaration-box {
-            border: 1px solid #999; margin-top: 5px; padding: 4px; font-size: 6.5px;
-            display: flex; gap: 5px; text-align: justify; line-height: 1.2;
+            border: 1px solid #999; margin-top: 4px; padding: 3px; font-size: 6px;
+            display: flex; gap: 5px; text-align: justify; line-height: 1.1;
         }
         .declaration-ar { width: 50%; border-left: 1px solid #ccc; padding-left: 3px; }
         .declaration-en { width: 50%; direction: ltr; padding-right: 3px; }
 
-        .mgmt-section { margin-top: 10px; border-top: 2px solid #000; padding-top: 10px; }
-        .mgmt-row { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; }
+        .mgmt-section { margin-top: 8px; border-top: 1.5px solid #000; padding-top: 5px; }
+        .mgmt-row { display: flex; justify-content: space-between; font-size: 10px; font-weight: bold; }
         .mgmt-col { width: 45%; display: flex; align-items: flex-end; }
 
         .print-btn {
@@ -147,6 +172,22 @@
             border: none; padding: 12px 25px; cursor: pointer; border-radius: 5px;
             font-family: 'Tajawal', sans-serif; font-weight: bold; font-size: 14px;
             z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        /* Radio Button Styling */
+        .radio-group {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100%;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
         }
 
         /* --- PHONE ONLY --- */
@@ -163,19 +204,25 @@
             header { flex-direction: column-reverse; align-items: center; text-align: center; }
             .header-center { align-items: center; width: 100%; margin-top: 10px; }
             .header-inputs { flex-direction: column; width: 100%; }
-            .logo { width: 100%; text-align: center; }
+            .logo { width: 100px; text-align: center; }
 
             table, tbody, th, td, tr { display: block; width: 100%; }
-            tr { margin-bottom: 12px; border: 1px solid #ccc; background: #fff; padding: 10px; border-radius: 5px; }
+            tr { margin-bottom: 12px; border: 1px solid #ccc; background: #fff; padding: 10px; border-radius: 5px; overflow: hidden; }
             
-            /* --- FIXED: FORCE 100% WIDTH ON TABLE 1 & 2 CELLS --- */
-            .input-cell, .input-cell-3col {
-                width: 100% !important;
+            /* --- FIXED: FORCE GRAY HEADER FULL WIDTH --- */
+            .sub-header {
+                width: calc(100% + 20px) !important; /* Stretch wider than parent padding */
+                margin: -10px -10px 10px -10px; /* Negative margin to pull to edges */
+                display: block;
+                padding: 10px;
+                background-color: #e0e0e0;
+                border-radius: 0;
             }
 
-            /* --- FIXED: Centered Alignment --- */
+            .input-cell, .input-cell-3col { width: 100% !important; }
+
             td { 
-                text-align: center !important; /* Force Center */
+                text-align: center !important; 
                 border: none; 
                 padding: 5px 0; 
                 height: auto; 
@@ -184,7 +231,6 @@
             
             .header-row, .label-number { display: none; }
             
-            /* --- FIXED: Labels Centered --- */
             td[data-label]::before {
                 content: attr(data-label); 
                 display: block; 
@@ -192,23 +238,22 @@
                 font-weight: bold; 
                 font-size: 12px; 
                 color: #8b6c4e; 
-                margin-bottom: 4px; 
-                margin-top: 4px;    
-                text-align: center !important; /* Force Center */
+                margin-bottom: 4px; margin-top: 4px;    
+                text-align: center !important; 
                 line-height: 1.4;
             }
 
-            /* --- FIXED: Inputs Centered --- */
+            /* Inputs Centered & Sized */
             input[type="text"], input[type="date"], input[type="email"] {
                 height: 40px; 
                 border: 1px solid #ccc; 
                 background-color: var(--input-bg-screen);
-                text-align: center;
+                text-align: center !important; /* CENTERED */
                 width: 100% !important; 
                 font-size: 11px; 
             }
             
-            /* --- FIXED: ID & PASSPORT Stacked --- */
+            /* ID & PASSPORT Stacked */
             .id-container {
                 display: flex !important;
                 flex-direction: column; 
@@ -218,6 +263,14 @@
             .id-container input {
                 width: 100% !important; 
                 border-right: 1px solid #ccc !important;
+            }
+            
+            /* Radio Group Mobile */
+            .radio-group {
+                background-color: var(--input-bg-screen);
+                border: 1px solid #ccc;
+                height: 40px;
+                border-radius: 2px;
             }
 
             .declaration-box { flex-direction: column; }
@@ -231,17 +284,28 @@
         @media print {
             body { background-color: white; margin: 0; padding: 0; }
             .print-btn { display: none !important; }
-            .page { width: 100%; height: 100%; margin: 0; padding: 5mm; box-shadow: none; border: none; min-width: auto; }
+            
+            .page { 
+                width: 100%; 
+                margin: 0; 
+                padding: 10mm; 
+                box-shadow: none; 
+                border: none; 
+                min-width: auto; 
+            }
             
             input[type="text"], input[type="date"], input[type="email"] {
                 border: none !important; background-color: transparent !important;
-                padding: 0 !important; color: #000 !important; font-size: 9px !important;
+                padding: 0 !important; color: #000 !important; font-size: 9px !important; text-align: center !important;
             }
             input::placeholder { color: transparent; }
             
+            /* Ensure Date text prints centered */
+            input[type="date"] { text-align: center !important; }
+
             table { display: table; width: 100% !important; table-layout: fixed; }
             tr { display: table-row; margin: 0; border: none; background: transparent; }
-            td { display: table-cell; border: 1px solid #ccc; padding: 1px 4px; height: 24px; width: auto; text-align: right; }
+            td { display: table-cell; border: 1px solid #ccc; padding: 0px 4px; height: 21px; width: auto; text-align: right; }
             td[data-label]::before { display: none; } 
             
             .header-row { display: table-row !important; }
@@ -262,6 +326,9 @@
                 print-color-adjust: exact;
                 vertical-align: middle !important;
             }
+            
+            /* Hide Radios background on print but keep check */
+            .radio-group { background: transparent; border: none; justify-content: center; gap: 20px; }
         }
     </style>
 </head>
@@ -335,7 +402,12 @@
             </tr>
             <tr>
                 <td class="label-ar">الحالة الاجتماعية</td>
-                <td class="input-cell" colspan="4" data-label="الحالة الاجتماعية / Marital Status"><input type="text" placeholder="أعزب / Single"></td>
+                <td class="input-cell" colspan="4" data-label="الحالة الاجتماعية / Marital Status" style="padding: 0 !important;">
+                    <div class="radio-group">
+                        <label><input type="radio" name="marital" value="single"> أعزب / Single</label>
+                        <label><input type="radio" name="marital" value="married"> متزوج / Married</label>
+                    </div>
+                </td>
                 <td class="label-en">Marital status</td>
             </tr>
             <tr>
