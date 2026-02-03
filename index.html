@@ -65,7 +65,7 @@
             border-radius: 2px;
         }
         
-        /* --- DATE INPUT FIX: TEXT CENTERED --- */
+        /* DATE INPUT FIX */
         input[type="date"] {
             width: 100%;
             height: 100%;
@@ -217,30 +217,36 @@
                 overflow: hidden; 
             }
             
-            /* --- FIXED: MERGING COURSES TITLE WITH INPUTS --- */
-            /* The row containing the gray header */
+            /* --- FIXED: MERGING CARD LOGIC --- */
+            /* 1. The Title Row (Top) */
             tr.title-row-mobile {
-                margin-bottom: 0 !important; /* Remove gap below */
-                border-bottom: none !important; /* Remove border below */
-                border-radius: 5px 5px 0 0 !important; /* Round top only */
-                padding-bottom: 0 !important; /* Reduce padding */
+                margin-bottom: 0 !important; 
+                border-bottom: none !important; 
+                border-radius: 5px 5px 0 0 !important; 
+                padding-bottom: 0 !important; 
             }
-            /* The rows containing the courses inputs */
-            tr.courses-row-mobile {
-                margin-top: 0 !important; /* Remove gap above */
-                border-top: none !important; /* Remove border above */
-                border-radius: 0 !important; /* Square corners */
+            /* 2. The Middle Row (Courses 1 & 2) */
+            tr.courses-row-middle {
+                margin-top: 0 !important; 
+                margin-bottom: 0 !important; /* No gap below */
+                border-top: none !important; 
+                border-bottom: none !important; /* No border below */
+                border-radius: 0 !important; 
                 padding-top: 5px !important;
+                padding-bottom: 5px !important;
             }
+            /* 3. The Last Row (Courses 3 & 4) */
             tr.courses-row-last {
-                border-radius: 0 0 5px 5px !important; /* Round bottom only for last row */
+                margin-top: 0 !important; /* No gap above */
+                border-top: none !important; 
+                border-radius: 0 0 5px 5px !important; /* Round bottom only */
                 margin-bottom: 12px !important;
             }
 
-            /* --- FIXED: GRAY HEADER FULL WIDTH --- */
+            /* Gray Header Full Width */
             .sub-header {
-                width: calc(100% + 20px) !important; /* WIDER than the card padding */
-                margin: -10px -10px 0px -10px !important; /* Negative margin pulls it to edge */
+                width: calc(100% + 20px) !important; 
+                margin: -10px -10px 0px -10px !important; 
                 display: block;
                 padding: 12px !important;
                 background-color: #e0e0e0;
@@ -318,10 +324,18 @@
                 min-width: auto; 
             }
             
+            /* FORCE BLUE BOXES ON PRINT */
             input[type="text"], input[type="date"], input[type="email"] {
-                border: none !important; background-color: transparent !important;
-                padding: 0 !important; color: #000 !important; font-size: 9px !important; text-align: center !important;
+                border: 1px solid #ccc !important; 
+                background-color: #f0f8ff !important; 
+                padding: 0 !important; 
+                color: #000 !important; 
+                font-size: 9px !important; 
+                text-align: center !important;
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact; 
             }
+            
             input::placeholder { color: transparent; }
             input[type="date"] { text-align: center !important; }
 
@@ -482,13 +496,13 @@
             <tr class="title-row-mobile">
                 <td colspan="6" class="sub-header">الدورات والشهادات / Courses and Certifications</td>
             </tr>
-            <tr class="courses-row-mobile">
+            <tr class="courses-row-middle">
                 <td class="label-number">1</td>
                 <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 1 / Course 1"><input type="text" placeholder="Course Name"></td>
                 <td class="label-number">2</td>
                 <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 2 / Course 2"><input type="text" placeholder="Course Name"></td>
             </tr>
-            <tr class="courses-row-mobile courses-row-last">
+            <tr class="courses-row-last">
                 <td class="label-number">3</td>
                 <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 3 / Course 3"><input type="text" placeholder="Course Name"></td>
                 <td class="label-number">4</td>
