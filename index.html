@@ -167,12 +167,28 @@
         .mgmt-row { display: flex; justify-content: space-between; font-size: 10px; font-weight: bold; }
         .mgmt-col { width: 45%; display: flex; align-items: flex-end; }
 
-        .print-btn {
-            position: fixed; top: 20px; left: 20px; background-color: #8b6c4e; color: white;
-            border: none; padding: 12px 25px; cursor: pointer; border-radius: 5px;
-            font-family: 'Tajawal', sans-serif; font-weight: bold; font-size: 14px;
-            z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        .btn-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
         }
+
+        .action-btn {
+            background-color: #8b6c4e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: bold;
+            font-size: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .submit-btn { background-color: #28a745; }
         
         .radio-group {
             display: flex;
@@ -193,7 +209,13 @@
         @media screen and (max-width: 768px) and (hover: none) and (pointer: coarse) {
             body { padding: 10px; background: #e0e0e0; height: auto; }
             .watermark { display: none; }
-            .print-btn { display: none; }
+            .btn-container { 
+                position: static; 
+                width: 100%; 
+                justify-content: center; 
+                margin-bottom: 20px; 
+            }
+            .action-btn { width: 45%; }
 
             .page {
                 width: 100%; min-width: 0; 
@@ -217,33 +239,30 @@
                 overflow: hidden; 
             }
             
-            /* --- FIXED: MERGING CARD LOGIC --- */
-            /* 1. The Title Row (Top) */
+            /* --- MERGING COURSES TITLE WITH INPUTS --- */
             tr.title-row-mobile {
                 margin-bottom: 0 !important; 
                 border-bottom: none !important; 
                 border-radius: 5px 5px 0 0 !important; 
                 padding-bottom: 0 !important; 
             }
-            /* 2. The Middle Row (Courses 1 & 2) */
             tr.courses-row-middle {
                 margin-top: 0 !important; 
-                margin-bottom: 0 !important; /* No gap below */
+                margin-bottom: 0 !important; 
                 border-top: none !important; 
-                border-bottom: none !important; /* No border below */
+                border-bottom: none !important; 
                 border-radius: 0 !important; 
                 padding-top: 5px !important;
                 padding-bottom: 5px !important;
             }
-            /* 3. The Last Row (Courses 3 & 4) */
             tr.courses-row-last {
-                margin-top: 0 !important; /* No gap above */
+                margin-top: 0 !important; 
                 border-top: none !important; 
-                border-radius: 0 0 5px 5px !important; /* Round bottom only */
+                border-radius: 0 0 5px 5px !important; 
                 margin-bottom: 12px !important;
             }
 
-            /* Gray Header Full Width */
+            /* GRAY HEADER FULL WIDTH */
             .sub-header {
                 width: calc(100% + 20px) !important; 
                 margin: -10px -10px 0px -10px !important; 
@@ -313,7 +332,7 @@
         /* --- PRINT STYLES --- */
         @media print {
             body { background-color: white; margin: 0; padding: 0; }
-            .print-btn { display: none !important; }
+            .btn-container { display: none !important; }
             
             .page { 
                 width: 100%; 
@@ -369,8 +388,13 @@
 </head>
 <body>
 
-    <button class="print-btn" onclick="window.print()">طباعة النموذج (Print)</button>
+    <div class="btn-container">
+        <button class="action-btn" onclick="window.print()">طباعة (Print)</button>
+        <button class="action-btn submit-btn" id="submit-btn">إرسال (Submit)</button>
+    </div>
 
+    <form id="submit-to-google-sheet">
+    
     <div class="page">
         <div class="watermark">AQWASE</div>
 
@@ -382,15 +406,15 @@
                 <div class="header-inputs">
                     <div class="header-input-group">
                         <span>Date:</span>
-                        <input type="date" style="width: 110px;">
+                        <input type="date" name="date" style="width: 110px;">
                     </div>
                     <div class="header-input-group">
                         <span>Position:</span>
-                        <input type="text" style="width: 120px;" placeholder="Manager">
+                        <input type="text" name="position" style="width: 120px;" placeholder="Manager">
                     </div>
                     <div class="header-input-group">
                         <span>RN:</span>
-                        <input type="text" style="width: 50px;" placeholder="001">
+                        <input type="text" name="rn" style="width: 50px;" placeholder="001">
                     </div>
                 </div>
             </div>
@@ -407,20 +431,20 @@
         <table>
             <tr>
                 <td class="label-ar">الاسم الكامل</td>
-                <td class="input-cell" colspan="4" data-label="الاسم الكامل / Full Name"><input type="text" placeholder="الاسم الرباعي / Full Name"></td>
+                <td class="input-cell" colspan="4" data-label="الاسم الكامل / Full Name"><input type="text" name="full_name" placeholder="الاسم الرباعي / Full Name"></td>
                 <td class="label-en">Full Name</td>
             </tr>
             <tr>
                 <td class="label-ar">الجنسية</td>
-                <td class="input-cell" colspan="4" data-label="الجنسية / Nationality"><input type="text" placeholder="سعودي / Saudi"></td>
+                <td class="input-cell" colspan="4" data-label="الجنسية / Nationality"><input type="text" name="nationality" placeholder="سعودي / Saudi"></td>
                 <td class="label-en">Nationality</td>
             </tr>
             <tr>
                 <td class="label-ar">رقم الهوية</td>
                 <td class="input-cell" colspan="4" style="padding: 0 !important;" data-label="رقم الهوية / ID Info">
                     <div class="id-container" style="display: flex; height: 100%;">
-                        <input type="text" placeholder="رقم الهوية / ID Number" style="width: 60%; border-right: 1px dashed #ccc;">
-                        <input type="text" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 40%;">
+                        <input type="text" name="id_number" placeholder="رقم الهوية / ID Number" style="width: 60%; border-right: 1px dashed #ccc;">
+                        <input type="text" name="id_expiry" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 40%;">
                     </div>
                 </td>
                 <td class="label-en">ID/Iqama No</td>
@@ -429,8 +453,8 @@
                 <td class="label-ar">جواز السفر</td>
                 <td class="input-cell" colspan="4" style="padding: 0 !important;" data-label="جواز السفر / Passport Info">
                     <div class="id-container" style="display: flex; height: 100%;">
-                        <input type="text" placeholder="رقم الجواز / Passport No." style="width: 60%; border-right: 1px dashed #ccc;">
-                        <input type="text" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 40%;">
+                        <input type="text" name="passport_number" placeholder="رقم الجواز / Passport No." style="width: 60%; border-right: 1px dashed #ccc;">
+                        <input type="text" name="passport_expiry" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 40%;">
                     </div>
                 </td>
                 <td class="label-en">Passport No.</td>
@@ -439,30 +463,30 @@
                 <td class="label-ar">الحالة الاجتماعية</td>
                 <td class="input-cell" colspan="4" data-label="الحالة الاجتماعية / Marital Status" style="padding: 0 !important;">
                     <div class="radio-group">
-                        <label><input type="radio" name="marital" value="single"> أعزب / Single</label>
-                        <label><input type="radio" name="marital" value="married"> متزوج / Married</label>
+                        <label><input type="radio" name="marital_status" value="single"> أعزب / Single</label>
+                        <label><input type="radio" name="marital_status" value="married"> متزوج / Married</label>
                     </div>
                 </td>
                 <td class="label-en">Marital status</td>
             </tr>
             <tr>
                 <td class="label-ar">تاريخ الميلاد</td>
-                <td class="input-cell" colspan="4" data-label="تاريخ الميلاد / DOB"><input type="date"></td>
+                <td class="input-cell" colspan="4" data-label="تاريخ الميلاد / DOB"><input type="date" name="dob"></td>
                 <td class="label-en">Date of Birth</td>
             </tr>
             <tr>
                 <td class="label-ar">الجنس</td>
-                <td class="input-cell" colspan="4" data-label="الجنس / Gender"><input type="text" placeholder="ذكر / Male"></td>
+                <td class="input-cell" colspan="4" data-label="الجنس / Gender"><input type="text" name="gender" placeholder="ذكر / Male"></td>
                 <td class="label-en">Gender</td>
             </tr>
             <tr>
                 <td class="label-ar">رقم الجوال</td>
-                <td class="input-cell" colspan="4" data-label="رقم الجوال / Mobile"><input type="text" placeholder="05xxxxxxxx"></td>
+                <td class="input-cell" colspan="4" data-label="رقم الجوال / Mobile"><input type="text" name="mobile" placeholder="05xxxxxxxx"></td>
                 <td class="label-en">Mobile No.</td>
             </tr>
             <tr>
                 <td class="label-ar">البريد الالكتروني</td>
-                <td class="input-cell" colspan="4" data-label="البريد / Email"><input type="email" placeholder="email@example.com"></td>
+                <td class="input-cell" colspan="4" data-label="البريد / Email"><input type="email" name="email" placeholder="email@example.com"></td>
                 <td class="label-en">Email</td>
             </tr>
         </table>
@@ -474,11 +498,11 @@
         <table>
             <tr>
                 <td class="label-dual">المدينة<br>City</td>
-                <td class="input-cell-3col" data-label="المدينة / City"><input type="text" placeholder="Ex: Riyadh"></td>
+                <td class="input-cell-3col" data-label="المدينة / City"><input type="text" name="city" placeholder="Ex: Riyadh"></td>
                 <td class="label-dual">الحي<br>District</td>
-                <td class="input-cell-3col" data-label="الحي / District"><input type="text" placeholder="Ex: Al Olaya"></td>
+                <td class="input-cell-3col" data-label="الحي / District"><input type="text" name="district" placeholder="Ex: Al Olaya"></td>
                 <td class="label-dual">العنوان المختصر<br>Short Address</td>
-                <td class="input-cell-3col" data-label="العنوان المختصر / Address"><input type="text" placeholder="Ex: JBL1234"></td>
+                <td class="input-cell-3col" data-label="العنوان المختصر / Address"><input type="text" name="short_address" placeholder="Ex: JBL1234"></td>
             </tr>
         </table>
 
@@ -489,24 +513,24 @@
         <table>
             <tr>
                 <td class="label-dual">المؤهل الأعلى<br>Highest Qual.</td>
-                <td class="input-cell-3col" colspan="2" data-label="المؤهل / Qualification"><input type="text" placeholder="Bachelor / Master"></td>
+                <td class="input-cell-3col" colspan="2" data-label="المؤهل / Qualification"><input type="text" name="qualification" placeholder="Bachelor / Master"></td>
                 <td class="label-dual">تاريخ التخرج<br>Grad. Date</td>
-                <td class="input-cell-3col" colspan="2" data-label="تاريخ التخرج / Grad. Date"><input type="text" placeholder="YYYY / MM"></td>
+                <td class="input-cell-3col" colspan="2" data-label="تاريخ التخرج / Grad. Date"><input type="text" name="grad_date" placeholder="YYYY / MM"></td>
             </tr>
             <tr class="title-row-mobile">
                 <td colspan="6" class="sub-header">الدورات والشهادات / Courses and Certifications</td>
             </tr>
             <tr class="courses-row-middle">
                 <td class="label-number">1</td>
-                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 1 / Course 1"><input type="text" placeholder="Course Name"></td>
+                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 1 / Course 1"><input type="text" name="course_1" placeholder="Course Name"></td>
                 <td class="label-number">2</td>
-                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 2 / Course 2"><input type="text" placeholder="Course Name"></td>
+                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 2 / Course 2"><input type="text" name="course_2" placeholder="Course Name"></td>
             </tr>
             <tr class="courses-row-last">
                 <td class="label-number">3</td>
-                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 3 / Course 3"><input type="text" placeholder="Course Name"></td>
+                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 3 / Course 3"><input type="text" name="course_3" placeholder="Course Name"></td>
                 <td class="label-number">4</td>
-                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 4 / Course 4"><input type="text" placeholder="Course Name"></td>
+                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 4 / Course 4"><input type="text" name="course_4" placeholder="Course Name"></td>
             </tr>
         </table>
 
@@ -516,7 +540,7 @@
         <table>
             <tr>
                 <td class="input-cell" style="padding: 0; width: 100%;" data-label="المهارات التقنية / Tech Skills">
-                    <input type="text" placeholder="أذكر المهارات التقنية والبرامج التي تجيدها / List Technical Skills & Software">
+                    <input type="text" name="tech_skills" placeholder="أذكر المهارات التقنية والبرامج التي تجيدها / List Technical Skills & Software">
                 </td>
             </tr>
         </table>
@@ -534,25 +558,25 @@
                 <td class="work-header-cell" style="width: 31%;">سبب ترك العمل<br>Reason for Leaving</td>
             </tr>
             <tr>
-                <td style="padding:0;" data-label="الشركة / Company"><input type="text" placeholder="Company"></td>
-                <td style="padding:0;" data-label="المسمى / Title"><input type="text" placeholder="Title"></td>
-                <td style="padding:0;" data-label="من / From"><input type="date"></td>
-                <td style="padding:0;" data-label="إلى / To"><input type="date"></td>
-                <td style="padding:0;" data-label="السبب / Reason"><input type="text" placeholder="Reason"></td>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_1" placeholder="Company"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_1" placeholder="Title"></td>
+                <td style="padding:0;" data-label="من / From"><input type="date" name="from_1"></td>
+                <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_1"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_1" placeholder="Reason"></td>
             </tr>
             <tr>
-                <td style="padding:0;" data-label="الشركة / Company"><input type="text" placeholder="Company"></td>
-                <td style="padding:0;" data-label="المسمى / Title"><input type="text" placeholder="Title"></td>
-                <td style="padding:0;" data-label="من / From"><input type="date"></td>
-                <td style="padding:0;" data-label="إلى / To"><input type="date"></td>
-                <td style="padding:0;" data-label="السبب / Reason"><input type="text" placeholder="Reason"></td>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_2" placeholder="Company"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_2" placeholder="Title"></td>
+                <td style="padding:0;" data-label="من / From"><input type="date" name="from_2"></td>
+                <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_2"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_2" placeholder="Reason"></td>
             </tr>
             <tr>
-                <td style="padding:0;" data-label="الشركة / Company"><input type="text" placeholder="Company"></td>
-                <td style="padding:0;" data-label="المسمى / Title"><input type="text" placeholder="Title"></td>
-                <td style="padding:0;" data-label="من / From"><input type="date"></td>
-                <td style="padding:0;" data-label="إلى / To"><input type="date"></td>
-                <td style="padding:0;" data-label="السبب / Reason"><input type="text" placeholder="Reason"></td>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_3" placeholder="Company"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_3" placeholder="Title"></td>
+                <td style="padding:0;" data-label="من / From"><input type="date" name="from_3"></td>
+                <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_3"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_3" placeholder="Reason"></td>
             </tr>
         </table>
 
@@ -583,11 +607,11 @@
                 <td style="text-align: center;" data-label="ضعيف / Weak"><input type="radio" name="lang_en" value="weak"></td>
             </tr>
             <tr>
-                <td style="padding: 0;" data-label="أخرى / Other"><input type="text" placeholder="أخرى / Other"></td>
-                <td style="text-align: center;" data-label="ممتاز / Exc"><input type="radio" name="lang_other" value="excellent"></td>
-                <td style="text-align: center;" data-label="جيد جدا / V.Good"><input type="radio" name="lang_other" value="vgood"></td>
-                <td style="text-align: center;" data-label="جيد / Good"><input type="radio" name="lang_other" value="good"></td>
-                <td style="text-align: center;" data-label="ضعيف / Weak"><input type="radio" name="lang_other" value="weak"></td>
+                <td style="padding: 0;" data-label="أخرى / Other"><input type="text" name="lang_other_name" placeholder="أخرى / Other"></td>
+                <td style="text-align: center;" data-label="ممتاز / Exc"><input type="radio" name="lang_other_level" value="excellent"></td>
+                <td style="text-align: center;" data-label="جيد جدا / V.Good"><input type="radio" name="lang_other_level" value="vgood"></td>
+                <td style="text-align: center;" data-label="جيد / Good"><input type="radio" name="lang_other_level" value="good"></td>
+                <td style="text-align: center;" data-label="ضعيف / Weak"><input type="radio" name="lang_other_level" value="weak"></td>
             </tr>
         </table>
 
@@ -602,14 +626,14 @@
                 <td class="work-header-cell" style="width: 30%;">صلة القرابة<br>Relationship</td>
             </tr>
             <tr>
-                <td style="padding:0;" data-label="الاسم / Name"><input type="text" placeholder="Full Name"></td>
-                <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" placeholder="05xxxxxxxx"></td>
-                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" placeholder="Relation"></td>
+                <td style="padding:0;" data-label="الاسم / Name"><input type="text" name="ref_name_1" placeholder="Full Name"></td>
+                <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" name="ref_mobile_1" placeholder="05xxxxxxxx"></td>
+                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" name="ref_rel_1" placeholder="Relation"></td>
             </tr>
             <tr>
-                <td style="padding:0;" data-label="الاسم / Name"><input type="text" placeholder="Full Name"></td>
-                <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" placeholder="05xxxxxxxx"></td>
-                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" placeholder="Relation"></td>
+                <td style="padding:0;" data-label="الاسم / Name"><input type="text" name="ref_name_2" placeholder="Full Name"></td>
+                <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" name="ref_mobile_2" placeholder="05xxxxxxxx"></td>
+                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" name="ref_rel_2" placeholder="Relation"></td>
             </tr>
         </table>
 
@@ -643,6 +667,41 @@
         </div>
 
     </div>
+    
+    </form>
+    <script>
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbw4K1Uvw9XwM3HqXgca5eXm58EEpREYrn9aVXSp8fjh9gphmYdXlGmjGncPPkKAZTy9/exec'; // <--- PUT YOUR GOOGLE APPS SCRIPT URL HERE
+      const form = document.forms['submit-to-google-sheet'];
+      const submitBtn = document.getElementById('submit-btn');
+
+      submitBtn.addEventListener('click', e => {
+        e.preventDefault();
+        
+        // Basic validation check
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+        
+        submitBtn.innerText = "Sending...";
+        submitBtn.disabled = true;
+        submitBtn.style.backgroundColor = "#ccc";
+        
+        fetch(scriptURL, { method: 'POST', body: formData})
+          .then(response => {
+              alert('Success! Your application has been sent.');
+              form.reset(); // RESET FORM INPUTS
+              submitBtn.innerText = "إرسال (Submit)"; // RESET BUTTON TEXT
+              submitBtn.disabled = false; // ENABLE BUTTON
+              submitBtn.style.backgroundColor = "#28a745"; // RESET BUTTON COLOR
+          })
+          .catch(error => {
+              alert('Error! Please try again.');
+              console.error('Error!', error.message);
+              submitBtn.innerText = "Try Again";
+              submitBtn.disabled = false;
+              submitBtn.style.backgroundColor = "#dc3545";
+          });
+      });
+    </script>
 
 </body>
 </html>
