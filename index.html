@@ -10,13 +10,13 @@
         :root {
             --tab-bg: #bfbfbf;
             --tab-text: #8b6c4e;
-            --input-bg-screen: #f0f8ff; /* Light Blue */
+            --input-bg-screen: #f0f8ff; 
             --input-border-screen: 1px solid #ccc;
         }
 
         * {
             box-sizing: border-box;
-            -webkit-print-color-adjust: exact; /* Standard fix for Chrome printing */
+            -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
 
@@ -43,7 +43,7 @@
             flex-direction: column;
         }
 
-        /* DEFAULT INPUT STYLE (Desktop) */
+        /* DEFAULT INPUT STYLE */
         input[type="text"], input[type="date"], input[type="email"] {
             width: 100%;
             height: 100%;
@@ -54,7 +54,7 @@
             font-weight: bold;
             color: #000;
             outline: none;
-            text-align: center; /* Centered Text */
+            text-align: center; /* Center text inside inputs */
             padding: 0 5px;
             border-radius: 2px;
         }
@@ -86,12 +86,17 @@
         .logo { width: 120px; text-align: left; direction: ltr; }
         .logo img { max-width: 100%; height: auto; max-height: 55px; }
 
+        /* --- UPDATED: BIGGER SECTION TABS --- */
         .section-tab {
             background-color: var(--tab-bg); color: var(--tab-text);
-            padding: 2px 6px; font-weight: bold; font-size: 10px;
+            padding: 4px 8px; /* Increased padding */
+            font-weight: bold; 
+            font-size: 11.5px; /* Increased Font Size */
             display: flex; justify-content: space-between; align-items: center;
-            border-radius: 4px 4px 0 0; margin-top: 5px;
-            border: 1px solid #999; border-bottom: none; height: 20px;
+            border-radius: 4px 4px 0 0; margin-top: 8px; /* Slightly more space above */
+            border: 1px solid #999; border-bottom: none; 
+            height: auto; /* Allow height to adjust to text/padding */
+            min-height: 24px;
         }
 
         table {
@@ -99,25 +104,29 @@
             position: relative; z-index: 1; table-layout: fixed; border: 1px solid #999;
         }
 
-        th, td { border: 1px solid #ccc; padding: 1px 4px; vertical-align: middle; height: 22px; }
+        th, td { border: 1px solid #ccc; padding: 1px 4px; vertical-align: middle; height: 24px; }
 
-        .label-ar, .label-en { width: 15%; background-color: #f9f9f9; font-weight: bold; }
+        .label-ar, .label-en { width: 15%; background-color: #f9f9f9; font-weight: bold; vertical-align: middle; }
         .label-en { text-align: left; direction: ltr; }
         .label-ar { text-align: right; }
-        .label-dual { background-color: #f9f9f9; font-weight: bold; text-align: center; font-size: 8.5px; width: 13%; line-height: 1.1; }
-        .label-number { background-color: #f9f9f9; font-weight: bold; text-align: center; width: 20px; }
+        .label-dual { background-color: #f9f9f9; font-weight: bold; text-align: center; font-size: 8.5px; width: 13%; line-height: 1.1; vertical-align: middle; }
+        .label-number { background-color: #f9f9f9; font-weight: bold; text-align: center; width: 20px; vertical-align: middle; }
         
-        /* HEADER CELLS (Tables 5, 6, 7) */
+        /* --- UPDATED: TABLE HEADERS VERTICAL CENTER --- */
         .work-header-cell { 
             background-color: #f9f9f9; 
             font-weight: bold; 
             text-align: center; 
-            font-size: 8.5px; 
-            line-height: 1.1;
+            font-size: 9px; 
+            line-height: 1.2;
+            vertical-align: middle !important; /* Force Vertical Center */
+            height: 30px; /* Give it enough height to center properly */
+            padding-top: 2px;
+            padding-bottom: 2px;
         }
         
-        .lang-label { background-color: #f9f9f9; font-weight: bold; font-size: 9px; padding-right: 5px; }
-        .sub-header { background-color: #e0e0e0; text-align: center; font-weight: bold; padding: 2px; font-size: 9px; }
+        .lang-label { background-color: #f9f9f9; font-weight: bold; font-size: 9px; padding-right: 5px; vertical-align: middle; }
+        .sub-header { background-color: #e0e0e0; text-align: center; font-weight: bold; padding: 2px; font-size: 9px; vertical-align: middle; }
 
         .input-cell-3col { width: 20.33%; background: #fff; padding: 0 !important; }
         .input-cell { width: 55%; background: #fff; padding: 0 !important; }
@@ -157,25 +166,39 @@
             .logo { width: 100%; text-align: center; }
 
             table, tbody, th, td, tr { display: block; width: 100%; }
-            tr { margin-bottom: 10px; border: 1px solid #ccc; background: #fff; padding: 5px; border-radius: 5px; }
+            tr { margin-bottom: 10px; border: 1px solid #ccc; background: #fff; padding: 8px; border-radius: 5px; }
             td { text-align: right; border: none; padding: 5px 0; height: auto; position: relative; }
             
             .header-row, .label-number { display: none; }
             
+            /* --- UPDATED: MOBILE LABELS CENTERED --- */
             td[data-label]::before {
-                content: attr(data-label); display: block; width: 100%;
-                font-weight: bold; font-size: 11px; color: #8b6c4e; margin-bottom: 3px;
+                content: attr(data-label); 
+                display: block; 
+                width: 100%;
+                font-weight: bold; 
+                font-size: 12px; 
+                color: #8b6c4e; 
+                margin-bottom: 5px;
+                text-align: center; /* LABELS CENTERED */
             }
 
-            /* --- FIX: MOBILE INPUTS ARE NOW BLUE AND CENTERED --- */
+            /* --- UPDATED: MOBILE INPUTS CENTERED & BLUE --- */
             input[type="text"], input[type="date"], input[type="email"] {
-                height: 35px; 
+                height: 40px; /* Slightly taller for touch */
                 border: 1px solid #ccc; 
                 background-color: var(--input-bg-screen); /* BLUE */
                 text-align: center; /* CENTERED */
                 width: 100%;
+                font-size: 14px;
             }
             
+            /* Fix ID/Passport Flex Container on Mobile */
+            .id-container {
+                display: flex !important;
+                gap: 5px;
+            }
+
             .declaration-box { flex-direction: column; }
             .declaration-ar, .declaration-en { width: 100%; border: none; margin-bottom: 10px; }
             .mgmt-row { flex-direction: column; gap: 20px; }
@@ -199,19 +222,20 @@
             /* Reset Table Layout */
             table { display: table; width: 100% !important; table-layout: fixed; }
             tr { display: table-row; margin: 0; border: none; background: transparent; }
-            td { display: table-cell; border: 1px solid #ccc; padding: 1px 4px; height: 19px; width: auto; }
+            td { display: table-cell; border: 1px solid #ccc; padding: 1px 4px; height: 24px; width: auto; }
             td[data-label]::before { display: none; } 
             
-            /* --- FIX: HEADERS PRINT CORRECTLY --- */
+            /* Fix Headers Print */
             .header-row { display: table-row !important; }
             .work-header-cell {
                 display: table-cell !important;
-                background-color: #f9f9f9 !important; /* Force Gray */
+                background-color: #f9f9f9 !important; 
                 color: #000 !important;
-                -webkit-print-color-adjust: exact; /* Crucial for Chrome/Edge */
+                -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
                 font-weight: bold;
                 text-align: center;
+                vertical-align: middle !important; /* Ensure vertical center in print */
             }
             
             .label-number, .label-ar, .label-en, .label-dual { 
@@ -219,6 +243,7 @@
                 background-color: #f9f9f9 !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
+                vertical-align: middle !important;
             }
         }
     </style>
@@ -257,7 +282,7 @@
         </header>
 
         <div class="section-tab">
-            <div>المعلومات الشخصية <span style="font-weight: normal; font-size: 9px;">(Personal Details)</span></div>
+            <div>المعلومات الشخصية <span style="font-weight: normal; font-size: 10px;">(Personal Details)</span></div>
         </div>
 
         <table>
@@ -274,7 +299,7 @@
             <tr>
                 <td class="label-ar">رقم الهوية</td>
                 <td class="input-cell" colspan="4" style="padding: 0 !important;" data-label="رقم الهوية / ID Info">
-                    <div style="display: flex; height: 100%;">
+                    <div class="id-container" style="display: flex; height: 100%;">
                         <input type="text" placeholder="رقم الهوية / ID Number" style="width: 60%; border-right: 1px dashed #ccc;">
                         <input type="text" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 40%;">
                     </div>
@@ -284,7 +309,7 @@
             <tr>
                 <td class="label-ar">جواز السفر</td>
                 <td class="input-cell" colspan="4" style="padding: 0 !important;" data-label="جواز السفر / Passport Info">
-                    <div style="display: flex; height: 100%;">
+                    <div class="id-container" style="display: flex; height: 100%;">
                         <input type="text" placeholder="رقم الجواز / Passport No." style="width: 60%; border-right: 1px dashed #ccc;">
                         <input type="text" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 40%;">
                     </div>
@@ -319,7 +344,7 @@
         </table>
 
         <div class="section-tab">
-            <div>معلومات السكن <span style="font-weight: normal; font-size: 9px;">(Address Details)</span></div>
+            <div>معلومات السكن <span style="font-weight: normal; font-size: 10px;">(Address Details)</span></div>
         </div>
 
         <table>
@@ -334,7 +359,7 @@
         </table>
 
         <div class="section-tab">
-            <div>المؤهل العلمي <span style="font-weight: normal; font-size: 9px;">(Education Level)</span></div>
+            <div>المؤهل العلمي <span style="font-weight: normal; font-size: 10px;">(Education Level)</span></div>
         </div>
 
         <table>
@@ -362,7 +387,7 @@
         </table>
 
         <div class="section-tab">
-            <div>المهارات التقنية <span style="font-weight: normal; font-size: 9px;">(Technical Skills)</span></div>
+            <div>المهارات التقنية <span style="font-weight: normal; font-size: 10px;">(Technical Skills)</span></div>
         </div>
         <table>
             <tr>
@@ -373,7 +398,7 @@
         </table>
 
         <div class="section-tab">
-            <div>الخبرات العملية <span style="font-weight: normal; font-size: 9px;">(Work Experience)</span></div>
+            <div>الخبرات العملية <span style="font-weight: normal; font-size: 10px;">(Work Experience)</span></div>
         </div>
 
         <table>
@@ -408,7 +433,7 @@
         </table>
 
         <div class="section-tab">
-            <div>المهارات اللغوية <span style="font-weight: normal; font-size: 9px;">(Language Skills)</span></div>
+            <div>المهارات اللغوية <span style="font-weight: normal; font-size: 10px;">(Language Skills)</span></div>
         </div>
 
         <table class="lang-table">
@@ -443,7 +468,7 @@
         </table>
 
         <div class="section-tab">
-            <div>المعرفون <span style="font-weight: normal; font-size: 9px;">(References)</span></div>
+            <div>المعرفون <span style="font-weight: normal; font-size: 10px;">(References)</span></div>
         </div>
 
         <table>
