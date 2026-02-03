@@ -86,7 +86,7 @@
         .logo { width: 120px; text-align: left; direction: ltr; }
         .logo img { max-width: 100%; height: auto; max-height: 55px; }
 
-        /* --- SECTION TABS --- */
+        /* --- SECTION TABS (Big Text) --- */
         .section-tab {
             background-color: var(--tab-bg); color: var(--tab-text);
             padding: 6px 10px;
@@ -105,6 +105,7 @@
 
         th, td { border: 1px solid #ccc; padding: 1px 4px; vertical-align: middle; height: 24px; }
 
+        /* Desktop specific widths */
         .label-ar, .label-en { width: 15%; background-color: #f9f9f9; font-weight: bold; vertical-align: middle; }
         .label-en { text-align: left; direction: ltr; }
         .label-ar { text-align: right; }
@@ -126,6 +127,7 @@
         .lang-label { background-color: #f9f9f9; font-weight: bold; font-size: 9px; padding-right: 5px; vertical-align: middle; }
         .sub-header { background-color: #e0e0e0; text-align: center; font-weight: bold; padding: 2px; font-size: 9px; vertical-align: middle; }
 
+        /* These cause the issue on mobile if not overridden */
         .input-cell-3col { width: 20.33%; background: #fff; padding: 0 !important; }
         .input-cell { width: 55%; background: #fff; padding: 0 !important; }
 
@@ -147,7 +149,7 @@
             z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
-        /* --- PHONE ONLY (The Fixes) --- */
+        /* --- PHONE ONLY --- */
         @media screen and (max-width: 768px) and (hover: none) and (pointer: coarse) {
             body { padding: 10px; background: #e0e0e0; height: auto; }
             .watermark { display: none; }
@@ -166,9 +168,14 @@
             table, tbody, th, td, tr { display: block; width: 100%; }
             tr { margin-bottom: 12px; border: 1px solid #ccc; background: #fff; padding: 10px; border-radius: 5px; }
             
-            /* --- FIXED: Centered Alignment on Mobile --- */
+            /* --- FIXED: FORCE 100% WIDTH ON TABLE 1 & 2 CELLS --- */
+            .input-cell, .input-cell-3col {
+                width: 100% !important;
+            }
+
+            /* --- FIXED: Centered Alignment --- */
             td { 
-                text-align: center; /* Forces everything to center */
+                text-align: center !important; /* Force Center */
                 border: none; 
                 padding: 5px 0; 
                 height: auto; 
@@ -187,7 +194,7 @@
                 color: #8b6c4e; 
                 margin-bottom: 4px; 
                 margin-top: 4px;    
-                text-align: center; /* CENTERED */
+                text-align: center !important; /* Force Center */
                 line-height: 1.4;
             }
 
@@ -199,16 +206,14 @@
                 text-align: center;
                 width: 100% !important; 
                 font-size: 11px; 
-                margin: 0 auto; /* Ensures block centering */
             }
             
-            /* --- FIXED: ID & PASSPORT FULL WIDTH --- */
+            /* --- FIXED: ID & PASSPORT Stacked --- */
             .id-container {
                 display: flex !important;
                 flex-direction: column; 
                 gap: 8px;
                 width: 100%;
-                align-items: center; /* Center children */
             }
             .id-container input {
                 width: 100% !important; 
@@ -236,7 +241,7 @@
             
             table { display: table; width: 100% !important; table-layout: fixed; }
             tr { display: table-row; margin: 0; border: none; background: transparent; }
-            td { display: table-cell; border: 1px solid #ccc; padding: 1px 4px; height: 24px; width: auto; text-align: right; } /* Reset to right for print */
+            td { display: table-cell; border: 1px solid #ccc; padding: 1px 4px; height: 24px; width: auto; text-align: right; }
             td[data-label]::before { display: none; } 
             
             .header-row { display: table-row !important; }
