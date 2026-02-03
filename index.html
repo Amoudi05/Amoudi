@@ -76,7 +76,7 @@
             font-weight: bold;
             color: #000;
             outline: none;
-            text-align: center; /* Text in Center as requested */
+            text-align: center; 
             padding: 0 5px;
             border-radius: 2px;
             display: inline-block;
@@ -174,7 +174,6 @@
             z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
         
-        /* Radio Button Styling */
         .radio-group {
             display: flex;
             justify-content: space-around;
@@ -207,16 +206,44 @@
             .logo { width: 100px; text-align: center; }
 
             table, tbody, th, td, tr { display: block; width: 100%; }
-            tr { margin-bottom: 12px; border: 1px solid #ccc; background: #fff; padding: 10px; border-radius: 5px; overflow: hidden; }
             
-            /* --- FIXED: FORCE GRAY HEADER FULL WIDTH --- */
+            /* Default Mobile Card Style */
+            tr { 
+                margin-bottom: 12px; 
+                border: 1px solid #ccc; 
+                background: #fff; 
+                padding: 10px; 
+                border-radius: 5px; 
+                overflow: hidden; 
+            }
+            
+            /* --- FIXED: MERGING COURSES TITLE WITH INPUTS --- */
+            /* The row containing the gray header */
+            tr.title-row-mobile {
+                margin-bottom: 0 !important; /* Remove gap below */
+                border-bottom: none !important; /* Remove border below */
+                border-radius: 5px 5px 0 0 !important; /* Round top only */
+                padding-bottom: 0 !important; /* Reduce padding */
+            }
+            /* The rows containing the courses inputs */
+            tr.courses-row-mobile {
+                margin-top: 0 !important; /* Remove gap above */
+                border-top: none !important; /* Remove border above */
+                border-radius: 0 !important; /* Square corners */
+                padding-top: 5px !important;
+            }
+            tr.courses-row-last {
+                border-radius: 0 0 5px 5px !important; /* Round bottom only for last row */
+                margin-bottom: 12px !important;
+            }
+
+            /* --- FIXED: GRAY HEADER FULL WIDTH --- */
             .sub-header {
-                width: calc(100% + 20px) !important; /* Stretch wider than parent padding */
-                margin: -10px -10px 10px -10px; /* Negative margin to pull to edges */
+                width: calc(100% + 20px) !important; /* WIDER than the card padding */
+                margin: -10px -10px 0px -10px !important; /* Negative margin pulls it to edge */
                 display: block;
-                padding: 10px;
+                padding: 12px !important;
                 background-color: #e0e0e0;
-                border-radius: 0;
             }
 
             .input-cell, .input-cell-3col { width: 100% !important; }
@@ -243,17 +270,15 @@
                 line-height: 1.4;
             }
 
-            /* Inputs Centered & Sized */
             input[type="text"], input[type="date"], input[type="email"] {
                 height: 40px; 
                 border: 1px solid #ccc; 
                 background-color: var(--input-bg-screen);
-                text-align: center !important; /* CENTERED */
+                text-align: center !important;
                 width: 100% !important; 
                 font-size: 11px; 
             }
             
-            /* ID & PASSPORT Stacked */
             .id-container {
                 display: flex !important;
                 flex-direction: column; 
@@ -265,7 +290,6 @@
                 border-right: 1px solid #ccc !important;
             }
             
-            /* Radio Group Mobile */
             .radio-group {
                 background-color: var(--input-bg-screen);
                 border: 1px solid #ccc;
@@ -299,8 +323,6 @@
                 padding: 0 !important; color: #000 !important; font-size: 9px !important; text-align: center !important;
             }
             input::placeholder { color: transparent; }
-            
-            /* Ensure Date text prints centered */
             input[type="date"] { text-align: center !important; }
 
             table { display: table; width: 100% !important; table-layout: fixed; }
@@ -327,7 +349,6 @@
                 vertical-align: middle !important;
             }
             
-            /* Hide Radios background on print but keep check */
             .radio-group { background: transparent; border: none; justify-content: center; gap: 20px; }
         }
     </style>
@@ -458,16 +479,16 @@
                 <td class="label-dual">تاريخ التخرج<br>Grad. Date</td>
                 <td class="input-cell-3col" colspan="2" data-label="تاريخ التخرج / Grad. Date"><input type="text" placeholder="YYYY / MM"></td>
             </tr>
-            <tr>
+            <tr class="title-row-mobile">
                 <td colspan="6" class="sub-header">الدورات والشهادات / Courses and Certifications</td>
             </tr>
-            <tr>
+            <tr class="courses-row-mobile">
                 <td class="label-number">1</td>
                 <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 1 / Course 1"><input type="text" placeholder="Course Name"></td>
                 <td class="label-number">2</td>
                 <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 2 / Course 2"><input type="text" placeholder="Course Name"></td>
             </tr>
-            <tr>
+            <tr class="courses-row-mobile courses-row-last">
                 <td class="label-number">3</td>
                 <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 3 / Course 3"><input type="text" placeholder="Course Name"></td>
                 <td class="label-number">4</td>
