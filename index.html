@@ -10,13 +10,14 @@
         :root {
             --tab-bg: #bfbfbf;
             --tab-text: #8b6c4e;
-            --input-bg-screen: #f0f8ff; 
+            --input-bg-screen: #f0f8ff; /* Light Blue */
             --input-border-screen: 1px solid #ccc;
         }
 
         * {
             box-sizing: border-box;
-            -webkit-print-color-adjust: exact;
+            -webkit-print-color-adjust: exact; /* Standard fix for Chrome printing */
+            print-color-adjust: exact;
         }
 
         body {
@@ -31,7 +32,7 @@
         .page {
             background: white;
             width: 210mm;
-            min-width: 210mm; /* Keeps it A4 on PC even when zooming */
+            min-width: 210mm;
             height: 297mm;
             margin: 0 auto;
             padding: 5mm 8mm; 
@@ -42,6 +43,7 @@
             flex-direction: column;
         }
 
+        /* DEFAULT INPUT STYLE (Desktop) */
         input[type="text"], input[type="date"], input[type="email"] {
             width: 100%;
             height: 100%;
@@ -52,7 +54,7 @@
             font-weight: bold;
             color: #000;
             outline: none;
-            text-align: center;
+            text-align: center; /* Centered Text */
             padding: 0 5px;
             border-radius: 2px;
         }
@@ -104,7 +106,16 @@
         .label-ar { text-align: right; }
         .label-dual { background-color: #f9f9f9; font-weight: bold; text-align: center; font-size: 8.5px; width: 13%; line-height: 1.1; }
         .label-number { background-color: #f9f9f9; font-weight: bold; text-align: center; width: 20px; }
-        .work-header-cell { background-color: #f9f9f9; font-weight: bold; text-align: center; font-size: 8.5px; line-height: 1.1; }
+        
+        /* HEADER CELLS (Tables 5, 6, 7) */
+        .work-header-cell { 
+            background-color: #f9f9f9; 
+            font-weight: bold; 
+            text-align: center; 
+            font-size: 8.5px; 
+            line-height: 1.1;
+        }
+        
         .lang-label { background-color: #f9f9f9; font-weight: bold; font-size: 9px; padding-right: 5px; }
         .sub-header { background-color: #e0e0e0; text-align: center; font-weight: bold; padding: 2px; font-size: 9px; }
 
@@ -130,49 +141,45 @@
         }
 
         /* --- PHONE ONLY (Touch Devices + Small Screen) --- */
-        /* This checks: Max width 768px AND No Hover (Touchscreen) */
         @media screen and (max-width: 768px) and (hover: none) and (pointer: coarse) {
             body { padding: 10px; background: #e0e0e0; height: auto; }
             .watermark { display: none; }
-            .print-btn { display: none; } /* Hide print button on mobile */
+            .print-btn { display: none; }
 
             .page {
-                width: 100%; min-width: 0; /* Allow shrinking on phone */
+                width: 100%; min-width: 0; 
                 height: auto; padding: 15px; border-radius: 8px;
             }
 
-            /* Stack Header */
             header { flex-direction: column-reverse; align-items: center; text-align: center; }
             .header-center { align-items: center; width: 100%; margin-top: 10px; }
             .header-inputs { flex-direction: column; width: 100%; }
             .logo { width: 100%; text-align: center; }
 
-            /* Card Style Tables */
             table, tbody, th, td, tr { display: block; width: 100%; }
             tr { margin-bottom: 10px; border: 1px solid #ccc; background: #fff; padding: 5px; border-radius: 5px; }
             td { text-align: right; border: none; padding: 5px 0; height: auto; position: relative; }
             
-            /* Hide Desktop Headers */
             .header-row, .label-number { display: none; }
             
-            /* Show Labels for Mobile */
             td[data-label]::before {
                 content: attr(data-label); display: block; width: 100%;
                 font-weight: bold; font-size: 11px; color: #8b6c4e; margin-bottom: 3px;
             }
 
-            /* Inputs on Mobile */
+            /* --- FIX: MOBILE INPUTS ARE NOW BLUE AND CENTERED --- */
             input[type="text"], input[type="date"], input[type="email"] {
-                height: 35px; border: 1px solid #ccc; background: #fff;
+                height: 35px; 
+                border: 1px solid #ccc; 
+                background-color: var(--input-bg-screen); /* BLUE */
+                text-align: center; /* CENTERED */
+                width: 100%;
             }
             
-            /* Fix specific layout issues */
             .declaration-box { flex-direction: column; }
             .declaration-ar, .declaration-en { width: 100%; border: none; margin-bottom: 10px; }
             .mgmt-row { flex-direction: column; gap: 20px; }
             .mgmt-col { width: 100%; }
-            
-            /* Hide unwanted labels in mobile flow */
             .label-ar, .label-en, .label-dual { display: none; }
         }
 
@@ -189,12 +196,30 @@
             }
             input::placeholder { color: transparent; }
             
-            /* Force table layout back if printing from mobile */
-            table { display: table; }
+            /* Reset Table Layout */
+            table { display: table; width: 100% !important; table-layout: fixed; }
             tr { display: table-row; margin: 0; border: none; background: transparent; }
-            td { display: table-cell; border: 1px solid #ccc; padding: 1px 4px; height: 19px; }
-            td[data-label]::before { display: none; } /* Hide mobile labels */
-            .header-row, .label-number, .label-ar, .label-en, .label-dual { display: table-cell !important; }
+            td { display: table-cell; border: 1px solid #ccc; padding: 1px 4px; height: 19px; width: auto; }
+            td[data-label]::before { display: none; } 
+            
+            /* --- FIX: HEADERS PRINT CORRECTLY --- */
+            .header-row { display: table-row !important; }
+            .work-header-cell {
+                display: table-cell !important;
+                background-color: #f9f9f9 !important; /* Force Gray */
+                color: #000 !important;
+                -webkit-print-color-adjust: exact; /* Crucial for Chrome/Edge */
+                print-color-adjust: exact;
+                font-weight: bold;
+                text-align: center;
+            }
+            
+            .label-number, .label-ar, .label-en, .label-dual { 
+                display: table-cell !important; 
+                background-color: #f9f9f9 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
         }
     </style>
 </head>
