@@ -28,17 +28,13 @@
             color: #000;
         }
 
-        /* --- PRINT SETTINGS FOR A4 --- */
-        @page {
-            size: A4;
-            margin: 0;
-        }
-
         /* --- DESKTOP / A4 DEFAULT --- */
+        @page { size: A4; margin: 0; }
+
         .page {
             background: white;
             width: 210mm;
-            min-width: 210mm;
+            min-width: 210mm; /* Forces A4 width */
             min-height: 297mm;
             margin: 0 auto;
             padding: 10mm; 
@@ -51,63 +47,28 @@
 
         /* DEFAULT INPUT STYLE */
         input[type="text"], input[type="email"], select {
-            width: 100%;
-            height: 100%;
-            border: var(--input-border-screen);
+            width: 100%; height: 100%; border: var(--input-border-screen);
             background-color: var(--input-bg-screen);
-            font-family: 'Tajawal', sans-serif;
-            font-size: 10px;
-            font-weight: bold;
-            color: #000;
-            outline: none;
-            text-align: center;
-            padding: 0 2px;
-            border-radius: 2px;
+            font-family: 'Tajawal', sans-serif; font-size: 10px; font-weight: bold;
+            color: #000; outline: none; text-align: center; padding: 0 2px; border-radius: 2px;
         }
 
-        /* SELECT DROPDOWN SPECIFIC */
-        select {
-            -webkit-appearance: none;
-            appearance: none;
-            cursor: pointer;
-        }
+        select { -webkit-appearance: none; appearance: none; cursor: pointer; }
         
-        /* DATE INPUT FIX */
         input[type="date"] {
-            width: 100%;
-            height: 100%;
-            border: var(--input-border-screen);
+            width: 100%; height: 100%; border: var(--input-border-screen);
             background-color: var(--input-bg-screen);
-            font-family: 'Tajawal', sans-serif;
-            font-size: 10px;
-            font-weight: bold;
-            color: #000;
-            outline: none;
-            text-align: center; 
-            padding: 0 5px;
-            border-radius: 2px;
+            font-family: 'Tajawal', sans-serif; font-size: 10px; font-weight: bold;
+            color: #000; outline: none; text-align: center; padding: 0 5px; border-radius: 2px;
             display: inline-block;
         }
 
-        input::placeholder {
-            font-size: 8px;       
-            font-weight: normal;  
-            color: #666;          
-        }
-
-        /* READONLY INPUT STYLE (FOR RN) */
-        input[readonly] {
-            background-color: #e6e6e6 !important;
-            color: #555;
-            cursor: not-allowed;
-            letter-spacing: 0.5px; 
-        }
-
+        input::placeholder { font-size: 8px; font-weight: normal; color: #666; }
+        input[readonly] { background-color: #e6e6e6 !important; color: #555; cursor: not-allowed; }
         input:focus, select:focus { background-color: #e0efff; border-color: #8b6c4e; }
 
         .watermark {
-            position: absolute;
-            top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg);
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg);
             font-size: 80px; font-weight: bold; color: rgba(0, 0, 0, 0.03);
             z-index: 0; pointer-events: none; white-space: nowrap;
         }
@@ -132,48 +93,27 @@
 
         .section-tab {
             background-color: var(--tab-bg); color: var(--tab-text);
-            padding: 3px 6px;
-            font-weight: bold; 
-            font-size: 11px;
+            padding: 3px 6px; font-weight: bold; font-size: 11px;
             display: flex; justify-content: space-between; align-items: center;
-            border-radius: 3px 3px 0 0; margin-top: 4px;
-            border: 1px solid #999; border-bottom: none; 
-            height: auto;
+            border-radius: 3px 3px 0 0; margin-top: 4px; border: 1px solid #999; border-bottom: none; height: auto;
         }
 
-        table {
-            width: 100%; border-collapse: collapse; font-size: 9px;
-            position: relative; z-index: 1; table-layout: fixed; border: 1px solid #999;
-        }
-
-        th, td { 
-            border: 1px solid #ccc; 
-            padding: 0px 4px; 
-            vertical-align: middle; 
-            height: 21px; 
-        }
+        table { width: 100%; border-collapse: collapse; font-size: 9px; position: relative; z-index: 1; table-layout: fixed; border: 1px solid #999; }
+        th, td { border: 1px solid #ccc; padding: 0px 4px; vertical-align: middle; height: 21px; }
 
         .label-ar, .label-en { width: 15%; background-color: #f9f9f9; font-weight: bold; vertical-align: middle; }
         .label-en { text-align: left; direction: ltr; }
         .label-ar { text-align: right; }
         .label-dual { background-color: #f9f9f9; font-weight: bold; text-align: center; font-size: 8px; width: 13%; line-height: 1.1; vertical-align: middle; }
-        .label-number { background-color: #f9f9f9; font-weight: bold; text-align: center; width: 20px; vertical-align: middle; }
         
         .work-header-cell { 
-            background-color: #f9f9f9; 
-            font-weight: bold; 
-            text-align: center; 
-            font-size: 8.5px; 
-            line-height: 1.1;
-            vertical-align: middle !important;
-            height: 26px; 
-            padding-top: 1px;
-            padding-bottom: 1px;
+            background-color: #f9f9f9; font-weight: bold; text-align: center; 
+            font-size: 8.5px; line-height: 1.1; vertical-align: middle !important;
+            height: 26px; padding: 1px;
         }
         
-        .lang-label { background-color: #f9f9f9; font-weight: bold; font-size: 9px; padding-right: 5px; vertical-align: middle;text-align: center }
+        .lang-label { background-color: #f9f9f9; font-weight: bold; font-size: 9px; padding-right: 5px; vertical-align: middle; text-align: center; }
         .sub-header { background-color: #e0e0e0; text-align: center; font-weight: bold; padding: 1px; font-size: 8.5px; vertical-align: middle; }
-
         .input-cell-3col { width: 20.33%; background: #fff; padding: 0 !important; }
         .input-cell { width: 55%; background: #fff; padding: 0 !important; }
 
@@ -188,63 +128,67 @@
         .mgmt-row { display: flex; justify-content: space-between; font-size: 10px; font-weight: bold; }
         .mgmt-col { width: 45%; display: flex; align-items: flex-end; }
 
+        /* --- BUTTON STYLES (Default Desktop) --- */
         .btn-container {
             position: fixed;
             top: 20px;
-            left: 20px;
+            left: 20px; /* This can get hidden on mobile RTL */
             z-index: 1000;
             display: flex;
             gap: 10px;
         }
 
         .action-btn {
-            background-color: #8b6c4e;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: bold;
-            font-size: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            background-color: #8b6c4e; color: white; border: none; padding: 10px 20px;
+            cursor: pointer; border-radius: 5px; font-family: 'Tajawal', sans-serif;
+            font-weight: bold; font-size: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
-        
-        /* HIDE PRINT BUTTON INITIALLY */
         .print-btn { display: none; }
-        
         .submit-btn { background-color: #28a745; }
-        
+
+        /* --- MOBILE/TABLET FIX --- */
+        /* This applies when screen is smaller than the A4 width (roughly 800px) */
+        @media screen and (max-width: 850px) {
+            .btn-container {
+                position: relative; /* Stop floating */
+                top: auto;
+                left: auto;
+                width: 100%;
+                justify-content: center; /* Center buttons */
+                margin-bottom: 20px; /* Push the form down */
+                padding-bottom: 10px;
+                border-bottom: 1px dashed #ccc;
+            }
+
+            .action-btn {
+                width: 45%; /* Make buttons big and easy to tap */
+                font-size: 14px;
+                padding: 12px;
+            }
+            
+            /* Allow horizontal scroll for the A4 form, but keep body clean */
+            body {
+                overflow-x: auto; 
+            }
+        }
+
         /* --- PRINT STYLES --- */
         @media print {
             body { background-color: white; margin: 0; padding: 0; }
             .btn-container { display: none !important; }
+            .page { width: 100%; margin: 0; padding: 10mm; box-shadow: none; border: none; min-width: auto; }
             
-            .page { 
-                width: 100%; 
-                margin: 0; 
-                padding: 10mm; 
-                box-shadow: none; 
-                border: none; 
-                min-width: auto; 
-            }
             /* FORCE BLUE BOXES ON PRINT */
             input[type="text"], input[type="date"], input[type="email"], select {
-                border: 1px solid #ccc !important; 
-                background-color: #f0f8ff !important; 
-                padding: 0 !important; 
-                color: #000 !important; 
-                font-size: 9px !important; 
-                text-align: center !important;
-                -webkit-print-color-adjust: exact; 
-                print-color-adjust: exact; 
+                border: 1px solid #ccc !important; background-color: #f0f8ff !important;
+                padding: 0 !important; color: #000 !important; font-size: 9px !important;
+                text-align: center !important; -webkit-print-color-adjust: exact; print-color-adjust: exact;
                 appearance: none;
             }
-            
             input::placeholder { color: transparent; }
             input[type="date"] { text-align: center !important; }
             input[readonly] { background-color: #e6e6e6 !important; }
-
+            
             table { display: table; width: 100% !important; table-layout: fixed; }
             tr { display: table-row; margin: 0; border: none; background: transparent; }
             td { display: table-cell; border: 1px solid #ccc; padding: 0px 4px; height: 21px; width: auto; text-align: right; }
@@ -252,27 +196,15 @@
             
             .header-row { display: table-row !important; }
             .work-header-cell {
-                display: table-cell !important;
-                background-color: #f9f9f9 !important; 
-                color: #000 !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-                font-weight: bold;
-                text-align: center;
-                vertical-align: middle !important;
+                display: table-cell !important; background-color: #f9f9f9 !important; 
+                color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact;
+                font-weight: bold; text-align: center; vertical-align: middle !important;
             }
             .label-number, .label-ar, .label-en, .label-dual { 
-                display: table-cell !important; 
-                background-color: #f9f9f9 !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-                vertical-align: middle !important;
+                display: table-cell !important; background-color: #f9f9f9 !important;
+                -webkit-print-color-adjust: exact; print-color-adjust: exact; vertical-align: middle !important;
             }
-            
-            /* Hide arrow in select for print */
-            select {
-                background-image: none;
-            }
+            select { background-image: none; }
         }
     </style>
 </head>
@@ -463,40 +395,37 @@
             <div>الخبرات العملية <span style="font-weight: normal; font-size: 10px;">(Work Experience)</span></div>
         </div>
 
-        <div class="section-tab">
-    <div>الخبرات العملية <span style="font-weight: normal; font-size: 10px;">(Work Experience)</span></div>
-</div>
+        <table>
+            <tr class="header-row">
+                <td class="work-header-cell" style="width: 25%;">الشركة<br>Company</td>
+                <td class="work-header-cell" style="width: 25%;">المسمى الوظيفي<br>Job Title</td>
+                <td class="work-header-cell" style="width: 15%;">من<br>From</td>
+                <td class="work-header-cell" style="width: 15%;">إلى<br>To</td>
+                <td class="work-header-cell" style="width: 20%;">سبب المغادرة<br>Reason for Leaving</td>
+            </tr>
+            <tr>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_1" placeholder="الشركة / Company"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_1" placeholder="المسمى / Job Title"></td>
+                <td style="padding:0;" data-label="من / From"><input type="date" name="from_1"></td>
+                <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_1"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_1" placeholder="سبب المغادرة / Reason for leaving"></td>
+            </tr>
+            <tr>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_2" placeholder="الشركة / Company"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_2" placeholder="المسمى / Job Title"></td>
+                <td style="padding:0;" data-label="من / From"><input type="date" name="from_2"></td>
+                <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_2"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_2" placeholder="سبب المغادرة / Reason for leaving"></td>
+            </tr>
+            <tr>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_3" placeholder="الشركة / Company"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_3" placeholder="المسمى / Job Title"></td>
+                <td style="padding:0;" data-label="من / From"><input type="date" name="from_3"></td>
+                <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_3"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_3" placeholder="سبب المغادرة / Reason for leaving"></td>
+            </tr>
+        </table>
 
-<table>
-    <tr class="header-row">
-        <td class="work-header-cell" style="width: 25%;">الشركة<br>Company</td>
-        <td class="work-header-cell" style="width: 25%;">المسمى الوظيفي<br>Job Title</td>
-        <td class="work-header-cell" style="width: 15%;">من<br>From</td>
-        <td class="work-header-cell" style="width: 15%;">إلى<br>To</td>
-        <td class="work-header-cell" style="width: 20%;">سبب المغادرة<br>Reason for Leaving</td>
-    </tr>
-    <tr>
-        <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_1" placeholder="الشركة / Company"></td>
-        <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_1" placeholder="المسمى / Job Title"></td>
-        <td style="padding:0;" data-label="من / From"><input type="date" name="from_1"></td>
-        <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_1"></td>
-        <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_1" placeholder="سبب المغادرة / Reason for leaving"></td>
-    </tr>
-    <tr>
-        <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_2" placeholder="الشركة / Company"></td>
-        <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_2" placeholder="المسمى / Job Title"></td>
-        <td style="padding:0;" data-label="من / From"><input type="date" name="from_2"></td>
-        <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_2"></td>
-        <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_2" placeholder="سبب المغادرة / Reason for leaving"></td>
-    </tr>
-    <tr>
-        <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_3" placeholder="الشركة / Company"></td>
-        <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_3" placeholder="المسمى / Job Title"></td>
-        <td style="padding:0;" data-label="من / From"><input type="date" name="from_3"></td>
-        <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_3"></td>
-        <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_3" placeholder="سبب المغادرة / Reason for leaving"></td>
-    </tr>
-</table>
         <div class="section-tab">
             <div>المهارات اللغوية <span style="font-weight: normal; font-size: 10px;">(Language Skills)</span></div>
         </div>
