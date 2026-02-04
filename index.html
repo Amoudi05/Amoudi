@@ -50,7 +50,7 @@
         }
 
         /* DEFAULT INPUT STYLE */
-        input[type="text"], input[type="email"] {
+        input[type="text"], input[type="email"], select {
             width: 100%;
             height: 100%;
             border: var(--input-border-screen);
@@ -63,6 +63,13 @@
             text-align: center;
             padding: 0 2px;
             border-radius: 2px;
+        }
+
+        /* SELECT DROPDOWN SPECIFIC */
+        select {
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
         }
         
         /* DATE INPUT FIX */
@@ -82,7 +89,21 @@
             display: inline-block;
         }
 
-        input:focus { background-color: #e0efff; border-color: #8b6c4e; }
+        input::placeholder {
+            font-size: 8px;       
+            font-weight: normal;  
+            color: #666;          
+        }
+
+        /* READONLY INPUT STYLE (FOR RN) */
+        input[readonly] {
+            background-color: #e6e6e6 !important;
+            color: #555;
+            cursor: not-allowed;
+            letter-spacing: 0.5px; 
+        }
+
+        input:focus, select:focus { background-color: #e0efff; border-color: #8b6c4e; }
 
         .watermark {
             position: absolute;
@@ -150,7 +171,7 @@
             padding-bottom: 1px;
         }
         
-        .lang-label { background-color: #f9f9f9; font-weight: bold; font-size: 9px; padding-right: 5px; vertical-align: middle; }
+        .lang-label { background-color: #f9f9f9; font-weight: bold; font-size: 9px; padding-right: 5px; vertical-align: middle;text-align: center }
         .sub-header { background-color: #e0e0e0; text-align: center; font-weight: bold; padding: 1px; font-size: 8.5px; vertical-align: middle; }
 
         .input-cell-3col { width: 20.33%; background: #fff; padding: 0 !important; }
@@ -188,147 +209,12 @@
             font-size: 12px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
+        
+        /* HIDE PRINT BUTTON INITIALLY */
+        .print-btn { display: none; }
+        
         .submit-btn { background-color: #28a745; }
         
-        .radio-group {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            height: 100%;
-            font-size: 10px;
-            font-weight: bold;
-        }
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-        }
-
-        /* --- PHONE ONLY --- */
-        @media screen and (max-width: 768px) and (hover: none) and (pointer: coarse) {
-            body { padding: 10px; background: #e0e0e0; height: auto; }
-            .watermark { display: none; }
-            .btn-container { 
-                position: static; 
-                width: 100%; 
-                justify-content: center; 
-                margin-bottom: 20px; 
-            }
-            .action-btn { width: 45%; }
-
-            .page {
-                width: 100%; min-width: 0; 
-                height: auto; padding: 15px; border-radius: 8px;
-            }
-
-            header { flex-direction: column-reverse; align-items: center; text-align: center; }
-            .header-center { align-items: center; width: 100%; margin-top: 10px; }
-            .header-inputs { flex-direction: column; width: 100%; }
-            .logo { width: 100px; text-align: center; }
-
-            table, tbody, th, td, tr { display: block; width: 100%; }
-            
-            /* Default Mobile Card Style */
-            tr { 
-                margin-bottom: 12px; 
-                border: 1px solid #ccc; 
-                background: #fff; 
-                padding: 10px; 
-                border-radius: 5px; 
-                overflow: hidden; 
-            }
-            
-            /* --- MERGING COURSES TITLE WITH INPUTS --- */
-            tr.title-row-mobile {
-                margin-bottom: 0 !important; 
-                border-bottom: none !important; 
-                border-radius: 5px 5px 0 0 !important; 
-                padding-bottom: 0 !important; 
-            }
-            tr.courses-row-middle {
-                margin-top: 0 !important; 
-                margin-bottom: 0 !important; 
-                border-top: none !important; 
-                border-bottom: none !important; 
-                border-radius: 0 !important; 
-                padding-top: 5px !important;
-                padding-bottom: 5px !important;
-            }
-            tr.courses-row-last {
-                margin-top: 0 !important; 
-                border-top: none !important; 
-                border-radius: 0 0 5px 5px !important; 
-                margin-bottom: 12px !important;
-            }
-
-            /* GRAY HEADER FULL WIDTH */
-            .sub-header {
-                width: calc(100% + 20px) !important; 
-                margin: -10px -10px 0px -10px !important; 
-                display: block;
-                padding: 12px !important;
-                background-color: #e0e0e0;
-            }
-
-            .input-cell, .input-cell-3col { width: 100% !important; }
-
-            td { 
-                text-align: center !important; 
-                border: none; 
-                padding: 5px 0; 
-                height: auto; 
-                position: relative; 
-            }
-            
-            .header-row, .label-number { display: none; }
-            
-            td[data-label]::before {
-                content: attr(data-label); 
-                display: block; 
-                width: 100%;
-                font-weight: bold; 
-                font-size: 12px; 
-                color: #8b6c4e; 
-                margin-bottom: 4px; margin-top: 4px;    
-                text-align: center !important; 
-                line-height: 1.4;
-            }
-
-            input[type="text"], input[type="date"], input[type="email"] {
-                height: 40px; 
-                border: 1px solid #ccc; 
-                background-color: var(--input-bg-screen);
-                text-align: center !important;
-                width: 100% !important; 
-                font-size: 11px; 
-            }
-            
-            .id-container {
-                display: flex !important;
-                flex-direction: column; 
-                gap: 8px;
-                width: 100%;
-            }
-            .id-container input {
-                width: 100% !important; 
-                border-right: 1px solid #ccc !important;
-            }
-            
-            .radio-group {
-                background-color: var(--input-bg-screen);
-                border: 1px solid #ccc;
-                height: 40px;
-                border-radius: 2px;
-            }
-
-            .declaration-box { flex-direction: column; }
-            .declaration-ar, .declaration-en { width: 100%; border: none; margin-bottom: 10px; }
-            .mgmt-row { flex-direction: column; gap: 20px; }
-            .mgmt-col { width: 100%; }
-            .label-ar, .label-en, .label-dual { display: none; }
-        }
-
         /* --- PRINT STYLES --- */
         @media print {
             body { background-color: white; margin: 0; padding: 0; }
@@ -342,9 +228,8 @@
                 border: none; 
                 min-width: auto; 
             }
-            
             /* FORCE BLUE BOXES ON PRINT */
-            input[type="text"], input[type="date"], input[type="email"] {
+            input[type="text"], input[type="date"], input[type="email"], select {
                 border: 1px solid #ccc !important; 
                 background-color: #f0f8ff !important; 
                 padding: 0 !important; 
@@ -353,10 +238,12 @@
                 text-align: center !important;
                 -webkit-print-color-adjust: exact; 
                 print-color-adjust: exact; 
+                appearance: none;
             }
             
             input::placeholder { color: transparent; }
             input[type="date"] { text-align: center !important; }
+            input[readonly] { background-color: #e6e6e6 !important; }
 
             table { display: table; width: 100% !important; table-layout: fixed; }
             tr { display: table-row; margin: 0; border: none; background: transparent; }
@@ -382,14 +269,17 @@
                 vertical-align: middle !important;
             }
             
-            .radio-group { background: transparent; border: none; justify-content: center; gap: 20px; }
+            /* Hide arrow in select for print */
+            select {
+                background-image: none;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="btn-container">
-        <button class="action-btn" onclick="window.print()">طباعة (Print)</button>
+        <button class="action-btn print-btn" onclick="window.print()">طباعة (Print)</button>
         <button class="action-btn submit-btn" id="submit-btn">إرسال (Submit)</button>
     </div>
 
@@ -406,15 +296,15 @@
                 <div class="header-inputs">
                     <div class="header-input-group">
                         <span>Date:</span>
-                        <input type="date" name="date" style="width: 110px;">
+                        <input type="date" name="date" id="date_field" style="width: 110px;">
                     </div>
                     <div class="header-input-group">
                         <span>Position:</span>
-                        <input type="text" name="position" style="width: 120px;" placeholder="Manager">
+                        <input type="text" name="position" style="width: 120px;" placeholder="مدير / Manager">
                     </div>
                     <div class="header-input-group">
                         <span>RN:</span>
-                        <input type="text" name="rn" style="width: 50px;" placeholder="001">
+                        <input type="text" name="rn" id="rn_field" style="width: 70px;" placeholder="Auto" readonly>
                     </div>
                 </div>
             </div>
@@ -462,10 +352,13 @@
             <tr>
                 <td class="label-ar">الحالة الاجتماعية</td>
                 <td class="input-cell" colspan="4" data-label="الحالة الاجتماعية / Marital Status" style="padding: 0 !important;">
-                    <div class="radio-group">
-                        <label><input type="radio" name="marital_status" value="single"> أعزب / Single</label>
-                        <label><input type="radio" name="marital_status" value="married"> متزوج / Married</label>
-                    </div>
+                    <select name="marital_status">
+                        <option value="" disabled selected>اختر / Select</option>
+                        <option value="Single">أعزب / Single</option>
+                        <option value="Married">متزوج / Married</option>
+                        <option value="Divorced">مطلق / Divorced</option>
+                        <option value="Widower">أرمل / Widower</option>
+                    </select>
                 </td>
                 <td class="label-en">Marital status</td>
             </tr>
@@ -498,9 +391,9 @@
         <table>
             <tr>
                 <td class="label-dual">المدينة<br>City</td>
-                <td class="input-cell-3col" data-label="المدينة / City"><input type="text" name="city" placeholder="Ex: Riyadh"></td>
+                <td class="input-cell-3col" data-label="المدينة / City"><input type="text" name="city" placeholder="Jeddah / جدة"></td>
                 <td class="label-dual">الحي<br>District</td>
-                <td class="input-cell-3col" data-label="الحي / District"><input type="text" name="district" placeholder="Ex: Al Olaya"></td>
+                <td class="input-cell-3col" data-label="الحي / District"><input type="text" name="district" placeholder="Naseem / النسيم"></td>
                 <td class="label-dual">العنوان المختصر<br>Short Address</td>
                 <td class="input-cell-3col" data-label="العنوان المختصر / Address"><input type="text" name="short_address" placeholder="Ex: JBL1234"></td>
             </tr>
@@ -512,7 +405,7 @@
 
         <table>
             <tr>
-                <td class="label-dual">المؤهل الأعلى<br>Highest Qual.</td>
+                <td class="label-dual">المؤهل الأعلى<br>Highest Qual</td>
                 <td class="input-cell-3col" colspan="2" data-label="المؤهل / Qualification"><input type="text" name="qualification" placeholder="Bachelor / Master"></td>
                 <td class="label-dual">تاريخ التخرج<br>Grad. Date</td>
                 <td class="input-cell-3col" colspan="2" data-label="تاريخ التخرج / Grad. Date"><input type="text" name="grad_date" placeholder="YYYY / MM"></td>
@@ -520,17 +413,17 @@
             <tr class="title-row-mobile">
                 <td colspan="6" class="sub-header">الدورات والشهادات / Courses and Certifications</td>
             </tr>
-            <tr class="courses-row-middle">
+           <tr class="courses-row-middle">
                 <td class="label-number">1</td>
-                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 1 / Course 1"><input type="text" name="course_1" placeholder="Course Name"></td>
+                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 1 / Course 1"><input type="text" name="course_1" placeholder="اسم الدورة / Course Name"></td>
                 <td class="label-number">2</td>
-                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 2 / Course 2"><input type="text" name="course_2" placeholder="Course Name"></td>
+                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 2 / Course 2"><input type="text" name="course_2" placeholder="اسم الدورة / Course Name"></td>
             </tr>
             <tr class="courses-row-last">
                 <td class="label-number">3</td>
-                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 3 / Course 3"><input type="text" name="course_3" placeholder="Course Name"></td>
+                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 3 / Course 3"><input type="text" name="course_3" placeholder="اسم الدورة / Course Name"></td>
                 <td class="label-number">4</td>
-                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 4 / Course 4"><input type="text" name="course_4" placeholder="Course Name"></td>
+                <td style="background: #fff; padding: 0;" colspan="2" data-label="الدورة 4 / Course 4"><input type="text" name="course_4" placeholder="اسم الدورة / Course Name"></td>
             </tr>
         </table>
 
@@ -550,33 +443,26 @@
         </div>
 
         <table>
-            <tr class="header-row">
-                <td class="work-header-cell" style="width: 25%;">اسم الشركة<br>Company Name</td>
-                <td class="work-header-cell" style="width: 17%;">المسمى الوظيفي<br>Job Title</td>
-                <td class="work-header-cell" style="width: 13.5%;">من<br>From</td>
-                <td class="work-header-cell" style="width: 13.5%;">إلى<br>To</td>
-                <td class="work-header-cell" style="width: 31%;">سبب ترك العمل<br>Reason for Leaving</td>
-            </tr>
-            <tr>
-                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_1" placeholder="Company"></td>
-                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_1" placeholder="Title"></td>
+           <tr>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_1" placeholder="الشركة / Company"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_1" placeholder="المسمى / Job Title"></td>
                 <td style="padding:0;" data-label="من / From"><input type="date" name="from_1"></td>
                 <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_1"></td>
-                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_1" placeholder="Reason"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_1" placeholder="سبب المغادرة / Reason for leaving"></td>
             </tr>
-            <tr>
-                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_2" placeholder="Company"></td>
-                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_2" placeholder="Title"></td>
+           <tr>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_2" placeholder="الشركة / Company"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_2" placeholder="المسمى / Job Title"></td>
                 <td style="padding:0;" data-label="من / From"><input type="date" name="from_2"></td>
                 <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_2"></td>
-                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_2" placeholder="Reason"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_2" placeholder="سبب المغادرة / Reason for leaving"></td>
             </tr>
             <tr>
-                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_3" placeholder="Company"></td>
-                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_3" placeholder="Title"></td>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_3" placeholder="الشركة / Company"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_3" placeholder="المسمى / Job Title"></td>
                 <td style="padding:0;" data-label="من / From"><input type="date" name="from_3"></td>
                 <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_3"></td>
-                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_3" placeholder="Reason"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_3" placeholder="سبب المغادرة / Reason for leaving"></td>
             </tr>
         </table>
 
@@ -626,14 +512,14 @@
                 <td class="work-header-cell" style="width: 30%;">صلة القرابة<br>Relationship</td>
             </tr>
             <tr>
-                <td style="padding:0;" data-label="الاسم / Name"><input type="text" name="ref_name_1" placeholder="Full Name"></td>
+                <td style="padding:0;" data-label="الاسم / Name"><input type="text" name="ref_name_1" placeholder="الاسم الكامل / Full Name"></td>
                 <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" name="ref_mobile_1" placeholder="05xxxxxxxx"></td>
-                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" name="ref_rel_1" placeholder="Relation"></td>
+                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" name="ref_rel_1" placeholder="صلة القرابة / Relationship"></td>
             </tr>
             <tr>
-                <td style="padding:0;" data-label="الاسم / Name"><input type="text" name="ref_name_2" placeholder="Full Name"></td>
+                <td style="padding:0;" data-label="الاسم / Name"><input type="text" name="ref_name_2" placeholder="الاسم الكامل / Full Name"></td>
                 <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" name="ref_mobile_2" placeholder="05xxxxxxxx"></td>
-                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" name="ref_rel_2" placeholder="Relation"></td>
+                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" name="ref_rel_2" placeholder="صلة القرابة / Relationship"></td>
             </tr>
         </table>
 
@@ -674,6 +560,43 @@
       const form = document.forms['submit-to-google-sheet'];
       const submitBtn = document.getElementById('submit-btn');
 
+      // --- GENERATE ID (YearMonth-Random) ---
+      function generateRN() {
+        const now = new Date();
+        const year = now.getFullYear().toString().substr(-2); // Last 2 digits (e.g., 23)
+        // Get month (0-11), add 1, then PAD with '0' if needed (e.g. 2 -> 02)
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        
+        // Random 4 digits
+        const random = Math.floor(1000 + Math.random() * 9000);
+        
+        return year + month + '-' + random; // Example: 2305-4829
+      }
+
+      // --- RUN ON PAGE LOAD ---
+      document.addEventListener('DOMContentLoaded', () => {
+        
+        // 1. Generate RN Number
+        const rnField = document.getElementById('rn_field');
+        if (rnField) {
+            rnField.value = generateRN();
+        }
+
+        // 2. Auto-Fill Today's Date
+        const dateField = document.getElementById('date_field');
+        if (dateField) {
+            // Create a new Date object
+            const today = new Date();
+            // Format it to YYYY-MM-DD which is required for input type="date"
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            
+            // Set the value
+            dateField.value = `${yyyy}-${mm}-${dd}`;
+        }
+      });
+
       submitBtn.addEventListener('click', e => {
         e.preventDefault();
         
@@ -688,10 +611,16 @@
         fetch(scriptURL, { method: 'POST', body: formData})
           .then(response => {
               alert('Success! Your application has been sent.');
-              form.reset(); // RESET FORM INPUTS
-              submitBtn.innerText = "إرسال (Submit)"; // RESET BUTTON TEXT
-              submitBtn.disabled = false; // ENABLE BUTTON
-              submitBtn.style.backgroundColor = "#28a745"; // RESET BUTTON COLOR
+              
+              // --- IMPORTANT LOGIC CHANGE HERE ---
+              // Do NOT reset the form inputs (form.reset()) immediately.
+              // If we reset, the user will print a blank page!
+              // Instead, we hide "Submit" and show "Print".
+              
+              submitBtn.style.display = 'none'; // Hide submit button
+              document.querySelector('.print-btn').style.display = 'inline-block'; // Show print button
+              
+              // Note: If you want to reset for the next person, they should reload the page.
           })
           .catch(error => {
               alert('Error! Please try again.');
