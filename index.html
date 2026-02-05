@@ -284,30 +284,34 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: #8b6c4e
             // Step D: Remove Submit Button
             submitBtn.style.display = 'none';
 
-            // Step E: Create "Print" Button manually
+            // --- CREATE PRINT BUTTON ---
             const printBtn = document.createElement('button');
-            printBtn.innerText = "🖨️ طباعة النموذج (Go to Print)";
-            
-            // Style the new button
+            printBtn.innerText = "🖨️ طباعة (Print)";
             printBtn.style.background = "#8b6c4e"; // Brown
             printBtn.style.color = "#ffffff";
-            printBtn.style.border = "none";
             printBtn.style.borderRadius = "14px";
-            printBtn.style.fontSize = "16px";
             printBtn.style.fontWeight = "bold";
-            printBtn.style.height = "48px";
-            printBtn.style.width = "100%";
-            printBtn.style.cursor = "pointer";
-            printBtn.style.boxShadow = "0 4px 6px rgba(0,0,0,0.1)";
-
-            // Step F: Add Click Event to Go to Print Page
             printBtn.onclick = function() {
-                // Navigate to the print page in the same tab (safest for mobile)
                 window.location.href = 'print-a4.html';
             };
 
-            // Add to the screen
+            // --- CREATE RESET (NEW FORM) BUTTON ---
+            const resetBtn = document.createElement('button');
+            resetBtn.innerText = "🔄 طلب جديد (New)";
+            resetBtn.style.background = "#6c757d"; // Grey
+            resetBtn.style.color = "#ffffff";
+            resetBtn.style.borderRadius = "14px";
+            resetBtn.style.fontWeight = "bold";
+            resetBtn.onclick = function() {
+                // Clear the saved data and reload page to get new ID
+                localStorage.removeItem('aqwaseFormData'); 
+                window.location.reload(); 
+            };
+
+            // Step E: Add both buttons to the bar
+            // Since flex direction is row, they will sit side by side
             bottomBar.appendChild(printBtn);
+            bottomBar.appendChild(resetBtn);
         })
         .catch(error => {
             console.error('Error!', error.message);
