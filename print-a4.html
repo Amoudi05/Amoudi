@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نموذج طلب توظيف - AQWASE</title>
+    <title>نموذج طلب توظيف - AQWASE (Final View)</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
 
         :root {
             --tab-bg: #bfbfbf;
             --tab-text: #8b6c4e;
-            --input-bg-screen: #f0f8ff; 
-            --input-border-screen: 1px solid #ccc;
+            /* Changed to transparent so it looks like a document, not a form */
+            --input-bg-screen: transparent; 
+            --input-border-screen: none;
         }
 
         * {
@@ -34,7 +35,7 @@
         .page {
             background: white;
             width: 210mm;
-            min-width: 210mm; /* Forces A4 width */
+            min-width: 210mm;
             min-height: 297mm;
             margin: 0 auto;
             padding: 10mm; 
@@ -45,15 +46,27 @@
             flex-direction: column;
         }
 
-        /* DEFAULT INPUT STYLE */
+        /* DEFAULT INPUT STYLE - LOCKED VERSION */
         input[type="text"], input[type="email"], input[type="number"], select {
             width: 100%; height: 100%; border: var(--input-border-screen);
             background-color: var(--input-bg-screen);
             font-family: 'Tajawal', sans-serif; font-size: 10px; font-weight: bold;
             color: #000; outline: none; text-align: center; padding: 0 2px; border-radius: 2px;
+            pointer-events: none; /* Disables clicking */
         }
 
-        select { -webkit-appearance: none; appearance: none; cursor: pointer; }
+        /* FORCE BLACK TEXT ON DISABLED INPUTS */
+        input:disabled, select:disabled, textarea:disabled {
+            color: #000 !important;
+            opacity: 1 !important; /* Fix for iPhones fading text */
+            -webkit-text-fill-color: #000;
+            background-color: transparent !important;
+        }
+
+        select { 
+            -webkit-appearance: none; appearance: none; 
+            text-align-last: center; /* Centers selected text */
+        }
         
         input[type="date"] {
             width: 100%; height: 100%; border: var(--input-border-screen);
@@ -61,12 +74,18 @@
             font-family: 'Tajawal', sans-serif; font-size: 10px; font-weight: bold;
             color: #000; outline: none; text-align: center; padding: 0 5px; border-radius: 2px;
             display: inline-block;
+            pointer-events: none;
         }
 
-        input::placeholder { font-size: 8px; font-weight: normal; color: #666; }
-        input[readonly] { background-color: #e6e6e6 !important; color: #555; cursor: not-allowed; }
-        input:focus, select:focus { background-color: #e0efff; border-color: #8b6c4e; }
+        /* HIDE DATE CALENDAR ICON */
+        input[type="date"]::-webkit-inner-spin-button,
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            display: none;
+            -webkit-appearance: none;
+        }
 
+        input::placeholder { color: transparent; } /* Hide placeholders since it's read-only */
+        
         .watermark {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg);
             font-size: 80px; font-weight: bold; color: rgba(0, 0, 0, 0.03);
@@ -86,7 +105,7 @@
         .header-inputs { display: flex; gap: 10px; align-items: center; font-size: 10px; margin-top: 3px; }
         .header-input-group { display: flex; align-items: center; gap: 5px; }
         .header-input-group span { font-weight: bold; }
-        .header-input-group input { height: 18px; border-radius: 4px; font-size: 10px; text-align: center; }
+        .header-input-group input { height: 18px; border-radius: 4px; font-size: 10px; text-align: center; border-bottom: 1px dashed #ccc !important; }
 
         .logo { width: 100px; text-align: left; direction: ltr; }
         .logo img { max-width: 100%; height: auto; max-height: 50px; }
@@ -128,12 +147,9 @@
         .mgmt-row { display: flex; justify-content: space-between; font-size: 10px; font-weight: bold; }
         .mgmt-col { width: 45%; display: flex; align-items: flex-end; }
 
-        /* --- BUTTON STYLES (Default Desktop) --- */
+        /* --- BUTTON STYLES --- */
         .btn-container {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
+            position: fixed; top: 20px; left: 20px; z-index: 1000;
         }
 
         .action-btn {
@@ -149,21 +165,14 @@
             .btn-container { display: none !important; }
             .page { width: 100%; margin: 0; padding: 10mm; box-shadow: none; border: none; min-width: auto; }
             
-            input[type="text"], input[type="date"], input[type="email"], select {
-                border: 1px solid #ccc !important; background-color: #f0f8ff !important;
-                padding: 0 !important; color: #000 !important; font-size: 9px !important;
-                text-align: center !important; -webkit-print-color-adjust: exact; print-color-adjust: exact;
-                appearance: none;
+            /* Ensure it looks like a document, not a form */
+            input, select { 
+                border: none !important; 
+                background: transparent !important;
+                color: #000 !important;
             }
-            input::placeholder { color: transparent; }
-            input[readonly] { background-color: #e6e6e6 !important; }
-            
-            /* Ensure text wraps in print if long */
-            input { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-
             .header-row { display: table-row !important; }
-            .work-header-cell { background-color: #f9f9f9 !important; -webkit-print-color-adjust: exact; }
-            .label-ar, .label-en, .label-dual { background-color: #f9f9f9 !important; -webkit-print-color-adjust: exact; }
+            .work-header-cell, .label-ar, .label-en, .label-dual { background-color: #f9f9f9 !important; -webkit-print-color-adjust: exact; }
         }
     </style>
 </head>
@@ -186,15 +195,15 @@
                 <div class="header-inputs">
                     <div class="header-input-group">
                         <span>Date:</span>
-                        <input type="date" name="date" id="date_field" style="width: 110px;">
+                        <input type="text" name="date" id="date_field" style="width: 110px;">
                     </div>
                     <div class="header-input-group">
                         <span>Position:</span>
-                        <input type="text" name="position" style="width: 120px;" placeholder="مدير / Manager">
+                        <input type="text" name="position" style="width: 120px;">
                     </div>
                     <div class="header-input-group">
                         <span>RN:</span>
-                        <input type="text" name="rn" id="rn_field" style="width: 70px;" placeholder="Auto" readonly>
+                        <input type="text" name="rn" id="rn_field" style="width: 70px;">
                     </div>
                 </div>
             </div>
@@ -211,20 +220,20 @@
         <table>
             <tr>
                 <td class="label-ar">الاسم الكامل</td>
-                <td class="input-cell" colspan="4" data-label="الاسم الكامل / Full Name"><input type="text" name="full_name" placeholder="الاسم الرباعي / Full Name"></td>
+                <td class="input-cell" colspan="4" data-label="الاسم الكامل / Full Name"><input type="text" name="full_name"></td>
                 <td class="label-en">Full Name</td>
             </tr>
             <tr>
                 <td class="label-ar">الجنسية</td>
-                <td class="input-cell" colspan="4" data-label="الجنسية / Nationality"><input type="text" name="nationality" placeholder="سعودي / Saudi"></td>
+                <td class="input-cell" colspan="4" data-label="الجنسية / Nationality"><input type="text" name="nationality"></td>
                 <td class="label-en">Nationality</td>
             </tr>
             <tr>
                 <td class="label-ar">رقم الهوية</td>
                 <td class="input-cell" colspan="4" style="padding: 0 !important;" data-label="رقم الهوية / ID Info">
                     <div class="id-container" style="display: flex; height: 100%;">
-                        <input type="text" name="id_number" placeholder="رقم الهوية / ID Number" style="width: 60%; border-right: 1px dashed #ccc;">
-                        <input type="text" name="id_expiry" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 40%;">
+                        <input type="text" name="id_number" style="width: 60%; border-left: 1px solid #ccc !important;">
+                        <input type="text" name="id_expiry" style="width: 40%;">
                     </div>
                 </td>
                 <td class="label-en">ID/Iqama No</td>
@@ -233,8 +242,8 @@
                 <td class="label-ar">جواز السفر</td>
                 <td class="input-cell" colspan="4" style="padding: 0 !important;" data-label="جواز السفر / Passport Info">
                     <div class="id-container" style="display: flex; height: 100%;">
-                        <input type="text" name="passport_number" placeholder="رقم الجواز / Passport No." style="width: 60%; border-right: 1px dashed #ccc;">
-                        <input type="text" name="passport_expiry" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 40%;">
+                        <input type="text" name="passport_number" style="width: 60%; border-left: 1px solid #ccc !important;">
+                        <input type="text" name="passport_expiry" style="width: 40%;">
                     </div>
                 </td>
                 <td class="label-en">Passport No.</td>
@@ -243,7 +252,7 @@
                 <td class="label-ar">الحالة الاجتماعية</td>
                 <td class="input-cell" colspan="4" data-label="الحالة الاجتماعية / Marital Status" style="padding: 0 !important;">
                     <select name="marital_status">
-                        <option value="" disabled selected>اختر / Select</option>
+                        <option value="" disabled selected></option>
                         <option value="Single">أعزب / Single</option>
                         <option value="Married">متزوج / Married</option>
                         <option value="Divorced">مطلق / Divorced</option>
@@ -261,7 +270,7 @@
                 <td class="label-ar">الجنس</td>
                 <td class="input-cell" colspan="4" data-label="الجنس / Gender" style="padding: 0 !important;">
                     <select name="gender">
-                        <option value="" disabled selected>اختر / Select</option>
+                        <option value="" disabled selected></option>
                         <option value="Male">ذكر / Male</option>
                         <option value="Female">أنثى / Female</option>
                     </select>
@@ -270,12 +279,12 @@
             </tr>
             <tr>
                 <td class="label-ar">رقم الجوال</td>
-                <td class="input-cell" colspan="4" data-label="رقم الجوال / Mobile"><input type="text" name="mobile" placeholder="05xxxxxxxx"></td>
+                <td class="input-cell" colspan="4" data-label="رقم الجوال / Mobile"><input type="text" name="mobile"></td>
                 <td class="label-en">Mobile No.</td>
             </tr>
             <tr>
                 <td class="label-ar">البريد الالكتروني</td>
-                <td class="input-cell" colspan="4" data-label="البريد / Email"><input type="email" name="email" placeholder="email@example.com"></td>
+                <td class="input-cell" colspan="4" data-label="البريد / Email"><input type="email" name="email"></td>
                 <td class="label-en">Email</td>
             </tr>
         </table>
@@ -287,11 +296,11 @@
         <table>
             <tr>
                 <td class="label-dual">المدينة<br>City</td>
-                <td class="input-cell-3col" data-label="المدينة / City"><input type="text" name="city" placeholder="Jeddah / جدة"></td>
+                <td class="input-cell-3col" data-label="المدينة / City"><input type="text" name="city"></td>
                 <td class="label-dual">الحي<br>District</td>
-                <td class="input-cell-3col" data-label="الحي / District"><input type="text" name="district" placeholder="Naseem / النسيم"></td>
+                <td class="input-cell-3col" data-label="الحي / District"><input type="text" name="district"></td>
                 <td class="label-dual">العنوان المختصر<br>Short Address</td>
-                <td class="input-cell-3col" data-label="العنوان المختصر / Address"><input type="text" name="short_address" placeholder="Ex: JBL1234"></td>
+                <td class="input-cell-3col" data-label="العنوان المختصر / Address"><input type="text" name="short_address"></td>
             </tr>
         </table>
 
@@ -304,7 +313,7 @@
                 <td class="label-dual" style="width: 12%;">المؤهل الأعلى<br>Highest Qual</td>
                 <td class="input-cell" style="width: 21%; padding: 0 !important;" data-label="المؤهل / Qualification">
                     <select name="qualification">
-                        <option value="" disabled selected>اختر / Select</option>
+                        <option value="" disabled selected></option>
                         <option value="High School">ثانوية عامة / High School</option>
                         <option value="Diploma">دبلوم / Diploma</option>
                         <option value="Bachelor">بكالوريوس / Bachelor</option>
@@ -315,12 +324,12 @@
 
                 <td class="label-dual" style="width: 10%;">التخصص<br>Major</td>
                 <td class="input-cell" style="width: 32%; padding: 0 !important;" data-label="التخصص / Major">
-                    <input type="text" name="major" placeholder="إدارة أعمال / Business Admin">
+                    <input type="text" name="major">
                 </td>
 
                 <td class="label-dual" style="width: 10%;">سنة التخرج<br>Grad. Year</td>
                 <td class="input-cell" style="width: 15%; padding: 0 !important;" data-label="سنة التخرج / Grad. Year">
-                    <input type="number" name="grad_year" placeholder="YYYY" min="1970" max="2030">
+                    <input type="number" name="grad_year">
                 </td>
             </tr>
 
@@ -332,14 +341,14 @@
                 <td colspan="3" style="padding: 0;">
                     <div style="display: flex; height: 100%; align-items: center;">
                         <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">1</div>
-                        <input type="text" name="course_1" placeholder="اسم الدورة / Course Name" style="flex-grow: 1; border: none; height: 100%;">
+                        <input type="text" name="course_1" style="flex-grow: 1; border: none; height: 100%;">
                     </div>
                 </td>
                 
                 <td colspan="3" style="padding: 0;">
                     <div style="display: flex; height: 100%; align-items: center;">
                         <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">2</div>
-                        <input type="text" name="course_2" placeholder="اسم الدورة / Course Name" style="flex-grow: 1; border: none; height: 100%;">
+                        <input type="text" name="course_2" style="flex-grow: 1; border: none; height: 100%;">
                     </div>
                 </td>
             </tr>
@@ -348,14 +357,14 @@
                 <td colspan="3" style="padding: 0;">
                     <div style="display: flex; height: 100%; align-items: center;">
                         <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">3</div>
-                        <input type="text" name="course_3" placeholder="اسم الدورة / Course Name" style="flex-grow: 1; border: none; height: 100%;">
+                        <input type="text" name="course_3" style="flex-grow: 1; border: none; height: 100%;">
                     </div>
                 </td>
 
                 <td colspan="3" style="padding: 0;">
                     <div style="display: flex; height: 100%; align-items: center;">
                         <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">4</div>
-                        <input type="text" name="course_4" placeholder="اسم الدورة / Course Name" style="flex-grow: 1; border: none; height: 100%;">
+                        <input type="text" name="course_4" style="flex-grow: 1; border: none; height: 100%;">
                     </div>
                 </td>
             </tr>
@@ -366,7 +375,7 @@
         <table>
             <tr>
                 <td class="input-cell" style="padding: 0; width: 100%;" data-label="المهارات التقنية / Tech Skills">
-                    <input type="text" name="tech_skills" placeholder="أذكر المهارات التقنية والبرامج التي تجيدها / List Technical Skills & Software">
+                    <input type="text" name="tech_skills">
                 </td>
             </tr>
         </table>
@@ -384,25 +393,25 @@
                 <td class="work-header-cell" style="width: 20%;">سبب المغادرة<br>Reason for Leaving</td>
             </tr>
             <tr>
-                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_1" placeholder="الشركة / Company"></td>
-                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_1" placeholder="المسمى / Job Title"></td>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_1"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_1"></td>
                 <td style="padding:0;" data-label="من / From"><input type="date" name="from_1"></td>
                 <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_1"></td>
-                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_1" placeholder="سبب المغادرة / Reason for leaving"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_1"></td>
             </tr>
             <tr>
-                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_2" placeholder="الشركة / Company"></td>
-                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_2" placeholder="المسمى / Job Title"></td>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_2"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_2"></td>
                 <td style="padding:0;" data-label="من / From"><input type="date" name="from_2"></td>
                 <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_2"></td>
-                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_2" placeholder="سبب المغادرة / Reason for leaving"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_2"></td>
             </tr>
             <tr>
-                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_3" placeholder="الشركة / Company"></td>
-                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_3" placeholder="المسمى / Job Title"></td>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_3"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_3"></td>
                 <td style="padding:0;" data-label="من / From"><input type="date" name="from_3"></td>
                 <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_3"></td>
-                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_3" placeholder="سبب المغادرة / Reason for leaving"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_3"></td>
             </tr>
         </table>
 
@@ -433,7 +442,7 @@
                 <td style="text-align: center;" data-label="ضعيف / Weak"><input type="radio" name="lang_en" value="weak"></td>
             </tr>
             <tr>
-                <td style="padding: 0;" data-label="أخرى / Other"><input type="text" name="lang_other_name" placeholder="أخرى / Other"></td>
+                <td style="padding: 0;" data-label="أخرى / Other"><input type="text" name="lang_other_name"></td>
                 <td style="text-align: center;" data-label="ممتاز / Exc"><input type="radio" name="lang_other_level" value="excellent"></td>
                 <td style="text-align: center;" data-label="جيد جدا / V.Good"><input type="radio" name="lang_other_level" value="vgood"></td>
                 <td style="text-align: center;" data-label="جيد / Good"><input type="radio" name="lang_other_level" value="good"></td>
@@ -452,14 +461,14 @@
                 <td class="work-header-cell" style="width: 30%;">صلة القرابة<br>Relationship</td>
             </tr>
             <tr>
-                <td style="padding:0;" data-label="الاسم / Name"><input type="text" name="ref_name_1" placeholder="الاسم الكامل / Full Name"></td>
-                <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" name="ref_mobile_1" placeholder="05xxxxxxxx"></td>
-                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" name="ref_rel_1" placeholder="صلة القرابة / Relationship"></td>
+                <td style="padding:0;" data-label="الاسم / Name"><input type="text" name="ref_name_1"></td>
+                <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" name="ref_mobile_1"></td>
+                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" name="ref_rel_1"></td>
             </tr>
             <tr>
-                <td style="padding:0;" data-label="الاسم / Name"><input type="text" name="ref_name_2" placeholder="الاسم الكامل / Full Name"></td>
-                <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" name="ref_mobile_2" placeholder="05xxxxxxxx"></td>
-                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" name="ref_rel_2" placeholder="صلة القرابة / Relationship"></td>
+                <td style="padding:0;" data-label="الاسم / Name"><input type="text" name="ref_name_2"></td>
+                <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" name="ref_mobile_2"></td>
+                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" name="ref_rel_2"></td>
             </tr>
         </table>
 
@@ -496,34 +505,41 @@
     </form>
 
     <script>
-      // AUTOMATIC DATA INJECTION ON LOAD
+      // 1. DATA INJECTION & LOCKING SCRIPT
       document.addEventListener('DOMContentLoaded', () => {
         
-        // 1. Retrieve Data
+        // Retrieve Data from Local Storage
         const saved = localStorage.getItem('aqwaseFormData');
-        if (!saved) {
-            // Optional: If no data found, just return (blank form)
-            return;
+        
+        if (saved) {
+            const data = JSON.parse(saved);
+            
+            // Fill fields
+            Object.keys(data).forEach(name => {
+                // Handle Radio Buttons
+                if (document.querySelector(`input[type="radio"][name="${name}"]`)) {
+                    const radio = document.querySelector(`input[type="radio"][name="${name}"][value="${data[name]}"]`);
+                    if (radio) radio.checked = true;
+                } 
+                // Handle Normal Inputs
+                else {
+                    const field = document.querySelector(`[name="${name}"]`);
+                    if (field) {
+                        field.value = data[name];
+                    }
+                }
+            });
         }
 
-        const data = JSON.parse(saved);
+        // 2. THE LOCKDOWN: DISABLE ALL INPUTS
+        const form = document.getElementById('print-form');
+        const elements = form.elements;
 
-        // 2. Loop through all saved fields and fill them
-        Object.keys(data).forEach(name => {
-            
-            // Handle Radio Buttons
-            if (document.querySelector(`input[type="radio"][name="${name}"]`)) {
-                const radio = document.querySelector(`input[type="radio"][name="${name}"][value="${data[name]}"]`);
-                if (radio) radio.checked = true;
-            } 
-            // Handle Normal Inputs (Text, Date, Select)
-            else {
-                const field = document.querySelector(`[name="${name}"]`);
-                if (field) {
-                    field.value = data[name];
-                }
-            }
-        });
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].readOnly = true;  // Prevent typing
+            elements[i].disabled = true;  // Prevent clicking/focusing
+        }
+
       });
     </script>
 </body>
