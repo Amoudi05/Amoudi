@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج طلب توظيف - AQWASE</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+
+        :root {
+            --tab-bg: #bfbfbf;
+            --tab-text: #8b6c4e;
+            --input-bg-screen: #f0f8ff; 
+            --input-border-screen: 1px solid #ccc;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        body {
+            font-family: 'Tajawal', 'Arial', sans-serif;
+            background-color: #525659;
+            margin: 0;
+            padding: 20px;
+            color: #000;
+        }
+
+        /* --- DESKTOP / A4 DEFAULT --- */
+        @page { size: A4; margin: 0; }
+
+        .page {
+            background: white;
+            width: 210mm;
+            min-width: 210mm; /* Forces A4 width */
+            min-height: 297mm;
+            margin: 0 auto;
+            padding: 10mm; 
+            position: relative;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* DEFAULT INPUT STYLE */
+        input[type="text"], input[type="email"], input[type="number"], select {
+            width: 100%; height: 100%; border: var(--input-border-screen);
+            background-color: var(--input-bg-screen);
+            font-family: 'Tajawal', sans-serif; font-size: 10px; font-weight: bold;
+            color: #000; outline: none; text-align: center; padding: 0 2px; border-radius: 2px;
+        }
+
+        select { -webkit-appearance: none; appearance: none; cursor: pointer; }
+        
+        input[type="date"] {
+            width: 100%; height: 100%; border: var(--input-border-screen);
+            background-color: var(--input-bg-screen);
+            font-family: 'Tajawal', sans-serif; font-size: 10px; font-weight: bold;
+            color: #000; outline: none; text-align: center; padding: 0 5px; border-radius: 2px;
+            display: inline-block;
+        }
+
+        input::placeholder { font-size: 8px; font-weight: normal; color: #666; }
+        input[readonly] { background-color: #e6e6e6 !important; color: #555; cursor: not-allowed; }
+        input:focus, select:focus { background-color: #e0efff; border-color: #8b6c4e; }
+
+        .watermark {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 80px; font-weight: bold; color: rgba(0, 0, 0, 0.03);
+            z-index: 0; pointer-events: none; white-space: nowrap;
+        }
+
+        header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 2px; position: relative; z-index: 1;
+            border-bottom: 2px solid #000; padding-bottom: 2px;
+        }
+
+        .header-center { text-align: right; flex-grow: 1; display: flex; flex-direction: column; align-items: flex-start; }
+        .header-center h1 { margin: 0; font-size: 16px; color: #333; }
+        .header-center h2 { margin: 0; font-size: 11px; font-weight: normal; color: #666; }
+
+        .header-inputs { display: flex; gap: 10px; align-items: center; font-size: 10px; margin-top: 3px; }
+        .header-input-group { display: flex; align-items: center; gap: 5px; }
+        .header-input-group span { font-weight: bold; }
+        .header-input-group input { height: 18px; border-radius: 4px; font-size: 10px; text-align: center; }
+
+        .logo { width: 100px; text-align: left; direction: ltr; }
+        .logo img { max-width: 100%; height: auto; max-height: 50px; }
+
+        .section-tab {
+            background-color: var(--tab-bg); color: var(--tab-text);
+            padding: 3px 6px; font-weight: bold; font-size: 11px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-radius: 3px 3px 0 0; margin-top: 4px; border: 1px solid #999; border-bottom: none; height: auto;
+        }
+
+        table { width: 100%; border-collapse: collapse; font-size: 9px; position: relative; z-index: 1; table-layout: fixed; border: 1px solid #999; }
+        th, td { border: 1px solid #ccc; padding: 0px 4px; vertical-align: middle; height: 21px; }
+
+        .label-ar, .label-en { width: 15%; background-color: #f9f9f9; font-weight: bold; vertical-align: middle; }
+        .label-en { text-align: left; direction: ltr; }
+        .label-ar { text-align: right; }
+        .label-dual { background-color: #f9f9f9; font-weight: bold; text-align: center; font-size: 8px; width: 13%; line-height: 1.1; vertical-align: middle; }
+        
+        .work-header-cell { 
+            background-color: #f9f9f9; font-weight: bold; text-align: center; 
+            font-size: 8.5px; line-height: 1.1; vertical-align: middle !important;
+            height: 26px; padding: 1px;
+        }
+        
+        .lang-label { background-color: #f9f9f9; font-weight: bold; font-size: 9px; padding-right: 5px; vertical-align: middle; text-align: center; }
+        .sub-header { background-color: #e0e0e0; text-align: center; font-weight: bold; padding: 1px; font-size: 8.5px; vertical-align: middle; }
+        .input-cell-3col { width: 20.33%; background: #fff; padding: 0 !important; }
+        .input-cell { width: 55%; background: #fff; padding: 0 !important; }
+
+        .declaration-box {
+            border: 1px solid #999; margin-top: 4px; padding: 3px; font-size: 6px;
+            display: flex; gap: 5px; text-align: justify; line-height: 1.1;
+        }
+        .declaration-ar { width: 50%; border-left: 1px solid #ccc; padding-left: 3px; }
+        .declaration-en { width: 50%; direction: ltr; padding-right: 3px; }
+
+        .mgmt-section { margin-top: 8px; border-top: 1.5px solid #000; padding-top: 5px; }
+        .mgmt-row { display: flex; justify-content: space-between; font-size: 10px; font-weight: bold; }
+        .mgmt-col { width: 45%; display: flex; align-items: flex-end; }
+
+        /* --- BUTTON STYLES (Default Desktop) --- */
+        .btn-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .action-btn {
+            background-color: #8b6c4e; color: white; border: none; padding: 10px 20px;
+            cursor: pointer; border-radius: 5px; font-family: 'Tajawal', sans-serif;
+            font-weight: bold; font-size: 14px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            display: block; width: 100%;
+        }
+
+        /* --- PRINT STYLES --- */
+        @media print {
+            body { background-color: white; margin: 0; padding: 0; }
+            .btn-container { display: none !important; }
+            .page { width: 100%; margin: 0; padding: 10mm; box-shadow: none; border: none; min-width: auto; }
+            
+            input[type="text"], input[type="date"], input[type="email"], select {
+                border: 1px solid #ccc !important; background-color: #f0f8ff !important;
+                padding: 0 !important; color: #000 !important; font-size: 9px !important;
+                text-align: center !important; -webkit-print-color-adjust: exact; print-color-adjust: exact;
+                appearance: none;
+            }
+            input::placeholder { color: transparent; }
+            input[readonly] { background-color: #e6e6e6 !important; }
+            
+            /* Ensure text wraps in print if long */
+            input { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+            .header-row { display: table-row !important; }
+            .work-header-cell { background-color: #f9f9f9 !important; -webkit-print-color-adjust: exact; }
+            .label-ar, .label-en, .label-dual { background-color: #f9f9f9 !important; -webkit-print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="btn-container">
+        <button class="action-btn print-btn" onclick="window.print()">طباعة (Print)</button>
+    </div>
+
+    <form id="print-form">
+    
+    <div class="page">
+        <div class="watermark">AQWASE</div>
+
+        <header>
+            <div class="header-center">
+                <h1>نموذج طلب توظيف</h1>
+                <h2>Application Form</h2>
+                
+                <div class="header-inputs">
+                    <div class="header-input-group">
+                        <span>Date:</span>
+                        <input type="date" name="date" id="date_field" style="width: 110px;">
+                    </div>
+                    <div class="header-input-group">
+                        <span>Position:</span>
+                        <input type="text" name="position" style="width: 120px;" placeholder="مدير / Manager">
+                    </div>
+                    <div class="header-input-group">
+                        <span>RN:</span>
+                        <input type="text" name="rn" id="rn_field" style="width: 70px;" placeholder="Auto" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="logo">
+                <img src="AQWASE LOGO.png" alt="Company Logo">
+            </div>
+        </header>
+
+        <div class="section-tab">
+            <div>المعلومات الشخصية <span style="font-weight: normal; font-size: 10px;">(Personal Details)</span></div>
+        </div>
+
+        <table>
+            <tr>
+                <td class="label-ar">الاسم الكامل</td>
+                <td class="input-cell" colspan="4" data-label="الاسم الكامل / Full Name"><input type="text" name="full_name" placeholder="الاسم الرباعي / Full Name"></td>
+                <td class="label-en">Full Name</td>
+            </tr>
+            <tr>
+                <td class="label-ar">الجنسية</td>
+                <td class="input-cell" colspan="4" data-label="الجنسية / Nationality"><input type="text" name="nationality" placeholder="سعودي / Saudi"></td>
+                <td class="label-en">Nationality</td>
+            </tr>
+            <tr>
+                <td class="label-ar">رقم الهوية</td>
+                <td class="input-cell" colspan="4" style="padding: 0 !important;" data-label="رقم الهوية / ID Info">
+                    <div class="id-container" style="display: flex; height: 100%;">
+                        <input type="text" name="id_number" placeholder="رقم الهوية / ID Number" style="width: 60%; border-right: 1px dashed #ccc;">
+                        <input type="text" name="id_expiry" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 40%;">
+                    </div>
+                </td>
+                <td class="label-en">ID/Iqama No</td>
+            </tr>
+            <tr>
+                <td class="label-ar">جواز السفر</td>
+                <td class="input-cell" colspan="4" style="padding: 0 !important;" data-label="جواز السفر / Passport Info">
+                    <div class="id-container" style="display: flex; height: 100%;">
+                        <input type="text" name="passport_number" placeholder="رقم الجواز / Passport No." style="width: 60%; border-right: 1px dashed #ccc;">
+                        <input type="text" name="passport_expiry" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 40%;">
+                    </div>
+                </td>
+                <td class="label-en">Passport No.</td>
+            </tr>
+            <tr>
+                <td class="label-ar">الحالة الاجتماعية</td>
+                <td class="input-cell" colspan="4" data-label="الحالة الاجتماعية / Marital Status" style="padding: 0 !important;">
+                    <select name="marital_status">
+                        <option value="" disabled selected>اختر / Select</option>
+                        <option value="Single">أعزب / Single</option>
+                        <option value="Married">متزوج / Married</option>
+                        <option value="Divorced">مطلق / Divorced</option>
+                        <option value="Widower">أرمل / Widower</option>
+                    </select>
+                </td>
+                <td class="label-en">Marital status</td>
+            </tr>
+            <tr>
+                <td class="label-ar">تاريخ الميلاد</td>
+                <td class="input-cell" colspan="4" data-label="تاريخ الميلاد / DOB"><input type="date" name="dob"></td>
+                <td class="label-en">Date of Birth</td>
+            </tr>
+            <tr>
+                <td class="label-ar">الجنس</td>
+                <td class="input-cell" colspan="4" data-label="الجنس / Gender" style="padding: 0 !important;">
+                    <select name="gender">
+                        <option value="" disabled selected>اختر / Select</option>
+                        <option value="Male">ذكر / Male</option>
+                        <option value="Female">أنثى / Female</option>
+                    </select>
+                </td>
+                <td class="label-en">Gender</td>
+            </tr>
+            <tr>
+                <td class="label-ar">رقم الجوال</td>
+                <td class="input-cell" colspan="4" data-label="رقم الجوال / Mobile"><input type="text" name="mobile" placeholder="05xxxxxxxx"></td>
+                <td class="label-en">Mobile No.</td>
+            </tr>
+            <tr>
+                <td class="label-ar">البريد الالكتروني</td>
+                <td class="input-cell" colspan="4" data-label="البريد / Email"><input type="email" name="email" placeholder="email@example.com"></td>
+                <td class="label-en">Email</td>
+            </tr>
+        </table>
+
+        <div class="section-tab">
+            <div>معلومات السكن <span style="font-weight: normal; font-size: 10px;">(Address Details)</span></div>
+        </div>
+
+        <table>
+            <tr>
+                <td class="label-dual">المدينة<br>City</td>
+                <td class="input-cell-3col" data-label="المدينة / City"><input type="text" name="city" placeholder="Jeddah / جدة"></td>
+                <td class="label-dual">الحي<br>District</td>
+                <td class="input-cell-3col" data-label="الحي / District"><input type="text" name="district" placeholder="Naseem / النسيم"></td>
+                <td class="label-dual">العنوان المختصر<br>Short Address</td>
+                <td class="input-cell-3col" data-label="العنوان المختصر / Address"><input type="text" name="short_address" placeholder="Ex: JBL1234"></td>
+            </tr>
+        </table>
+
+        <div class="section-tab">
+            <div>المؤهل العلمي <span style="font-weight: normal; font-size: 10px;">(Education Level)</span></div>
+        </div>
+
+      <table>
+            <tr>
+                <td class="label-dual" style="width: 12%;">المؤهل الأعلى<br>Highest Qual</td>
+                <td class="input-cell" style="width: 21%; padding: 0 !important;" data-label="المؤهل / Qualification">
+                    <select name="qualification">
+                        <option value="" disabled selected>اختر / Select</option>
+                        <option value="High School">ثانوية عامة / High School</option>
+                        <option value="Diploma">دبلوم / Diploma</option>
+                        <option value="Bachelor">بكالوريوس / Bachelor</option>
+                        <option value="Master">ماجستير / Master</option>
+                        <option value="PhD">دكتوراه / PhD</option>
+                    </select>
+                </td>
+
+                <td class="label-dual" style="width: 10%;">التخصص<br>Major</td>
+                <td class="input-cell" style="width: 32%; padding: 0 !important;" data-label="التخصص / Major">
+                    <input type="text" name="major" placeholder="إدارة أعمال / Business Admin">
+                </td>
+
+                <td class="label-dual" style="width: 10%;">سنة التخرج<br>Grad. Year</td>
+                <td class="input-cell" style="width: 15%; padding: 0 !important;" data-label="سنة التخرج / Grad. Year">
+                    <input type="number" name="grad_year" placeholder="YYYY" min="1970" max="2030">
+                </td>
+            </tr>
+
+            <tr class="title-row-mobile">
+                <td colspan="6" class="sub-header">الدورات والشهادات / Courses and Certifications</td>
+            </tr>
+
+            <tr>
+                <td colspan="3" style="padding: 0;">
+                    <div style="display: flex; height: 100%; align-items: center;">
+                        <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">1</div>
+                        <input type="text" name="course_1" placeholder="اسم الدورة / Course Name" style="flex-grow: 1; border: none; height: 100%;">
+                    </div>
+                </td>
+                
+                <td colspan="3" style="padding: 0;">
+                    <div style="display: flex; height: 100%; align-items: center;">
+                        <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">2</div>
+                        <input type="text" name="course_2" placeholder="اسم الدورة / Course Name" style="flex-grow: 1; border: none; height: 100%;">
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3" style="padding: 0;">
+                    <div style="display: flex; height: 100%; align-items: center;">
+                        <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">3</div>
+                        <input type="text" name="course_3" placeholder="اسم الدورة / Course Name" style="flex-grow: 1; border: none; height: 100%;">
+                    </div>
+                </td>
+
+                <td colspan="3" style="padding: 0;">
+                    <div style="display: flex; height: 100%; align-items: center;">
+                        <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">4</div>
+                        <input type="text" name="course_4" placeholder="اسم الدورة / Course Name" style="flex-grow: 1; border: none; height: 100%;">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="section-tab">
+            <div>المهارات التقنية <span style="font-weight: normal; font-size: 10px;">(Technical Skills)</span></div>
+        </div>
+        <table>
+            <tr>
+                <td class="input-cell" style="padding: 0; width: 100%;" data-label="المهارات التقنية / Tech Skills">
+                    <input type="text" name="tech_skills" placeholder="أذكر المهارات التقنية والبرامج التي تجيدها / List Technical Skills & Software">
+                </td>
+            </tr>
+        </table>
+
+        <div class="section-tab">
+            <div>الخبرات العملية <span style="font-weight: normal; font-size: 10px;">(Work Experience)</span></div>
+        </div>
+
+        <table>
+            <tr class="header-row">
+                <td class="work-header-cell" style="width: 25%;">الشركة<br>Company</td>
+                <td class="work-header-cell" style="width: 25%;">المسمى الوظيفي<br>Job Title</td>
+                <td class="work-header-cell" style="width: 15%;">من<br>From</td>
+                <td class="work-header-cell" style="width: 15%;">إلى<br>To</td>
+                <td class="work-header-cell" style="width: 20%;">سبب المغادرة<br>Reason for Leaving</td>
+            </tr>
+            <tr>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_1" placeholder="الشركة / Company"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_1" placeholder="المسمى / Job Title"></td>
+                <td style="padding:0;" data-label="من / From"><input type="date" name="from_1"></td>
+                <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_1"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_1" placeholder="سبب المغادرة / Reason for leaving"></td>
+            </tr>
+            <tr>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_2" placeholder="الشركة / Company"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_2" placeholder="المسمى / Job Title"></td>
+                <td style="padding:0;" data-label="من / From"><input type="date" name="from_2"></td>
+                <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_2"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_2" placeholder="سبب المغادرة / Reason for leaving"></td>
+            </tr>
+            <tr>
+                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_3" placeholder="الشركة / Company"></td>
+                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_3" placeholder="المسمى / Job Title"></td>
+                <td style="padding:0;" data-label="من / From"><input type="date" name="from_3"></td>
+                <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_3"></td>
+                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_3" placeholder="سبب المغادرة / Reason for leaving"></td>
+            </tr>
+        </table>
+
+        <div class="section-tab">
+            <div>المهارات اللغوية <span style="font-weight: normal; font-size: 10px;">(Language Skills)</span></div>
+        </div>
+
+        <table class="lang-table">
+            <tr class="header-row">
+                <td class="work-header-cell" style="width: 20%;">اللغة<br>Language</td>
+                <td class="work-header-cell" style="width: 20%;">ممتاز<br>Exc.</td>
+                <td class="work-header-cell" style="width: 20%;">جيد جداً<br>V. Good</td>
+                <td class="work-header-cell" style="width: 20%;">جيد<br>Good</td>
+                <td class="work-header-cell" style="width: 20%;">ضعيف<br>Weak</td>
+            </tr>
+            <tr>
+                <td class="lang-label">العربية / Arabic</td>
+                <td style="text-align: center;" data-label="ممتاز / Exc"><input type="radio" name="lang_ar" value="excellent"></td>
+                <td style="text-align: center;" data-label="جيد جدا / V.Good"><input type="radio" name="lang_ar" value="vgood"></td>
+                <td style="text-align: center;" data-label="جيد / Good"><input type="radio" name="lang_ar" value="good"></td>
+                <td style="text-align: center;" data-label="ضعيف / Weak"><input type="radio" name="lang_ar" value="weak"></td>
+            </tr>
+            <tr>
+                <td class="lang-label">الإنجليزية / English</td>
+                <td style="text-align: center;" data-label="ممتاز / Exc"><input type="radio" name="lang_en" value="excellent"></td>
+                <td style="text-align: center;" data-label="جيد جدا / V.Good"><input type="radio" name="lang_en" value="vgood"></td>
+                <td style="text-align: center;" data-label="جيد / Good"><input type="radio" name="lang_en" value="good"></td>
+                <td style="text-align: center;" data-label="ضعيف / Weak"><input type="radio" name="lang_en" value="weak"></td>
+            </tr>
+            <tr>
+                <td style="padding: 0;" data-label="أخرى / Other"><input type="text" name="lang_other_name" placeholder="أخرى / Other"></td>
+                <td style="text-align: center;" data-label="ممتاز / Exc"><input type="radio" name="lang_other_level" value="excellent"></td>
+                <td style="text-align: center;" data-label="جيد جدا / V.Good"><input type="radio" name="lang_other_level" value="vgood"></td>
+                <td style="text-align: center;" data-label="جيد / Good"><input type="radio" name="lang_other_level" value="good"></td>
+                <td style="text-align: center;" data-label="ضعيف / Weak"><input type="radio" name="lang_other_level" value="weak"></td>
+            </tr>
+        </table>
+
+        <div class="section-tab">
+            <div>المعرفون <span style="font-weight: normal; font-size: 10px;">(References)</span></div>
+        </div>
+
+        <table>
+            <tr class="header-row">
+                <td class="work-header-cell" style="width: 40%;">الاسم<br>Name</td>
+                <td class="work-header-cell" style="width: 30%;">رقم الجوال<br>Mobile No.</td>
+                <td class="work-header-cell" style="width: 30%;">صلة القرابة<br>Relationship</td>
+            </tr>
+            <tr>
+                <td style="padding:0;" data-label="الاسم / Name"><input type="text" name="ref_name_1" placeholder="الاسم الكامل / Full Name"></td>
+                <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" name="ref_mobile_1" placeholder="05xxxxxxxx"></td>
+                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" name="ref_rel_1" placeholder="صلة القرابة / Relationship"></td>
+            </tr>
+            <tr>
+                <td style="padding:0;" data-label="الاسم / Name"><input type="text" name="ref_name_2" placeholder="الاسم الكامل / Full Name"></td>
+                <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" name="ref_mobile_2" placeholder="05xxxxxxxx"></td>
+                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" name="ref_rel_2" placeholder="صلة القرابة / Relationship"></td>
+            </tr>
+        </table>
+
+        <div class="declaration-box">
+            <div class="declaration-ar">
+                اقر انا الموقع ادناه على ان كل البيانات المذكورة في النموذج طلب التوظيف صحيحة ومدعومة بإثباتات متى طلبت مني , وفي حال أي معلومة غير صحيحة سيتم رفض طلبي دون ابداء الاسباب, بالإضافة الى انني على استعداد لمزيد من الفحص الطبي والمقابلات التي تؤدي للقبول او الرفض حتى دون اشعار بذلك وعدم المطالبة بالمستندات المرفقة مع هذا النموذج , وانني على دراية بأن تقديم طلبي هذا لا يعني وجود شاغر وظيفي ولا أطالب الشركة بشيء من خلال ذلك, وان لا اعطي أي تفاصيل وبيانات للتواصل الخاصة بي للعميل او مسؤول المقابلة لتجنب أي ظرف او سوء فهم وان يكون التواصل فقط عن طريق شركة اقواس. يلتزم المتقدم بالتعامل حصريًا من خلال شركة أقواس المحدودة .وفي حال عدم الالتزام بما ورد أعلاه في الاتفاقية، يتم فرض غرامة مالية قدرها 1,000 ريال سعودي، وذلك وفقًا لما هو منصوص عليه في اتفاقية العميل.
+            </div>
+            <div class="declaration-en">
+                I, the Undersigned, hereby acknowledge that all the data mentioned in the Employment Application Form are complete, true and evidence-supported, and I further undertake to provide any other relevant documents upon demand. However, in the event of any incorrect information, my application will be rejected without any reasons given. In addition, I am fully prepared for further medical examination, interviews or any other procedure required, which lead to admission or rejection even without notification of the result thereof, and not to claim the attached documents that have been requested for this purpose. I am also aware that submitting this application does not mean that there is a job vacancy, and I do not ask the company for anything through it, And I will not give my full details & contact no. to the Client or the Interviewer to avoid any circumstances that might terminate the Agreement with the Client and AQWASE LTD. The applicant will only commit through AQWASE LTD. If you do not comply with the above mentioned in the agreement you will pay a penalty of 1,000 SAR. According the agreement from the client.
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-top: 15px; font-size: 11px; font-weight: bold;">
+            <div style="width: 30%; border-bottom: 1px dashed #000; padding-bottom: 8px;">اسم المتقدم:</div>
+            <div style="width: 30%; border-bottom: 1px dashed #000; padding-bottom: 8px;">التوقيع:</div>
+            <div style="width: 30%; border-bottom: 1px dashed #000; padding-bottom: 8px;">التاريخ:</div>
+        </div>
+
+        <div class="mgmt-section">
+            <div style="font-weight: bold; font-size: 11px; margin-bottom: 25px;margin-top:5px;">اعتماد الإدارة / Management Approval</div>
+            <div class="mgmt-row">
+                <div class="mgmt-col">
+                    <span style="white-space: nowrap; margin-left: 5px;">التوقيع / Signature:</span>
+                    <div style="flex-grow: 1; border-bottom: 1px dashed #000; height: 10px;"></div>
+                </div>
+                <div class="mgmt-col">
+                    <span style="white-space: nowrap; margin-left: 5px;">التاريخ / Date:</span>
+                    <div style="flex-grow: 1; border-bottom: 1px dashed #000; height: 10px;"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </form>
+
+    <script>
+      // AUTOMATIC DATA INJECTION ON LOAD
+      document.addEventListener('DOMContentLoaded', () => {
+        
+        // 1. Retrieve Data
+        const saved = localStorage.getItem('aqwaseFormData');
+        if (!saved) {
+            // Optional: If no data found, just return (blank form)
+            return;
+        }
+
+        const data = JSON.parse(saved);
+
+        // 2. Loop through all saved fields and fill them
+        Object.keys(data).forEach(name => {
+            
+            // Handle Radio Buttons
+            if (document.querySelector(`input[type="radio"][name="${name}"]`)) {
+                const radio = document.querySelector(`input[type="radio"][name="${name}"][value="${data[name]}"]`);
+                if (radio) radio.checked = true;
+            } 
+            // Handle Normal Inputs (Text, Date, Select)
+            else {
+                const field = document.querySelector(`[name="${name}"]`);
+                if (field) {
+                    field.value = data[name];
+                }
+            }
+        });
+      });
+    </script>
+</body>
+</html>
