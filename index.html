@@ -60,11 +60,12 @@
         background: #fff;
     }
 
-    /* Disabled Input Style */
-    input:disabled, select:disabled {
-        background-color: #e9ecef;
+    /* Disabled Input Style - Visual Feedback when locked */
+    input:disabled, select:disabled, textarea:disabled {
+        background-color: #e9ecef !important;
         cursor: not-allowed;
         color: #6c757d;
+        border-color: #ddd;
     }
 
     /* PLACEHOLDER STYLING */
@@ -451,10 +452,21 @@
     const printBtn = document.getElementById('print-btn');
     const resetBtn = document.getElementById('reset-btn');
 
+    // --- HELPER: Lock/Unlock Form Fields ---
+    function lockForm(isLocked) {
+        const inputs = form.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.disabled = isLocked;
+        });
+    }
+
     // --- 1. SETUP FUNCTION: Generate ID & Date ---
     function setupNewForm() {
         // Clear the form fields
         form.reset();
+
+        // Unlock the form when starting new
+        lockForm(false);
 
         // Re-generate the RN (Reference Number)
         const rnField = document.getElementById('rn_field');
@@ -471,11 +483,11 @@
         if (dateField) dateField.value = new Date().toISOString().split('T')[0];
 
         // RESTORE THE BUTTONS
-        submitBtn.style.display = 'block';           // Show Submit again
-        submitBtn.disabled = false;                  // Enable Submit
-        submitBtn.innerText = "إرسال الطلب (Submit)"; // Reset Text
-        submitBtn.style.background = "#28a745";      // Reset Color
-        successButtons.style.display = 'none';       // Hide Print/New buttons
+        submitBtn.style.display = 'block';           
+        submitBtn.disabled = false;                  
+        submitBtn.innerText = "إرسال الطلب (Submit)"; 
+        submitBtn.style.background = "#28a745";      
+        successButtons.style.display = 'none';       
         
         // Ensure proper state of Major field on reset
         toggleMajorField();
@@ -486,6 +498,9 @@
         const qualSelect = document.getElementById('qualification_select');
         const majorInput = document.getElementById('major_input');
         const majorAsterisk = document.getElementById('major_asterisk');
+
+        // Check if form is already locked (don't mess with it if submitted)
+        if (qualSelect.disabled) return;
 
         if (qualSelect.value === 'High School') {
             // Disable Logic
@@ -559,6 +574,10 @@
         fetch(scriptURL, { method: 'POST', body: formData})
         .then(response => {
             alert("✅ تم إرسال البيانات بنجاح!\nData Sent Successfully!");
+            
+            // LOCK THE FORM HERE
+            lockForm(true);
+
             submitBtn.style.display = 'none';
             successButtons.style.display = 'flex';
         })
@@ -572,7 +591,6 @@
     });
 
     // --- 4. BUTTON ACTIONS ---
-   // --- 4. BUTTON ACTIONS ---
     printBtn.addEventListener('click', () => {
         // This redirects to your A4 file
         window.location.href = 'print-a4.html'; 
