@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نموذج طلب توظيف - AQWASE (Final View)</title>
+    <title>نموذج طلب توظيف - AQWASE</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
 
         :root {
             --tab-bg: #bfbfbf;
             --tab-text: #8b6c4e;
-            /* Changed to transparent so it looks like a document, not a form */
-            --input-bg-screen: transparent; 
-            --input-border-screen: none;
+            --input-bg-screen: #f0f8ff; 
+            --input-border-screen: 1px solid #ccc;
         }
 
+        /* --- GLOBAL RESET & BOX SIZING --- */
+        /* Critical: box-sizing: border-box ensures padding doesn't expand width */
         * {
             box-sizing: border-box;
             -webkit-print-color-adjust: exact;
@@ -29,16 +30,16 @@
             color: #000;
         }
 
-        /* --- DESKTOP / A4 DEFAULT --- */
+        /* --- A4 PAGE SETUP --- */
         @page { size: A4; margin: 0; }
 
         .page {
             background: white;
             width: 210mm;
             min-width: 210mm;
-            min-height: 297mm;
+            height: 297mm; /* Fixed A4 height */
             margin: 0 auto;
-            padding: 10mm; 
+            padding: 5mm; 
             position: relative;
             box-shadow: 0 0 15px rgba(0,0,0,0.3);
             overflow: hidden; 
@@ -46,52 +47,80 @@
             flex-direction: column;
         }
 
-        /* DEFAULT INPUT STYLE - LOCKED VERSION */
-        input[type="text"], input[type="email"], input[type="number"], select {
-            width: 100%; height: 100%; border: var(--input-border-screen);
+        /* --- GLOBAL INPUT STYLES --- */
+        input[type="text"], input[type="email"], input[type="number"], select, input[type="date"], textarea {
+            width: 100%; 
+            height: 100%; 
+            border: none;
             background-color: var(--input-bg-screen);
-            font-family: 'Tajawal', sans-serif; font-size: 10px; font-weight: bold;
-            color: #000; outline: none; text-align: center; padding: 0 2px; border-radius: 2px;
-            pointer-events: none; /* Disables clicking */
+            
+            /* Keeps input inside cell padding */
+            box-sizing: border-box; 
+            
+            font-family: 'Tajawal', sans-serif; 
+            font-size: 7px; 
+            font-weight: bold;
+            color: #000; 
+            outline: none; 
+            text-align: center; 
+            border-radius: 2px;
+            padding: 0; /* Default padding for single lines */
         }
 
-        /* FORCE BLACK TEXT ON DISABLED INPUTS */
-        input:disabled, select:disabled, textarea:disabled {
-            color: #000 !important;
-            opacity: 1 !important; /* Fix for iPhones fading text */
-            -webkit-text-fill-color: #000;
-            background-color: transparent !important;
-        }
-
-        select { 
-            -webkit-appearance: none; appearance: none; 
-            text-align-last: center; /* Centers selected text */
-        }
+        /* Fix Select Dropdowns */
+        select { -webkit-appearance: none; appearance: none; cursor: pointer; }
         
-        input[type="date"] {
-            width: 100%; height: 100%; border: var(--input-border-screen);
-            background-color: var(--input-bg-screen);
-            font-family: 'Tajawal', sans-serif; font-size: 10px; font-weight: bold;
-            color: #000; outline: none; text-align: center; padding: 0 5px; border-radius: 2px;
-            display: inline-block;
-            pointer-events: none;
-        }
-
-        /* HIDE DATE CALENDAR ICON */
-        input[type="date"]::-webkit-inner-spin-button,
+        /* Fix Date Icons */
         input[type="date"]::-webkit-calendar-picker-indicator {
-            display: none;
-            -webkit-appearance: none;
+            transform: scale(0.6); cursor: pointer; margin-left: -5px;
         }
 
-        input::placeholder { color: transparent; } /* Hide placeholders since it's read-only */
+        /* Placeholder Styling */
+        input::placeholder, textarea::placeholder { 
+            font-size: 8px; 
+            font-weight: normal; 
+            color: #666; 
+            text-align: center; /* Force Center */
+        }
         
-        .watermark {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 80px; font-weight: bold; color: rgba(0, 0, 0, 0.03);
-            z-index: 0; pointer-events: none; white-space: nowrap;
+        /* Readonly/Disabled State */
+        input[readonly], select[disabled], textarea[readonly] { 
+            background-color: #f9f9f9 !important; 
+            color: #000 !important; 
+            cursor: default;
+        }
+        
+        input:focus, select:focus, textarea:focus { background-color: #e0efff; border-color: #8b6c4e; }
+
+        /* --- TABLE & CELL STYLES --- */
+        table { width: 100%; border-collapse: collapse; font-size: 9px; position: relative; z-index: 1; table-layout: fixed; border: 1px solid #999; }
+        
+        /* GLOBAL CELL STYLE (The White Gap Fix) */
+        th, td { 
+            border: 1px solid #ccc; 
+            padding: 2px; /* Creates the white gap around blue boxes */
+            vertical-align: middle; 
+            height: 19px; /* Default single-line height */
+            overflow: hidden; 
         }
 
+        /* --- SPECIAL STYLES FOR WORK EXPERIENCE TABLE --- */
+        
+        /* 1. Taller Rows (32px) to fit 2 lines */
+        .work-row { height: 32px; }
+        
+        /* 2. Multi-line Textarea (Company, Title, Reason) */
+        textarea.multi-line {
+            resize: none; 
+            overflow: hidden; 
+            white-space: normal; 
+            line-height: 1.2; 
+            
+            /* CENTERING TRICK: 9px padding puts 1st line in middle */
+            padding-top: 9px; 
+        }
+
+        /* --- HEADER & LABEL STYLES --- */
         header {
             display: flex; justify-content: space-between; align-items: flex-start;
             margin-bottom: 2px; position: relative; z-index: 1;
@@ -105,20 +134,29 @@
         .header-inputs { display: flex; gap: 10px; align-items: center; font-size: 10px; margin-top: 3px; }
         .header-input-group { display: flex; align-items: center; gap: 5px; }
         .header-input-group span { font-weight: bold; }
-        .header-input-group input { height: 18px; border-radius: 4px; font-size: 10px; text-align: center; border-bottom: 1px dashed #ccc !important; }
+        .header-input-group input { height: 18px; border-radius: 4px; font-size: 10px; text-align: center; }
 
         .logo { width: 100px; text-align: left; direction: ltr; }
-        .logo img { max-width: 100%; height: auto; max-height: 50px; }
+        .logo img { max-width: 100%; height: auto; max-height: 45px; } 
 
-        .section-tab {
-            background-color: var(--tab-bg); color: var(--tab-text);
-            padding: 3px 6px; font-weight: bold; font-size: 11px;
-            display: flex; justify-content: space-between; align-items: center;
-            border-radius: 3px 3px 0 0; margin-top: 4px; border: 1px solid #999; border-bottom: none; height: auto;
+        .watermark {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 80px; font-weight: bold; color: rgba(0, 0, 0, 0.03);
+            z-index: 0; pointer-events: none; white-space: nowrap;
         }
 
-        table { width: 100%; border-collapse: collapse; font-size: 9px; position: relative; z-index: 1; table-layout: fixed; border: 1px solid #999; }
-        th, td { border: 1px solid #ccc; padding: 0px 4px; vertical-align: middle; height: 21px; }
+        /* SPLIT HEADER TABS */
+        .split-header-container {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-top: 5px; padding-bottom: 0; font-weight: bold; font-size: 11px;
+            position: relative; z-index: 2; 
+        }
+
+        .header-tab {
+            background-color: var(--tab-bg); color: var(--tab-text);
+            padding: 2px 10px; border: 1px solid #999; border-bottom: none;
+            border-radius: 4px 4px 0 0; min-width: 120px; text-align: center; height: auto;
+        }
 
         .label-ar, .label-en { width: 15%; background-color: #f9f9f9; font-weight: bold; vertical-align: middle; }
         .label-en { text-align: left; direction: ltr; }
@@ -128,13 +166,14 @@
         .work-header-cell { 
             background-color: #f9f9f9; font-weight: bold; text-align: center; 
             font-size: 8.5px; line-height: 1.1; vertical-align: middle !important;
-            height: 26px; padding: 1px;
+            height: 24px; padding: 1px;
         }
         
         .lang-label { background-color: #f9f9f9; font-weight: bold; font-size: 9px; padding-right: 5px; vertical-align: middle; text-align: center; }
-        .sub-header { background-color: #e0e0e0; text-align: center; font-weight: bold; padding: 1px; font-size: 8.5px; vertical-align: middle; }
-        .input-cell-3col { width: 20.33%; background: #fff; padding: 0 !important; }
-        .input-cell { width: 55%; background: #fff; padding: 0 !important; }
+        .sub-header { background-color: #f9f9f9; text-align: center; font-weight: bold; padding: 1px; font-size: 8.5px; vertical-align: middle; }
+        
+        .input-cell-3col { width: 20.33%; background: #fff; }
+        .input-cell { width: 55%; background: #fff; }
 
         .declaration-box {
             border: 1px solid #999; margin-top: 4px; padding: 3px; font-size: 6px;
@@ -143,15 +182,15 @@
         .declaration-ar { width: 50%; border-left: 1px solid #ccc; padding-left: 3px; }
         .declaration-en { width: 50%; direction: ltr; padding-right: 3px; }
 
-        .mgmt-section { margin-top: 8px; border-top: 1.5px solid #000; padding-top: 5px; }
+        .mgmt-section { margin-top: 5px; border-top: 1.5px solid #000; padding-top: 2px; }
         .mgmt-row { display: flex; justify-content: space-between; font-size: 10px; font-weight: bold; }
         .mgmt-col { width: 45%; display: flex; align-items: flex-end; }
 
-        /* --- BUTTON STYLES --- */
-        .btn-container {
-            position: fixed; top: 20px; left: 20px; z-index: 1000;
-        }
+        /* Locked Form State */
+        .locked-form { pointer-events: none; }
 
+        /* Button Styles */
+        .btn-container { position: fixed; top: 20px; left: 20px; z-index: 1000; }
         .action-btn {
             background-color: #8b6c4e; color: white; border: none; padding: 10px 20px;
             cursor: pointer; border-radius: 5px; font-family: 'Tajawal', sans-serif;
@@ -163,16 +202,29 @@
         @media print {
             body { background-color: white; margin: 0; padding: 0; }
             .btn-container { display: none !important; }
-            .page { width: 100%; margin: 0; padding: 10mm; box-shadow: none; border: none; min-width: auto; }
+            .page { width: 100%; margin: 0; padding: 5mm; box-shadow: none; border: none; min-width: auto; height: auto; }
             
-            /* Ensure it looks like a document, not a form */
-            input, select { 
-                border: none !important; 
-                background: transparent !important;
-                color: #000 !important;
+            input[type="text"], input[type="date"], input[type="email"], select, textarea {
+                border: 1px solid #ccc !important; background-color: #f0f8ff !important;
+                padding: 0 !important; color: #000 !important; font-size: 9px !important;
+                text-align: center !important; -webkit-print-color-adjust: exact; print-color-adjust: exact;
+                appearance: none;
             }
+            
+            /* Fix wrapping textarea padding for print */
+            textarea.multi-line { padding-top: 9px !important; }
+
+            input:disabled, select:disabled, input[readonly], textarea[readonly] {
+                color: #000 !important; -webkit-text-fill-color: #000 !important; opacity: 1 !important;
+            }
+
+            input::placeholder, textarea::placeholder { color: transparent; }
+            input[readonly], textarea[readonly] { background-color: #e6e6e6 !important; }
+            input { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
             .header-row { display: table-row !important; }
-            .work-header-cell, .label-ar, .label-en, .label-dual { background-color: #f9f9f9 !important; -webkit-print-color-adjust: exact; }
+            .work-header-cell, .label-ar, .label-en, .label-dual, .header-tab { background-color: #f9f9f9 !important; -webkit-print-color-adjust: exact; }
+            .header-tab { background-color: #bfbfbf !important; }
         }
     </style>
 </head>
@@ -195,15 +247,15 @@
                 <div class="header-inputs">
                     <div class="header-input-group">
                         <span>Date:</span>
-                        <input type="text" name="date" id="date_field" style="width: 110px;">
+                        <input type="date" name="date" id="date_field" style="width: 90px;">
                     </div>
                     <div class="header-input-group">
                         <span>Position:</span>
-                        <input type="text" name="position" style="width: 120px;">
+                        <input type="text" name="position" style="width: 120px;" placeholder="مدير / Manager">
                     </div>
                     <div class="header-input-group">
                         <span>RN:</span>
-                        <input type="text" name="rn" id="rn_field" style="width: 70px;">
+                        <input type="text" name="rn" id="rn_field" style="width: 70px;" placeholder="Auto" readonly>
                     </div>
                 </div>
             </div>
@@ -213,46 +265,47 @@
             </div>
         </header>
 
-        <div class="section-tab">
-            <div>المعلومات الشخصية <span style="font-weight: normal; font-size: 10px;">(Personal Details)</span></div>
+        <div class="split-header-container">
+            <div class="header-tab">المعلومات الشخصية</div>
+            <div class="header-tab" style="direction: ltr;">Personal Details</div>
         </div>
 
         <table>
             <tr>
                 <td class="label-ar">الاسم الكامل</td>
-                <td class="input-cell" colspan="4" data-label="الاسم الكامل / Full Name"><input type="text" name="full_name"></td>
+                <td class="input-cell" colspan="4"><input type="text" name="full_name" placeholder="الاسم الرباعي / Full Name"></td>
                 <td class="label-en">Full Name</td>
             </tr>
             <tr>
                 <td class="label-ar">الجنسية</td>
-                <td class="input-cell" colspan="4" data-label="الجنسية / Nationality"><input type="text" name="nationality"></td>
+                <td class="input-cell" colspan="4"><input type="text" name="nationality" placeholder="سعودي / Saudi"></td>
                 <td class="label-en">Nationality</td>
             </tr>
             <tr>
                 <td class="label-ar">رقم الهوية</td>
-                <td class="input-cell" colspan="4" style="padding: 0 !important;" data-label="رقم الهوية / ID Info">
+                <td class="input-cell" colspan="4" style="padding: 0 !important;">
                     <div class="id-container" style="display: flex; height: 100%;">
-                        <input type="text" name="id_number" style="width: 60%; border-left: 1px solid #ccc !important;">
-                        <input type="text" name="id_expiry" style="width: 40%;">
+                        <input type="text" name="id_number" placeholder="رقم الهوية / ID Number" style="width: 60%; border-right: 1px dashed #ccc;">
+                        <input type="text" name="id_expiry" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 40%;">
                     </div>
                 </td>
                 <td class="label-en">ID/Iqama No</td>
             </tr>
             <tr>
                 <td class="label-ar">جواز السفر</td>
-                <td class="input-cell" colspan="4" style="padding: 0 !important;" data-label="جواز السفر / Passport Info">
+                <td class="input-cell" colspan="4" style="padding: 0 !important;">
                     <div class="id-container" style="display: flex; height: 100%;">
-                        <input type="text" name="passport_number" style="width: 60%; border-left: 1px solid #ccc !important;">
-                        <input type="text" name="passport_expiry" style="width: 40%;">
+                        <input type="text" name="passport_number" placeholder="رقم الجواز / Passport No." style="width: 60%; border-right: 1px dashed #ccc;">
+                        <input type="text" name="passport_expiry" placeholder="تاريخ الانتهاء / Exp. Date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 40%;">
                     </div>
                 </td>
                 <td class="label-en">Passport No.</td>
             </tr>
             <tr>
                 <td class="label-ar">الحالة الاجتماعية</td>
-                <td class="input-cell" colspan="4" data-label="الحالة الاجتماعية / Marital Status" style="padding: 0 !important;">
+                <td class="input-cell" colspan="4" style="padding: 0 !important;">
                     <select name="marital_status">
-                        <option value="" disabled selected></option>
+                        <option value="" disabled selected>اختر / Select</option>
                         <option value="Single">أعزب / Single</option>
                         <option value="Married">متزوج / Married</option>
                         <option value="Divorced">مطلق / Divorced</option>
@@ -263,14 +316,14 @@
             </tr>
             <tr>
                 <td class="label-ar">تاريخ الميلاد</td>
-                <td class="input-cell" colspan="4" data-label="تاريخ الميلاد / DOB"><input type="date" name="dob"></td>
+                <td class="input-cell" colspan="4"><input type="date" name="dob"></td>
                 <td class="label-en">Date of Birth</td>
             </tr>
             <tr>
                 <td class="label-ar">الجنس</td>
-                <td class="input-cell" colspan="4" data-label="الجنس / Gender" style="padding: 0 !important;">
+                <td class="input-cell" colspan="4" style="padding: 0 !important;">
                     <select name="gender">
-                        <option value="" disabled selected></option>
+                        <option value="" disabled selected>اختر / Select</option>
                         <option value="Male">ذكر / Male</option>
                         <option value="Female">أنثى / Female</option>
                     </select>
@@ -279,41 +332,43 @@
             </tr>
             <tr>
                 <td class="label-ar">رقم الجوال</td>
-                <td class="input-cell" colspan="4" data-label="رقم الجوال / Mobile"><input type="text" name="mobile"></td>
+                <td class="input-cell" colspan="4"><input type="text" name="mobile" placeholder="05xxxxxxxx"></td>
                 <td class="label-en">Mobile No.</td>
             </tr>
             <tr>
                 <td class="label-ar">البريد الالكتروني</td>
-                <td class="input-cell" colspan="4" data-label="البريد / Email"><input type="email" name="email"></td>
+                <td class="input-cell" colspan="4"><input type="email" name="email" placeholder="email@example.com"></td>
                 <td class="label-en">Email</td>
             </tr>
         </table>
 
-        <div class="section-tab">
-            <div>معلومات السكن <span style="font-weight: normal; font-size: 10px;">(Address Details)</span></div>
+        <div class="split-header-container">
+            <div class="header-tab">معلومات السكن</div>
+            <div class="header-tab" style="direction: ltr;">Address Details</div>
         </div>
 
         <table>
             <tr>
                 <td class="label-dual">المدينة<br>City</td>
-                <td class="input-cell-3col" data-label="المدينة / City"><input type="text" name="city"></td>
+                <td class="input-cell-3col"><input type="text" name="city" placeholder="Jeddah / جدة"></td>
                 <td class="label-dual">الحي<br>District</td>
-                <td class="input-cell-3col" data-label="الحي / District"><input type="text" name="district"></td>
+                <td class="input-cell-3col"><input type="text" name="district" placeholder="Naseem / النسيم"></td>
                 <td class="label-dual">العنوان المختصر<br>Short Address</td>
-                <td class="input-cell-3col" data-label="العنوان المختصر / Address"><input type="text" name="short_address"></td>
+                <td class="input-cell-3col"><input type="text" name="short_address" placeholder="Ex: JBL1234"></td>
             </tr>
         </table>
 
-        <div class="section-tab">
-            <div>المؤهل العلمي <span style="font-weight: normal; font-size: 10px;">(Education Level)</span></div>
+        <div class="split-header-container">
+            <div class="header-tab">المؤهل العلمي</div>
+            <div class="header-tab" style="direction: ltr;">Education Level</div>
         </div>
 
-      <table>
+        <table>
             <tr>
                 <td class="label-dual" style="width: 12%;">المؤهل الأعلى<br>Highest Qual</td>
-                <td class="input-cell" style="width: 21%; padding: 0 !important;" data-label="المؤهل / Qualification">
+                <td class="input-cell" style="width: 21%; padding: 0 !important;">
                     <select name="qualification">
-                        <option value="" disabled selected></option>
+                        <option value="" disabled selected>اختر / Select</option>
                         <option value="High School">ثانوية عامة / High School</option>
                         <option value="Diploma">دبلوم / Diploma</option>
                         <option value="Bachelor">بكالوريوس / Bachelor</option>
@@ -323,100 +378,146 @@
                 </td>
 
                 <td class="label-dual" style="width: 10%;">التخصص<br>Major</td>
-                <td class="input-cell" style="width: 32%; padding: 0 !important;" data-label="التخصص / Major">
-                    <input type="text" name="major">
+                <td class="input-cell" style="width: 32%; padding: 0 !important;">
+                    <input type="text" name="major" placeholder="إدارة أعمال / Business Admin">
                 </td>
 
                 <td class="label-dual" style="width: 10%;">سنة التخرج<br>Grad. Year</td>
-                <td class="input-cell" style="width: 15%; padding: 0 !important;" data-label="سنة التخرج / Grad. Year">
-                    <input type="number" name="grad_year">
+                <td class="input-cell" style="width: 15%; padding: 0 !important;">
+                    <input type="text" name="grad_date" placeholder="YYYY">
                 </td>
             </tr>
+        </table>
 
-            <tr class="title-row-mobile">
-                <td colspan="6" class="sub-header">الدورات والشهادات / Courses and Certifications</td>
-            </tr>
-
+        <table style="margin-top: -1px;"> 
             <tr>
-                <td colspan="3" style="padding: 0;">
+                <td colspan="2" class="sub-header">الدورات والشهادات / Courses and Certifications</td>
+            </tr>
+            <tr>
+                <td style="width: 50%; padding: 0;">
                     <div style="display: flex; height: 100%; align-items: center;">
-                        <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">1</div>
-                        <input type="text" name="course_1" style="flex-grow: 1; border: none; height: 100%;">
+                        <div style="width: 25px; flex-shrink: 0; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">1</div>
+                        <input type="text" name="course_1" placeholder="اسم الدورة / Course Name" style="flex-grow: 1; border: none; height: 100%;">
                     </div>
                 </td>
-                
-                <td colspan="3" style="padding: 0;">
+                <td style="width: 50%; padding: 0;">
                     <div style="display: flex; height: 100%; align-items: center;">
-                        <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">2</div>
-                        <input type="text" name="course_2" style="flex-grow: 1; border: none; height: 100%;">
+                        <div style="width: 25px; flex-shrink: 0; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">2</div>
+                        <input type="text" name="course_2" placeholder="اسم الدورة / Course Name" style="flex-grow: 1; border: none; height: 100%;">
                     </div>
                 </td>
             </tr>
-
             <tr>
-                <td colspan="3" style="padding: 0;">
+                <td style="width: 50%; padding: 0;">
                     <div style="display: flex; height: 100%; align-items: center;">
-                        <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">3</div>
-                        <input type="text" name="course_3" style="flex-grow: 1; border: none; height: 100%;">
+                        <div style="width: 25px; flex-shrink: 0; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">3</div>
+                        <input type="text" name="course_3" placeholder="اسم الدورة / Course Name" style="flex-grow: 1; border: none; height: 100%;">
                     </div>
                 </td>
-
-                <td colspan="3" style="padding: 0;">
+                <td style="width: 50%; padding: 0;">
                     <div style="display: flex; height: 100%; align-items: center;">
-                        <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">4</div>
-                        <input type="text" name="course_4" style="flex-grow: 1; border: none; height: 100%;">
+                        <div style="width: 25px; flex-shrink: 0; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">4</div>
+                        <input type="text" name="course_4" placeholder="اسم الدورة / Course Name" style="flex-grow: 1; border: none; height: 100%;">
                     </div>
                 </td>
             </tr>
         </table>
-        <div class="section-tab">
-            <div>المهارات التقنية <span style="font-weight: normal; font-size: 10px;">(Technical Skills)</span></div>
+        
+        <div class="split-header-container">
+            <div class="header-tab">المهارات</div>
+            <div class="header-tab" style="direction: ltr;">Skills</div>
         </div>
         <table>
             <tr>
-                <td class="input-cell" style="padding: 0; width: 100%;" data-label="المهارات التقنية / Tech Skills">
-                    <input type="text" name="tech_skills">
+                <td class="sub-header" style="width: 50%;">المهارات الإدارية (Administrative Skills)</td>
+                <td class="sub-header" style="width: 50%;">المهارات التقنية (Technical Skills)</td>
+            </tr>
+            <tr>
+                <td style="padding:0;">
+                    <div style="display: flex; height: 100%; align-items: center;">
+                        <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">1</div>
+                        <input type="text" name="admin_skill_1" placeholder="Admin Skill 1" style="flex-grow: 1; border: none; height: 100%;">
+                    </div>
+                </td>
+                <td style="padding:0;">
+                    <div style="display: flex; height: 100%; align-items: center;">
+                        <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">1</div>
+                        <input type="text" name="tech_skill_1" placeholder="Tech Skill 1" style="flex-grow: 1; border: none; height: 100%;">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0;">
+                    <div style="display: flex; height: 100%; align-items: center;">
+                        <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">2</div>
+                        <input type="text" name="admin_skill_2" placeholder="Admin Skill 2" style="flex-grow: 1; border: none; height: 100%;">
+                    </div>
+                </td>
+                <td style="padding:0;">
+                    <div style="display: flex; height: 100%; align-items: center;">
+                        <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">2</div>
+                        <input type="text" name="tech_skill_2" placeholder="Tech Skill 2" style="flex-grow: 1; border: none; height: 100%;">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0;">
+                    <div style="display: flex; height: 100%; align-items: center;">
+                        <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">3</div>
+                        <input type="text" name="admin_skill_3" placeholder="Admin Skill 3" style="flex-grow: 1; border: none; height: 100%;">
+                    </div>
+                </td>
+                <td style="padding:0;">
+                    <div style="display: flex; height: 100%; align-items: center;">
+                        <div style="width: 25px; background: #f9f9f9; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; border-left: 1px solid #ccc;">3</div>
+                        <input type="text" name="tech_skill_3" placeholder="Tech Skill 3" style="flex-grow: 1; border: none; height: 100%;">
+                    </div>
                 </td>
             </tr>
         </table>
 
-        <div class="section-tab">
-            <div>الخبرات العملية <span style="font-weight: normal; font-size: 10px;">(Work Experience)</span></div>
+        <div class="split-header-container">
+            <div class="header-tab">الخبرات العملية</div>
+            <div class="header-tab" style="direction: ltr;">Work Experience</div>
         </div>
 
         <table>
             <tr class="header-row">
                 <td class="work-header-cell" style="width: 25%;">الشركة<br>Company</td>
                 <td class="work-header-cell" style="width: 25%;">المسمى الوظيفي<br>Job Title</td>
-                <td class="work-header-cell" style="width: 15%;">من<br>From</td>
-                <td class="work-header-cell" style="width: 15%;">إلى<br>To</td>
-                <td class="work-header-cell" style="width: 20%;">سبب المغادرة<br>Reason for Leaving</td>
+                <td class="work-header-cell" style="width: 11%;">من<br>From</td>
+                <td class="work-header-cell" style="width: 11%;">إلى<br>To</td>
+                <td class="work-header-cell" style="width: 28%;">سبب المغادرة<br>Reason for Leaving</td>
             </tr>
-            <tr>
-                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_1"></td>
-                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_1"></td>
-                <td style="padding:0;" data-label="من / From"><input type="date" name="from_1"></td>
-                <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_1"></td>
-                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_1"></td>
+            
+            <tr class="work-row">
+                <td><textarea name="comp_1" class="multi-line" maxlength="40" placeholder="الشركة&#10;Company"></textarea></td>
+                <td><textarea name="title_1" class="multi-line" maxlength="40" placeholder="المسمى&#10;Job Title"></textarea></td>
+                <td><input type="date" name="from_1"></td>
+                <td><input type="date" name="to_1"></td>
+                <td><textarea name="reason_1" class="multi-line" maxlength="80" placeholder="السبب&#10;Reason"></textarea></td>
             </tr>
-            <tr>
-                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_2"></td>
-                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_2"></td>
-                <td style="padding:0;" data-label="من / From"><input type="date" name="from_2"></td>
-                <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_2"></td>
-                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_2"></td>
+
+            <tr class="work-row">
+                <td><textarea name="comp_2" class="multi-line" maxlength="40" placeholder="الشركة&#10;Company"></textarea></td>
+                <td><textarea name="title_2" class="multi-line" maxlength="40" placeholder="المسمى&#10;Job Title"></textarea></td>
+                <td><input type="date" name="from_2"></td>
+                <td><input type="date" name="to_2"></td>
+                <td><textarea name="reason_2" class="multi-line" maxlength="80" placeholder="السبب&#10;Reason"></textarea></td>
             </tr>
-            <tr>
-                <td style="padding:0;" data-label="الشركة / Company"><input type="text" name="comp_3"></td>
-                <td style="padding:0;" data-label="المسمى / Title"><input type="text" name="title_3"></td>
-                <td style="padding:0;" data-label="من / From"><input type="date" name="from_3"></td>
-                <td style="padding:0;" data-label="إلى / To"><input type="date" name="to_3"></td>
-                <td style="padding:0;" data-label="السبب / Reason"><input type="text" name="reason_3"></td>
+
+            <tr class="work-row">
+                <td><textarea name="comp_3" class="multi-line" maxlength="40" placeholder="الشركة&#10;Company"></textarea></td>
+                <td><textarea name="title_3" class="multi-line" maxlength="40" placeholder="المسمى&#10;Job Title"></textarea></td>
+                <td><input type="date" name="from_3"></td>
+                <td><input type="date" name="to_3"></td>
+                <td><textarea name="reason_3" class="multi-line" maxlength="80" placeholder="السبب&#10;Reason"></textarea></td>
             </tr>
         </table>
 
-        <div class="section-tab">
-            <div>المهارات اللغوية <span style="font-weight: normal; font-size: 10px;">(Language Skills)</span></div>
+        <div class="split-header-container">
+            <div class="header-tab">المهارات اللغوية</div>
+            <div class="header-tab" style="direction: ltr;">Language Skills</div>
         </div>
 
         <table class="lang-table">
@@ -429,29 +530,30 @@
             </tr>
             <tr>
                 <td class="lang-label">العربية / Arabic</td>
-                <td style="text-align: center;" data-label="ممتاز / Exc"><input type="radio" name="lang_ar" value="excellent"></td>
-                <td style="text-align: center;" data-label="جيد جدا / V.Good"><input type="radio" name="lang_ar" value="vgood"></td>
-                <td style="text-align: center;" data-label="جيد / Good"><input type="radio" name="lang_ar" value="good"></td>
-                <td style="text-align: center;" data-label="ضعيف / Weak"><input type="radio" name="lang_ar" value="weak"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_ar" value="excellent"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_ar" value="vgood"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_ar" value="good"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_ar" value="weak"></td>
             </tr>
             <tr>
                 <td class="lang-label">الإنجليزية / English</td>
-                <td style="text-align: center;" data-label="ممتاز / Exc"><input type="radio" name="lang_en" value="excellent"></td>
-                <td style="text-align: center;" data-label="جيد جدا / V.Good"><input type="radio" name="lang_en" value="vgood"></td>
-                <td style="text-align: center;" data-label="جيد / Good"><input type="radio" name="lang_en" value="good"></td>
-                <td style="text-align: center;" data-label="ضعيف / Weak"><input type="radio" name="lang_en" value="weak"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_en" value="excellent"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_en" value="vgood"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_en" value="good"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_en" value="weak"></td>
             </tr>
             <tr>
-                <td style="padding: 0;" data-label="أخرى / Other"><input type="text" name="lang_other_name"></td>
-                <td style="text-align: center;" data-label="ممتاز / Exc"><input type="radio" name="lang_other_level" value="excellent"></td>
-                <td style="text-align: center;" data-label="جيد جدا / V.Good"><input type="radio" name="lang_other_level" value="vgood"></td>
-                <td style="text-align: center;" data-label="جيد / Good"><input type="radio" name="lang_other_level" value="good"></td>
-                <td style="text-align: center;" data-label="ضعيف / Weak"><input type="radio" name="lang_other_level" value="weak"></td>
+                <td style="padding: 0;"><input type="text" name="lang_other_name" placeholder="أخرى / Other"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_other_level" value="excellent"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_other_level" value="vgood"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_other_level" value="good"></td>
+                <td style="text-align: center;"><input type="radio" name="lang_other_level" value="weak"></td>
             </tr>
         </table>
 
-        <div class="section-tab">
-            <div>المعرفون <span style="font-weight: normal; font-size: 10px;">(References)</span></div>
+        <div class="split-header-container">
+            <div class="header-tab">المعرفون</div>
+            <div class="header-tab" style="direction: ltr;">References</div>
         </div>
 
         <table>
@@ -461,14 +563,14 @@
                 <td class="work-header-cell" style="width: 30%;">صلة القرابة<br>Relationship</td>
             </tr>
             <tr>
-                <td style="padding:0;" data-label="الاسم / Name"><input type="text" name="ref_name_1"></td>
-                <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" name="ref_mobile_1"></td>
-                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" name="ref_rel_1"></td>
+                <td style="padding:0;"><input type="text" name="ref_name_1" placeholder="الاسم الكامل / Full Name"></td>
+                <td style="padding:0;"><input type="text" name="ref_mobile_1" placeholder="05xxxxxxxx"></td>
+                <td style="padding:0;"><input type="text" name="ref_rel_1" placeholder="صلة القرابة / Relationship"></td>
             </tr>
             <tr>
-                <td style="padding:0;" data-label="الاسم / Name"><input type="text" name="ref_name_2"></td>
-                <td style="padding:0;" data-label="الجوال / Mobile"><input type="text" name="ref_mobile_2"></td>
-                <td style="padding:0;" data-label="القرابة / Relation"><input type="text" name="ref_rel_2"></td>
+                <td style="padding:0;"><input type="text" name="ref_name_2" placeholder="الاسم الكامل / Full Name"></td>
+                <td style="padding:0;"><input type="text" name="ref_mobile_2" placeholder="05xxxxxxxx"></td>
+                <td style="padding:0;"><input type="text" name="ref_rel_2" placeholder="صلة القرابة / Relationship"></td>
             </tr>
         </table>
 
@@ -481,14 +583,14 @@
             </div>
         </div>
 
-        <div style="display: flex; justify-content: space-between; margin-top: 15px; font-size: 11px; font-weight: bold;">
+        <div style="display: flex; justify-content: space-between; margin-top: 20px; font-size: 11px; font-weight: bold;">
             <div style="width: 30%; border-bottom: 1px dashed #000; padding-bottom: 8px;">اسم المتقدم:</div>
             <div style="width: 30%; border-bottom: 1px dashed #000; padding-bottom: 8px;">التوقيع:</div>
             <div style="width: 30%; border-bottom: 1px dashed #000; padding-bottom: 8px;">التاريخ:</div>
         </div>
 
         <div class="mgmt-section">
-            <div style="font-weight: bold; font-size: 11px; margin-bottom: 25px;margin-top:5px;">اعتماد الإدارة / Management Approval</div>
+            <div style="font-weight: bold; font-size: 11px; margin-bottom: 15px;margin-top:px;">اعتماد الإدارة / Management Approval</div>
             <div class="mgmt-row">
                 <div class="mgmt-col">
                     <span style="white-space: nowrap; margin-left: 5px;">التوقيع / Signature:</span>
@@ -505,40 +607,49 @@
     </form>
 
     <script>
-      // 1. DATA INJECTION & LOCKING SCRIPT
+      // AUTOMATIC DATA INJECTION ON LOAD
       document.addEventListener('DOMContentLoaded', () => {
         
-        // Retrieve Data from Local Storage
+        // 1. Retrieve Data
         const saved = localStorage.getItem('aqwaseFormData');
-        
-        if (saved) {
-            const data = JSON.parse(saved);
+        if (!saved) {
+            return;
+        }
+
+        const data = JSON.parse(saved);
+
+        // 2. Loop through all saved fields and fill them
+        Object.keys(data).forEach(name => {
             
-            // Fill fields
-            Object.keys(data).forEach(name => {
-                // Handle Radio Buttons
-                if (document.querySelector(`input[type="radio"][name="${name}"]`)) {
-                    const radio = document.querySelector(`input[type="radio"][name="${name}"][value="${data[name]}"]`);
-                    if (radio) radio.checked = true;
-                } 
-                // Handle Normal Inputs
-                else {
-                    const field = document.querySelector(`[name="${name}"]`);
-                    if (field) {
-                        field.value = data[name];
-                    }
+            // Handle Radio Buttons
+            if (document.querySelector(`input[type="radio"][name="${name}"]`)) {
+                const radio = document.querySelector(`input[type="radio"][name="${name}"][value="${data[name]}"]`);
+                if (radio) radio.checked = true;
+            } 
+            // Handle Normal Inputs (Text, Date, Select, Textarea)
+            else {
+                const field = document.querySelector(`[name="${name}"]`);
+                if (field) {
+                    field.value = data[name];
                 }
-            });
-        }
+            }
+        });
 
-        // 2. THE LOCKDOWN: DISABLE ALL INPUTS
+        // 3. LOCK THE FORM (Make Read-Only & Unclickable)
         const form = document.getElementById('print-form');
-        const elements = form.elements;
+        form.classList.add('locked-form'); 
 
-        for (let i = 0; i < elements.length; i++) {
-            elements[i].readOnly = true;  // Prevent typing
-            elements[i].disabled = true;  // Prevent clicking/focusing
-        }
+        const allFields = document.querySelectorAll('input, select, textarea');
+        allFields.forEach(field => {
+            // For text/number/date inputs, add readonly attribute to prevent keyboard typing
+            if (field.type !== 'radio' && field.type !== 'checkbox' && field.tagName !== 'SELECT') {
+                field.readOnly = true;
+            } else {
+                // For radios/selects, 'readonly' doesn't work, so we use 'disabled'.
+                // The CSS ensures they don't look grayed out.
+                field.disabled = true;
+            }
+        });
 
       });
     </script>
